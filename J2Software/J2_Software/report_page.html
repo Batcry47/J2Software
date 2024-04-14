@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="styles.css" />
+  <title>Document</title>
+</head>
+
+<body class="report-page">
+  <header>
+    <nav>
+      <div class="top-left-nav">
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="dashboard.html">Dashboard</a></li>
+          <li><a class="current">Report</a></li>
+        </ul>
+      </div>
+      <div class="top-right-nav">
+        <ul>
+          <li><a href="login.html">Logout</a></li>
+        </ul>
+      </div>
+    </nav>
+  </header>
+  <div class = "date-selector">
+    <h2>Select Date Range</h2>
+    <input type = "text" value = "01-01-2024 - 31-01-2024" disabled="true">
+  </div>
+  <br/><br/><br/>
+  <div class="report-container">
+    <h1>Alert Report for 01-01-2024 - 31-01-2024</h1>
+    <ul>
+      <li>Malicious Alerts: 0</li><br>
+      <li>Impact: 0</li><br>
+      <li>Initial Access: 0</li><br>
+      <li>Defence Evasion: 0</li><br>
+      <li>Exfiltration: 0</li><br>
+      <li>Collection: 0</li><br>
+      <li>Escalation: 0</li><br>
+      <li>Persistence: 1412</li><br>
+      <li>
+        <h3>Total Alerts: 1412</h3>
+      </li>
+    </ul>
+    <br />
+  </div>
+  <br />
+  <div class = "button-container">
+    <button class = "report-button">Download Report</button>
+  </div>
+</body>
+
+</html>
