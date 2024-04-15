@@ -1,7 +1,8 @@
 body {
     font-family: Arial, sans-serif;
-    background-color: #ffffff;
+    background-image:url(_images/background_image.jpg);
     margin:0;
+    
 }
 
 #NavLogo{
@@ -17,12 +18,13 @@ body {
 
 .login-page,
 .factor-authentication-page {
+  background-image:url(_images/background_image.jpg);
   margin-left: 30%;
   margin-right: 28%;
 }
 
 .login-container {
-  background-color: white;
+ 
   color: red;
   text-align: center;
   padding-bottom: 5%;
@@ -197,10 +199,10 @@ body {
     text-align: center;
   }
   .factor-container {
-    background-color: white;
+    
     color: red;
     text-align: center;
-    padding-right: 3%;
+    padding-right: 2.5%;
     padding-bottom: 5%;
     border-style: ridge;
     border-width: 15px;
