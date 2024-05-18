@@ -2,124 +2,230 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard | J2 Software</title>
-    <link rel="stylesheet" href="styles.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard | J2 Software</title>
+  <link rel="stylesheet" href="styles.css">
 </head>
 
 <body>
-    <header>
-        <nav>
-          <div class="top-left-nav">
-            <ul>
-              <li><img src="_images/logo_10_2019.png"id="NavLogo"></li>
-              <li><a href="index.html">Home</a></li>
-              <li><a class="current">Dashboard</a></li>
-              <li><a href="report_page.html">Report</a></li>
-              
-            </ul>
-          </div>
-          <div class="top-right-nav">
-            <ul>
-              <li><a href="login.html">Logout</a></li>
-            </ul>
-          </div>
-        </nav>
-      </header>
-   
-    <div class="container">
-      <h1>Dashboard</h1>
-        <div class="row">
-            <div class="col-9">
-                <div class="result-header">
-                    <div class="result-count">5 Results</div>
-                    <div class="sort-options">
-                        <span class="sort-label">SORT BY:</span>
-                        <select class="sort-select">
-                            <option>Timestamp</option>
-                        </select>
-                    </div>
-                </div>
-                    <div class="dash-Table">
-                        <div class="filter-bar">
-                          <h3>FILTER BY</h3>
-                          <div class="filter-options">
-                            <label class="checkbox-label"> 
-                                <span class="checkbox-label-text">Informational </span>
-                              <input type="checkbox" class="filter-checkbox">
-                              <span class="checkbox-custom"></span>
-                            </label>
-                            <label class="checkbox-label">
-                              <span class="checkbox-label-text">Low </span>
-                              <input type="checkbox" class="filter-checkbox">
-                              <span class="checkbox-custom"></span>
-                            </label>
-                            <label class="checkbox-label">
-                              <span class="checkbox-label-text">Medium </span>
-                              <input type="checkbox" class="filter-checkbox">
-                              <span class="checkbox-custom"></span>
-                            </label>
-                            <label class="checkbox-label">
-                                <span class="checkbox-label-text">High </span>
-                                <input type="checkbox" class="filter-checkbox">
-                                <span class="checkbox-custom"></span>
-                              </label>
-                              <label class="checkbox-label">
-                                <span class="checkbox-label-text"> Critical</span>
-                                <input type="checkbox" class="filter-checkbox">
-                                <span class="checkbox-custom"></span> 
-                              </label>
-                          </div>
-                        </div>
-                    
-                <table class="dash-Table">
-                    <tr class="result-list">
-                        <th class="heading">Category</th>
-                        <th class="heading">Method</th>
-                        <th class="heading">Username</th>
-                        <th class="heading">IP Address</th>
-                        <th class="heading">Timestamp</th>
-                    </tr>
-                    <tr class="result-list">
-                        <td class="result-item">Defence Evasion</td>
-                        <td class="result-item">Suspicious File extension</td>
-                        <td class="result-item">Example</td>
-                        <td class="result-item">192.168.1.1</td>
-                        <td class="result-item">20234/04/15 02:54:12</td>
-                    </tr>
-                    <tr class="result-list">
-                        <td class="result-item">Lateral Movement</td>
-                        <td class="result-item">Suspicious File share</td>
-                        <td class="result-item">Example</td>
-                        <td class="result-item">196.168.2.1</td>
-                        <td class="result-item">20234/04/15 03:25:09</td>
-                    </tr>
-                    <tr class="result-list">
-                        <td class="result-item">Impact</td>
-                        <td class="result-item">Process with Elevated Permissions</td>
-                        <td class="result-item">Example</td>
-                        <td class="result-item">127.0.0.1</td>
-                        <td class="result-item">20234/04/15 03:36:14</td>
-                    </tr>
-                    <tr class="result-list">
-                        <td class="result-item">Exfiltration</td>
-                        <td class="result-item">FTP File share</td>
-                        <td class="result-item">Example</td>
-                        <td class="result-item">187.296.58.7</td>
-                        <td class="result-item">20234/04/15 09:24:08</td>
-                    </tr>
-                    <tr class="result-list">
-                        <td class="result-item">Initial Access</td>
-                        <td class="result-item">Unusual Login</td>
-                        <td class="result-item">Example</td>
-                        <td class="result-item">172.486.24.5</td>
-                        <td class="result-item">20234/04/15 12:36:18</td>
-                    </tr>
-                </table>
-            </div>
+  <header>
+    <nav>
+      <div class="top-left-nav">
+        <ul>
+          <li><img src="_images/logo_10_2019.png" id="NavLogo"></li>
+          <li><a href="index.html">Home</a></li>
+          <li><a class="current">Dashboard</a></li>
+          <li><a href="report_page.html">Report</a></li>
+
+        </ul>
+      </div>
+      <div class="top-right-nav">
+        <ul>
+          <li><a href="login.html">Logout</a></li>
+        </ul>
+      </div>
+    </nav>
+  </header>
+
+  <div class="dashboard-container">
+    <h1>Dashboard</h1>
+    <div class="row">
+      <div class="col-9">
+        <div class="result-header">
+          <h3 class="result-count">5 Results</h3>
+          
         </div>
+        <div class="dash-Table">
+          <div class="filter-bar">
+            <h3>FILTER BY</h3>
+            <h4>Severity Level</h4>
+            <div class="filter-options">
+              <label class="checkbox-label">
+                <span class="checkbox-label-text">Informational </span>
+                <input type="checkbox" class="filter-checkbox">
+                <span class="checkbox-custom"></span>
+              </label>
+              <label class="checkbox-label">
+                <span class="checkbox-label-text">Low </span>
+                <input type="checkbox" class="filter-checkbox">
+                <span class="checkbox-custom"></span>
+              </label>
+              <label class="checkbox-label">
+                <span class="checkbox-label-text">Medium </span>
+                <input type="checkbox" class="filter-checkbox">
+                <span class="checkbox-custom"></span>
+              </label>
+              <label class="checkbox-label">
+                <span class="checkbox-label-text">High </span>
+                <input type="checkbox" class="filter-checkbox">
+                <span class="checkbox-custom"></span>
+              </label>
+              <label class="checkbox-label">
+                <span class="checkbox-label-text"> Critical</span>
+                <input type="checkbox" class="filter-checkbox">
+                <span class="checkbox-custom"></span>
+              </label>
+              <h4>Category</h4>
+              <label class="checkbox-label">
+                <span class="checkbox-label-text">Malicious Alerts</span>
+                <input type="checkbox" class="filter-checkbox">
+                <span class="checkbox-custom"></span>
+              </label>
+              <br>
+              <label class="checkbox-label">
+                <span class="checkbox-label-text">Impact</span>
+                <input type="checkbox" class="filter-checkbox">
+                <span class="checkbox-custom"></span>
+              </label>
+              <br>
+              <label class="checkbox-label">
+                <span class="checkbox-label-text">Initial Access</span>
+                <input type="checkbox" class="filter-checkbox">
+                <span class="checkbox-custom"></span>
+              </label>
+              <br>
+              <label class="checkbox-label">
+                <span class="checkbox-label-text">Defence Evasion</span>
+                <input type="checkbox" class="filter-checkbox">
+                <span class="checkbox-custom"></span>
+              </label>
+              <br>
+              <label class="checkbox-label">
+                <span class="checkbox-label-text">Exfiltration</span>
+                <input type="checkbox" class="filter-checkbox">
+                <span class="checkbox-custom"></span>
+              </label>
+              <br>
+              <label class="checkbox-label">
+                <span class="checkbox-label-text">Collection</span>
+                <input type="checkbox" class="filter-checkbox">
+                <span class="checkbox-custom"></span>
+              </label>
+              <br>
+              <label class="checkbox-label">
+                <span class="checkbox-label-text">Escalation </span>
+                <input type="checkbox" class="filter-checkbox">
+                <span class="checkbox-custom"></span>
+              </label>
+              <br>
+              <label class="checkbox-label">
+                <span class="checkbox-label-text">Persistence </span>
+                <input type="checkbox" class="filter-checkbox">
+                <span class="checkbox-custom"></span>
+              </label>
+
+              <h4>Sort by</h4>
+              <label class="checkbox-label">
+                <span class="checkbox-label-text">Category </span>
+                <input type="checkbox" class="filter-checkbox">
+                <span class="checkbox-custom"></span>
+              </label>
+              <label class="checkbox-label">
+                <span class="checkbox-label-text">Method </span>
+                <input type="checkbox" class="filter-checkbox">
+                <span class="checkbox-custom"></span>
+              </label>
+              <label class="checkbox-label">
+                <span class="checkbox-label-text">Username </span>
+                <input type="checkbox" class="filter-checkbox">
+                <span class="checkbox-custom"></span>
+              </label>
+              <label class="checkbox-label">
+                <span class="checkbox-label-text">Date & Time </span>
+                <input type="checkbox" class="filter-checkbox">
+                <span class="checkbox-custom"></span>
+              </label>
+            </div>
+          </div>
+
+
+          <div class="table-container">
+            <canvas id="doughnutChart"></canvas>
+            <br>
+            
+            <table class="dash-Table">
+              <tr class="result-list">
+                <th class="heading">Category</th>
+                <th class="heading">Method</th>
+                <th class="heading">Username</th>
+                <th class="heading">IP Address</th>
+                <th class="heading">Date & Time</th>
+              </tr>
+              <tr class="result-list">
+                <td class="result-item">Defence Evasion</td>
+                <td class="result-item">
+                  <li class="medium">Suspicious File extension</li>
+                </td>
+                <td class="result-item">Example</td>
+                <td class="result-item">192.168.1.1</td>
+                <td class="result-item">20234/04/15 02:54:12</td>
+              </tr>
+              <tr class="result-list">
+                <td class="result-item">Lateral Movement</td>
+                <td class="result-item">
+                  <li class="medium">Suspicious File share</li>
+                </td>
+                <td class="result-item">Example</td>
+                <td class="result-item">196.168.2.1</td>
+                <td class="result-item">20234/04/15 03:25:09</td>
+              </tr>
+              <tr class="result-list">
+                <td class="result-item">Impact</td>
+                <td class="result-item">
+                  <li class="high">Process with Elevated Permissions</li>
+                </td>
+                <td class="result-item">Example</td>
+                <td class="result-item">127.0.0.1</td>
+                <td class="result-item">20234/04/15 03:36:14</td>
+              </tr>
+              <tr class="result-list">
+                <td class="result-item">Exfiltration</td>
+                <td class="result-item">
+                  <li class="low">FTP File share</li>
+                </td>
+                <td class="result-item">Example</td>
+                <td class="result-item">187.296.58.7</td>
+                <td class="result-item">20234/04/15 09:24:08</td>
+              </tr>
+              <tr class="result-list">
+                <td class="result-item">Initial Access</td>
+                <td class="result-item">
+                  <li class="low">Unusual Login</li>
+                </td>
+                <td class="result-item">Example</td>
+                <td class="result-item">172.486.24.5</td>
+                <td class="result-item">20234/04/15 12:36:18</td>
+              </tr>
+            </table>
+          </div>
+
+        </div>
+      </div>
     </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
+    <script>
+      const severityLevels = ['Informational', 'Low', 'Medium', 'High', 'Critical'];
+      const alertNumbers = [0, 2, 2, 1, 0]
+      const pieColors = ['#505050', 'rgb(224, 191, 0)', 'rgb(211, 137, 1)', 'rgb(255, 0, 0)', 'rgb(139, 0, 0)']
+      const alertChart = new Chart("doughnutChart", {
+        type: "doughnut",
+        data: {
+          labels: severityLevels,
+          datasets: [{
+            backgroundColor: pieColors,
+            data: alertNumbers
+          }]
+        },
+        options: {
+          title: {
+            display: true,
+            text: 'Alert Severity Levels'
+          }
+        }
+      })
+    </script>
+  </div>
 </body>
 
 </html>

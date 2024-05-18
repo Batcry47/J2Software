@@ -1,26 +1,31 @@
 body {
-    font-family: Arial, sans-serif;
-    background-image:url(_images/background_image.jpg);
-    margin:0;
-    
+  font-family: Arial, sans-serif;
+  background-image: url(_images/background_image.jpg);
+  margin: 0;
+
 }
 
-#NavLogo{
+#NavLogo {
   width: 60px;
-  height:40px;
+  height: 40px;
 }
 
 .container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+
 }
 
 .login-page,
 .factor-authentication-page {
-  background-image:url(_images/background_image.jpg);
+  background-image: url(_images/background_image.jpg);
   margin-left: 30%;
   margin-right: 28%;
+}
+
+.dashboard-container {
+  padding-left: 30px;
 }
 
 .login-container {
@@ -34,247 +39,258 @@ body {
 }
 
 .logo {
-    color: #fff;
-    text-decoration: none;
+  color: #fff;
+  text-decoration: none;
 }
 
 .row {
-    display: flex;
-    flex-wrap: wrap;
-    margin: -10px;
+  display: flex;
+  flex-wrap: wrap;
+  margin: -10px;
 }
 
 .col {
-    padding: 10px;
+  padding: 10px;
 }
 
 .input-group {
-    display: flex;
-    width: 100%;
+  display: flex;
+  width: 100%;
 }
 
 .form-control {
-    flex: 1;
-    padding: 8px 12px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
+  flex: 1;
+  padding: 8px 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
 }
 
 .btn {
-    display: inline-block;
-    background-color: #007bff;
-    color: #fff;
-    text-decoration: none;
-    padding: 8px 16px;
-    border-radius: 4px;
-    transition: background-color 0.3s;
+  display: inline-block;
+  background-color: #007bff;
+  color: #fff;
+  text-decoration: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  transition: background-color 0.3s;
 }
 
-.col-text-center{
+.col-text-center {
   text-align: center;
 }
+
 .btn:hover {
-    background-color: #0056b3;
+  background-color: #0056b3;
 }
 
 .text-center {
-    text-align: center;
+  text-align: center;
 }
 
 .metrics {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    grid-gap: 20px;
-    margin-top: 40px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-gap: 20px;
+  margin-top: 40px;
 }
 
 .metric {
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    padding: 20px;
-    text-align: center;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding: 20px;
+  text-align: center;
 }
 
 .metric-value {
-    font-size: 36px;
-    font-weight: bold;
+  font-size: 36px;
+  font-weight: bold;
 }
 
 .metric-label {
-    font-size: 16px;
-    color: #666;
+  font-size: 16px;
+  color: #666;
 }
 
 .col-3 {
-    flex: 0 0 25%;
+  flex: 0 0 25%;
 }
 
 .col-9 {
-    flex: 0 0 75%;
+  flex: 0 0 75%;
 }
 
 .result-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
 }
 
 .result-count {
-    font-weight: bold;
+  font-weight: bold;
 }
 
 .sort-options {
-    display: flex;
-    align-items: center;
+  display: flex;
+  align-items: center;
 }
 
 .sort-label {
-    margin-right: 10px;
+  margin-right: 10px;
 }
 
 .sort-select {
-    padding: 6px 12px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    font-size: 14px;
+  padding: 6px 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 14px;
 }
 
 .result-list {
-    display: flex;
-    flex-wrap: nowrap;
-    overflow-x: auto;
-    margin-left: -10px;
-    margin-right: -10px;
+  display: flex;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  margin-left: -10px;
+  margin-right: -10px;
 }
 
 .result-item {
-    background-color: #f1f1f1;
-    padding: 20px;
-    border-radius: 4px;
-    text-align: center;
-    margin: 10px;
-    min-width: 150px;
+  background-color: #f1f1f1;
+  padding: 20px;
+  border-radius: 4px;
+  text-align: center;
+  margin: 10px;
+  width: 150px;
 }
 
 .report-container {
-    margin-left: 30%;
-    margin-right: 28%;
-  }
-  
-  .report-button {
-    text-align: center;
-  }
-  input {
-    color: white;
-    background-color: #e72121;
-    text-align: center;
-    font-family: inherit;
-    font-size: inherit;
-    margin-bottom: 10px;
-    padding: 10px;
-    border: none;
-    border-radius: 6px;
-    width: 300px;
-    outline: none;
-  }
-  
-  input [type="checkbox"] {
-    float: left;
-  }
-  
-  button {
-    text-align: center;
-    color: #000000;
-    color: white;
-    background-color: #c01010;
-    font-family: inherit;
-    font-size: inherit;
-    margin-right: 25px;
-    padding: 10px;
-    border: none;
-    border-radius: 6px;
-    outline: none;
-  }
-  
-  h1 {
-    text-align: center;
-  }
-  .factor-container {
-    color: red;
-    text-align: center;
-    padding-right: 0;
-    padding-bottom: 5%;
-    border-style: ridge;
-    border-width: 15px;
-    border-color: #fc2f2f;
-  }
-  
-  .top-left-nav {
-    float: left;
-    word-spacing: 20px;
-  }
-  .date-selector{
-    text-align: center;
-  }
-  .top-right-nav {
-    float: right;
-    padding-right: 5%;
-  }
-  
-  .report-container {
-    
-    width:700px;
-    height: 360px;
-    align-items: center;
-    border-style: ridge;
-    border-width: 15px;
-    border-color: #fc2f2f;
-  }
-  
-  .filter-list {
-    float: left;
-  }
-  .filter-options {
-    padding-top: 5%;
-    float: left;
-  }
-  
-  .button-container{
-    text-align: center;
-    
-  }
-  .report-button{
-    background-color: #c01010;
-  }
-  
-  a {
-    color: white;
-  }
-  header {
-    width: 100%;
-    padding-bottom: 2.5%;
-  }
-  
-  nav,
-  ul,
-  li a {
-    padding: 1rem 0;
-    margin: 0 3rem;
-    position: relative;
-    list-style: none;
-  }
-  
-  nav {
-    padding-bottom: 75px;
-    background-color: black;
-    margin:0;
-  }
-  
-  li {
-    float: left;
-  }
-    /* adding css to align the items*/
+  margin-left: 30%;
+  margin-right: 28%;
+}
+
+.report-button {
+  text-align: center;
+}
+
+input {
+  color: white;
+  background-color: #e72121;
+  text-align: center;
+  font-family: inherit;
+  font-size: inherit;
+  margin-bottom: 10px;
+  padding: 10px;
+  border: none;
+  border-radius: 6px;
+  width: 300px;
+  outline: none;
+}
+
+input [type="checkbox"] {
+  float: left;
+}
+
+button {
+  text-align: center;
+  color: #000000;
+  color: white;
+  background-color: #c01010;
+  font-family: inherit;
+  font-size: inherit;
+  margin-right: 25px;
+  padding: 10px;
+  border: none;
+  border-radius: 6px;
+  outline: none;
+}
+
+h1 {
+  text-align: center;
+}
+
+.factor-container {
+  color: red;
+  text-align: center;
+  padding-right: 0;
+  padding-bottom: 5%;
+  border-style: ridge;
+  border-width: 15px;
+  border-color: #fc2f2f;
+}
+
+.top-left-nav {
+  float: left;
+  word-spacing: 20px;
+}
+
+.date-selector {
+  text-align: center;
+}
+
+.top-right-nav {
+  float: right;
+  padding-right: 5%;
+}
+
+.report-container {
+
+  width: 700px;
+  height: 360px;
+  align-items: center;
+  border-style: ridge;
+  border-width: 15px;
+  border-color: #fc2f2f;
+}
+
+.filter-list {
+  float: left;
+}
+
+.filter-options {
+  padding-top: 2%;
+  padding-right: 20px;
+  margin-right: 30px;
+  float: left;
+}
+
+.button-container {
+  text-align: center;
+
+}
+
+.report-button {
+  background-color: #c01010;
+}
+
+a {
+  color: white;
+}
+
+header {
+  width: 100%;
+  padding-bottom: 2.5%;
+}
+
+nav,
+ul,
+li a {
+  padding: 1rem 0;
+  margin: 0 3rem;
+  position: relative;
+  list-style: none;
+}
+
+nav {
+  padding-bottom: 75px;
+  background-color: black;
+  margin: 0;
+}
+
+li {
+  float: left;
+}
+
+/* adding css to align the items*/
 th {
   background-color: #8a8585;
   padding: 20px;
@@ -283,20 +299,53 @@ th {
   margin: 10px;
   min-width: 150px;
 }
+
 .dash-Table {
   display: flex;
+  margin-left: 5px;
 }
-.filter-checkbox{
-  width: 100px;
-}
-.checkbox-label-text{
+
+.filter-checkbox {
   width: 90px;
 }
-.checkbox-label{
+
+.checkbox-label-text {
+  width: 90px;
+}
+
+.checkbox-label {
   display: flex;
 }
 
-.rounded{
-  width:100%;
-  height:230px;
+.rounded {
+  width: 100%;
+  height: 230px;
 }
+
+.informational {
+  color: #505050
+}
+
+.low {
+  color: rgb(224, 191, 0);
+}
+
+.medium {
+  color: rgb(211, 137, 1);
+}
+
+.high {
+  color: rgb(255, 0, 0);
+}
+
+.critical {
+  color: rgb(139, 0, 0);
+}
+
+
+canvas {
+  background-color: white;
+  border-style: solid;
+  border-color: rgb(255, 109, 109);
+}
+
