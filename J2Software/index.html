@@ -44,10 +44,26 @@
                     </p>
                     <!-- Date Picker -->
                     <label for="start_date">Start Date:</label>
-                    <input type="date" id="start_date" name="start_date" min="2024-01-01">
+                    <input type="date" class="date-selector" id="start_date" name="start_date" min="2024-01-01" onchange="updateEndDateMin()">
 
                     <label for="end_date">End Date:</label>
-                    <input type="date" id="end_date" name="end_date" min="2024-01-01">
+                    <input type="date" class="date-selector" id="end_date" name="end_date" min="2024-01-01">
+
+                    <!-- prevents setting end date before start date -->
+                    <script> 
+                     function updateEndDateMin() {
+                         var startDate = document.getElementById('start_date').value;
+                         var endDate = document.getElementById('end_date');
+
+                        if (startDate) {
+                            endDate.min = startDate;
+                            if (endDate.value < startDate) {
+                                endDate.value = startDate;
+                            }
+                        }
+                    }
+                    </script>
+
                 </div>
             </div>
             
