@@ -28,7 +28,27 @@
   </header>
   <div class = "date-selector">
     <h2>Select Date Range</h2>
-    <input type = "text" value = "01-01-2024 - 31-01-2024" disabled="true">
+    <!-- Date Picker -->
+    <label for="start_date">Start Date:</label>
+    <input type="date" class="date-selector" id="start_date" name="start_date" min="2024-01-01" onchange="updateEndDateMin()">
+
+    <label for="end_date">End Date:</label>
+    <input type="date" class="date-selector" id="end_date" name="end_date" min="2024-01-01">
+
+    <!-- prevents setting end date before start date -->
+    <script> 
+     function updateEndDateMin() {
+         var startDate = document.getElementById('start_date').value;
+         var endDate = document.getElementById('end_date');
+
+        if (startDate) {
+            endDate.min = startDate;
+            if (endDate.value < startDate) {
+                endDate.value = startDate;
+            }
+        }
+    }
+    </script>
   </div>
   <br/><br/><br/>
   <div class="report-container">
