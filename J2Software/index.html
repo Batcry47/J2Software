@@ -53,17 +53,7 @@
                     <input type="date" class="date-selector" id="end_date" name="end_date" min="2024-01-01">
                     <!-- prevents setting end date before start date -->
                     <script>
-                        function updateEndDateMin() {
-                            var startDate = document.getElementById('start_date').value;
-                            var endDate = document.getElementById('end_date');
 
-                            if (startDate) {
-                                endDate.min = startDate;
-                                if (endDate.value < startDate) {
-                                    endDate.value = startDate;
-                                }
-                            }
-                        }
                     </script>
 
                 </div>
@@ -71,49 +61,139 @@
 
             <div class="metrics">
                 <div class="metric">
-                    <div class="metric-value">1412</div>
+                    <div class="metric-value" id="total-alerts"></div>
                     <div>Total Alerts</div>
                 </div>
                 <div class="metric">
-                    <div class="metric-value">0</div>
-                    <button class="metric-label" onclick="storeAlertType('malicious-checkbox')">Malicious Alerts</button>
+                    <div class="metric-value" id="malicious-count"></div>
+                    <button class="metric-label" onclick="storeAlertType('malicious-checkbox')">Malicious
+                        Alerts</button>
                 </div>
                 <div class="metric">
-                    <div class="metric-value">0</div>
+                    <div class="metric-value" id="impact-count"></div>
                     <button class="metric-label" onclick="storeAlertType('impact-checkbox')">Impact</button>
                 </div>
                 <div class="metric">
-                    <div class="metric-value">0</div>
-                    <button class="metric-label" onclick="storeAlertType('initial-access-checkbox')">Initial Access</button>
+                    <div class="metric-value" id="initial-access-count"></div>
+                    <button class="metric-label" onclick="storeAlertType('initial-access-checkbox')">Initial
+                        Access</button>
                 </div>
                 <div class="metric">
-                    <div class="metric-value">0</div>
-                    <button class="metric-label" onclick="storeAlertType('defence-evasion-checkbox')">Defence Evasion</button>
+                    <div class="metric-value" id="defence-evasion-count"></div>
+                    <button class="metric-label" onclick="storeAlertType('defence-evasion-checkbox')">Defence
+                        Evasion</button>
                 </div>
                 <div class="metric">
-                    <div class="metric-value">0</div>
+                    <div class="metric-value" id="exfiltration-count"></div>
                     <button class="metric-label" onclick="storeAlertType('exfiltration-checkbox')">Exfiltration</button>
                 </div>
                 <div class="metric">
-                    <div class="metric-value">0</div>
+                    <div class="metric-value" id="collection-count"></div>
                     <button class="metric-label" onclick="storeAlertType('collection-checkbox')">Collection</button>
                 </div>
                 <div class="metric">
-                    <div class="metric-value">0</div>
+                    <div class="metric-value" id="escalation-count"></div>
                     <button class="metric-label" onclick="storeAlertType('escalation-checkbox')">Escalation</button>
                 </div>
                 <div class="metric">
-                    <div class="metric-value">1412</div>
+                    <div class="metric-value" id="persistence-count"></div>
                     <button class="metric-label" onclick="storeAlertType('persistence-checkbox')">Persistence</button>
                 </div>
             </div>
         </div>
         <script>
-            function storeAlertType(alertID){
+            totalAlerts = 0;
+            initialAccessAlerts = 0;
+            impactAlerts = 0;
+            maliciousAlerts = 0;
+            defenceEvasionAlerts = 0;
+            collectionAlerts = 0;
+            exfiltrationAlerts = 0;
+            escalationAlerts = 0;
+            persistenceAlerts = 0;
+
+            const alerts = [
+                { date: '2024-05-01', type: 'Impact' },
+                { date: '2024-05-05', type: 'Exfiltration' },
+                { date: '2024-05-07', type: 'Impact' },
+                { date: '2024-05-07', type: 'Initial Access' },
+                { date: '2024-05-10', type: 'Persistence' },
+                { date: '2024-05-11', type: 'Collection' },
+                { date: '2024-05-12', type: 'Collection' },
+                { date: '2024-05-13', type: 'Impact' },
+                { date: '2024-05-14', type: 'Initial Access' },
+                { date: '2024-05-15', type: 'Exfiltration' },
+                { date: '2024-05-16', type: 'Persistence' }
+            ];
+
+            function storeAlertType(alertID) {
                 sessionStorage.setItem(alertID, 'true');
                 window.location.href = 'dashboard.html';
             }
+            function updateEndDateMin() {
+                var startDate = document.getElementById('start_date').value;
+                var endDate = document.getElementById('end_date');
+
+                if (startDate) {
+                    endDate.min = startDate;
+                    if (endDate.value < startDate) {
+                        endDate.value = startDate;
+                    }
+                }
+            }
+
+            window.onload = function () {
+                countAlerts()
+            }
+
+            function countAlerts() {
+                alerts.forEach(alert => {
+                    if (alert.type !== null) {
+                        switch (alert.type) {
+                            case 'Malicious':
+                                maliciousAlerts++;
+                                break;
+                            case 'Impact':
+                                impactAlerts++;
+                                break;
+                            case 'Initial Access':
+                                initialAccessAlerts++;
+                                break;
+                            case 'Defence Evasion':
+                                defenceEvasionAlerts++;
+                                break;
+                            case 'Exfiltration':
+                                exfiltrationAlerts++;
+                                break;
+                            case 'Collection':
+                                collectionAlerts++;
+                                break;
+                            case 'Escalation':
+                                escalationAlerts++
+                                break;
+                            case 'Persistence':
+                                persistenceAlerts++;
+                                break;
+                        }
+                    }
+                });
+                totalAlerts = maliciousAlerts + impactAlerts + initialAccessAlerts +
+                    defenceEvasionAlerts + exfiltrationAlerts + collectionAlerts + escalationAlerts + persistenceAlerts;
+
+                document.getElementById('malicious-count').innerHTML = maliciousAlerts;
+                document.getElementById('impact-count').innerHTML = impactAlerts;
+                document.getElementById('initial-access-count').innerHTML = initialAccessAlerts;
+                document.getElementById('defence-evasion-count').innerHTML = defenceEvasionAlerts;
+                document.getElementById('exfiltration-count').innerHTML = exfiltrationAlerts;
+                document.getElementById('collection-count').innerHTML = collectionAlerts;
+                document.getElementById('escalation-count').innerHTML = escalationAlerts;
+                document.getElementById('persistence-count').innerHTML = persistenceAlerts;
+                document.getElementById('total-alerts').innerHTML = totalAlerts;
+            }
+
+
         </script>
     </main>
 </body>
+
 </html>
