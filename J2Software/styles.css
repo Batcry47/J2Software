@@ -14,7 +14,7 @@ body {
   max-width: 1200px;
   margin: 0 auto;
   padding: 0 20px;
-
+  text-align: center;
 }
 
 .login-page,
@@ -107,10 +107,15 @@ body {
 }
 
 .metric-label {
+  background-color: #fc2f2f;
   font-size: 16px;
-  color: #666;
+  color: white;
+  text-align: center;
 }
 
+.metric{
+  border-color: #ff7a7a;
+}
 .col-3 {
   flex: 0 0 25%;
 }
@@ -221,6 +226,9 @@ h1 {
 .top-left-nav {
   float: left;
   word-spacing: 20px;
+}
+.date-picker{
+  text-align: center;
 }
 
 .date-selector {
@@ -349,4 +357,5 @@ canvas {
   border-style: solid;
   border-color: rgb(255, 109, 109);
 }
+
 

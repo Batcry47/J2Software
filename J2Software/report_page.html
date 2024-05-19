@@ -13,7 +13,7 @@
     <nav>
       <div class="top-left-nav">
         <ul>
-          <li>  <img src="_images/logo_10_2019.png"id="NavLogo"></li>
+          <li> <img src="_images/logo_10_2019.png" id="NavLogo"></li>
           <li><a href="index.html">Home</a></li>
           <li><a href="dashboard.html">Dashboard</a></li>
           <li><a class="current">Report</a></li>
@@ -26,31 +26,31 @@
       </div>
     </nav>
   </header>
-  <div class = "date-selector">
+  <div class="date-selector">
     <h2>Select Date Range</h2>
     <!-- Date Picker -->
-    <label for="start_date">Start Date:</label>
-    <input type="date" class="date-selector" id="start_date" name="start_date" min="2024-01-01" onchange="updateEndDateMin()">
+      <label for="start_date">Start Date:</label>
+      <input type="date" class="date-selector" id="start_date" name="start_date" min="2024-01-01"
+        onchange="updateEndDateMin()">
 
-    <label for="end_date">End Date:</label>
-    <input type="date" class="date-selector" id="end_date" name="end_date" min="2024-01-01">
-
-    <!-- prevents setting end date before start date -->
-    <script> 
-     function updateEndDateMin() {
-         var startDate = document.getElementById('start_date').value;
-         var endDate = document.getElementById('end_date');
-
-        if (startDate) {
-            endDate.min = startDate;
-            if (endDate.value < startDate) {
-                endDate.value = startDate;
-            }
-        }
-    }
-    </script>
+      <label for="end_date">End Date:</label>
+      <input type="date" class="date-selector" id="end_date" name="end_date" min="2024-01-01">
   </div>
-  <br/><br/><br/>
+  <!-- prevents setting end date before start date -->
+  <script>
+    function updateEndDateMin() {
+      var startDate = document.getElementById('start_date').value;
+      var endDate = document.getElementById('end_date');
+
+      if (startDate) {
+        endDate.min = startDate;
+        if (endDate.value < startDate) {
+          endDate.value = startDate;
+        }
+      }
+    }
+  </script>
+  <br /><br /><br />
   <div class="report-container">
     <h1>Alert Report for 01-01-2024 - 31-01-2024</h1>
     <ul>
@@ -69,8 +69,8 @@
     <br />
   </div>
   <br />
-  <div class = "button-container">
-    <button class = "report-button">Download Report</button>
+  <div class="button-container">
+    <button class="report-button">Download Report</button>
   </div>
 </body>
 

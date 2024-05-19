@@ -6,6 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Dashboard | J2 Software</title>
   <link rel="stylesheet" href="styles.css">
+
 </head>
 
 <body>
@@ -34,7 +35,7 @@
       <div class="col-9">
         <div class="result-header">
           <h3 class="result-count">5 Results</h3>
-          
+
         </div>
         <div class="dash-Table">
           <div class="filter-bar">
@@ -44,75 +45,62 @@
               <label class="checkbox-label">
                 <span class="checkbox-label-text">Informational </span>
                 <input type="checkbox" class="filter-checkbox">
-                <span class="checkbox-custom"></span>
               </label>
               <label class="checkbox-label">
                 <span class="checkbox-label-text">Low </span>
                 <input type="checkbox" class="filter-checkbox">
-                <span class="checkbox-custom"></span>
               </label>
               <label class="checkbox-label">
                 <span class="checkbox-label-text">Medium </span>
                 <input type="checkbox" class="filter-checkbox">
-                <span class="checkbox-custom"></span>
               </label>
               <label class="checkbox-label">
                 <span class="checkbox-label-text">High </span>
                 <input type="checkbox" class="filter-checkbox">
-                <span class="checkbox-custom"></span>
               </label>
               <label class="checkbox-label">
                 <span class="checkbox-label-text"> Critical</span>
                 <input type="checkbox" class="filter-checkbox">
-                <span class="checkbox-custom"></span>
               </label>
               <h4>Category</h4>
               <label class="checkbox-label">
                 <span class="checkbox-label-text">Malicious Alerts</span>
-                <input type="checkbox" class="filter-checkbox">
-                <span class="checkbox-custom"></span>
+                <input type="checkbox" class="filter-checkbox" id="malicious-checkbox">
               </label>
               <br>
               <label class="checkbox-label">
-                <span class="checkbox-label-text">Impact</span>
-                <input type="checkbox" class="filter-checkbox">
-                <span class="checkbox-custom"></span>
+                <span class="checkbox-label-text">Impact Alerts</span>
+                <input type="checkbox" class="filter-checkbox" id="impact-checkbox">
               </label>
               <br>
               <label class="checkbox-label">
                 <span class="checkbox-label-text">Initial Access</span>
-                <input type="checkbox" class="filter-checkbox">
-                <span class="checkbox-custom"></span>
+                <input type="checkbox" class="filter-checkbox" id="initial-access-checkbox">
               </label>
               <br>
               <label class="checkbox-label">
                 <span class="checkbox-label-text">Defence Evasion</span>
-                <input type="checkbox" class="filter-checkbox">
-                <span class="checkbox-custom"></span>
+                <input type="checkbox" class="filter-checkbox" id="defence-evasion-checkbox">
               </label>
               <br>
               <label class="checkbox-label">
-                <span class="checkbox-label-text">Exfiltration</span>
-                <input type="checkbox" class="filter-checkbox">
-                <span class="checkbox-custom"></span>
+                <span class="checkbox-label-text">Exfiltration Alerts</span>
+                <input type="checkbox" class="filter-checkbox" id="exfiltration-checkbox">
               </label>
               <br>
               <label class="checkbox-label">
-                <span class="checkbox-label-text">Collection</span>
-                <input type="checkbox" class="filter-checkbox">
-                <span class="checkbox-custom"></span>
+                <span class="checkbox-label-text">Collection Alerts</span>
+                <input type="checkbox" class="filter-checkbox" id="collection-checkbox">
               </label>
               <br>
               <label class="checkbox-label">
-                <span class="checkbox-label-text">Escalation </span>
-                <input type="checkbox" class="filter-checkbox">
-                <span class="checkbox-custom"></span>
+                <span class="checkbox-label-text">Escalation Alerts</span>
+                <input type="checkbox" class="filter-checkbox" id="escalation-checkbox">
               </label>
               <br>
               <label class="checkbox-label">
-                <span class="checkbox-label-text">Persistence </span>
-                <input type="checkbox" class="filter-checkbox">
-                <span class="checkbox-custom"></span>
+                <span class="checkbox-label-text">Persistence Alerts</span>
+                <input type="checkbox" class="filter-checkbox" id="persistence-checkbox">
               </label>
 
               <h4>Sort by</h4>
@@ -131,19 +119,13 @@
                 <input type="checkbox" class="filter-checkbox">
                 <span class="checkbox-custom"></span>
               </label>
-              <label class="checkbox-label">
-                <span class="checkbox-label-text">Date & Time </span>
-                <input type="checkbox" class="filter-checkbox">
-                <span class="checkbox-custom"></span>
-              </label>
             </div>
           </div>
-
 
           <div class="table-container">
             <canvas id="doughnutChart"></canvas>
             <br>
-            
+
             <table class="dash-Table">
               <tr class="result-list">
                 <th class="heading">Category</th>
@@ -224,6 +206,22 @@
           }
         }
       })
+      document.addEventListener('DOMContentLoaded', (event) => {
+        const alertFilterOptions = ['malicious-checkbox', 'impact-checkbox', 'initial-access-checkbox', 'defence-evasion-checkbox',
+          'exfiltration-checkbox', 'collection-checkbox', 'escalation-checkbox', 'persistence-checkbox'];
+        alertFilterOptions.forEach(option => {
+          const category = sessionStorage.getItem(option);
+          if (category !== null) {
+            if (category === 'true') {
+              document.getElementById(option).checked = true;
+              sessionStorage.removeItem(option);
+            }
+            
+          }
+
+        });
+      });
+
     </script>
   </div>
 </body>

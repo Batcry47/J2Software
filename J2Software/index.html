@@ -11,104 +11,109 @@
 <body>
     <header>
         <nav>
-          <div class="top-left-nav">
-            <ul>
-                <li> <img src="_images/logo_10_2019.png"id="NavLogo"></li>
-                <li><a class="current">Home</a></li>
-                <li><a href="dashboard.html">Dashboard</a></li>
-                <li><a href="report_page.html">Report</a></li>
-            </ul>
-          </div>
-          <div class="top-right-nav">
-            <ul>
-              <li><a href="login.html">Logout</a></li>
-            </ul>
-          </div>
+            <div class="top-left-nav">
+                <ul>
+                    <li> <img src="_images/logo_10_2019.png" id="NavLogo"></li>
+                    <li><a class="current">Home</a></li>
+                    <li><a href="dashboard.html">Dashboard</a></li>
+                    <li><a href="report_page.html">Report</a></li>
+                </ul>
+            </div>
+            <div class="top-right-nav">
+                <ul>
+                    <li><a href="login.html">Logout</a></li>
+                </ul>
+            </div>
         </nav>
-      </header>
+    </header>
 
     <main>
         <div class="container">
-                <div class="col-text-center">
-                    <h1>Microsoft 365 Monitoring</h1>
-                </div>
+            <div class="col-text-center">
+                <h1>Microsoft 365 Monitoring</h1>
+            </div>
         </div>
         <div class="container">
             <div class="col">
                 <div style="margin-top: 3em;">
                     <p>We use Tactics as these are the core of the attack Framework and represent the "why" of an attack
                         technique. It is the adversary's reason for performing an action. Tactics group together the
-                        different methods attackers use. 
+                        different methods attackers use.
                         <br><br>
                         There were 0 alerts, of which 0 were malicious.
                     </p>
+
                     <!-- Date Picker -->
+                    <h2>Select Date Range</h2>
                     <label for="start_date">Start Date:</label>
-                    <input type="date" class="date-selector" id="start_date" name="start_date" min="2024-01-01" onchange="updateEndDateMin()">
+                    <input type="date" class="date-selector" id="start_date" name="start_date" min="2024-01-01"
+                        onchange="updateEndDateMin()">
 
                     <label for="end_date">End Date:</label>
                     <input type="date" class="date-selector" id="end_date" name="end_date" min="2024-01-01">
-
                     <!-- prevents setting end date before start date -->
-                    <script> 
-                     function updateEndDateMin() {
-                         var startDate = document.getElementById('start_date').value;
-                         var endDate = document.getElementById('end_date');
+                    <script>
+                        function updateEndDateMin() {
+                            var startDate = document.getElementById('start_date').value;
+                            var endDate = document.getElementById('end_date');
 
-                        if (startDate) {
-                            endDate.min = startDate;
-                            if (endDate.value < startDate) {
-                                endDate.value = startDate;
+                            if (startDate) {
+                                endDate.min = startDate;
+                                if (endDate.value < startDate) {
+                                    endDate.value = startDate;
+                                }
                             }
                         }
-                    }
                     </script>
 
                 </div>
             </div>
-            
-            
 
             <div class="metrics">
                 <div class="metric">
                     <div class="metric-value">1412</div>
-                    <div class="metric-label">Total Alerts</div>
+                    <div>Total Alerts</div>
                 </div>
                 <div class="metric">
                     <div class="metric-value">0</div>
-                    <div class="metric-label">Malicious Alerts</div>
+                    <button class="metric-label" onclick="storeAlertType('malicious-checkbox')">Malicious Alerts</button>
                 </div>
                 <div class="metric">
                     <div class="metric-value">0</div>
-                    <div class="metric-label">Impact</div>
+                    <button class="metric-label" onclick="storeAlertType('impact-checkbox')">Impact</button>
                 </div>
                 <div class="metric">
                     <div class="metric-value">0</div>
-                    <div class="metric-label">Initial Access</div>
+                    <button class="metric-label" onclick="storeAlertType('initial-access-checkbox')">Initial Access</button>
                 </div>
                 <div class="metric">
                     <div class="metric-value">0</div>
-                    <div class="metric-label">Defence Evasion</div>
+                    <button class="metric-label" onclick="storeAlertType('defence-evasion-checkbox')">Defence Evasion</button>
                 </div>
                 <div class="metric">
                     <div class="metric-value">0</div>
-                    <div class="metric-label">Exfiltration</div>
+                    <button class="metric-label" onclick="storeAlertType('exfiltration-checkbox')">Exfiltration</button>
                 </div>
                 <div class="metric">
                     <div class="metric-value">0</div>
-                    <div class="metric-label">Collection</div>
+                    <button class="metric-label" onclick="storeAlertType('collection-checkbox')">Collection</button>
                 </div>
                 <div class="metric">
                     <div class="metric-value">0</div>
-                    <div class="metric-label">Escalation</div>
+                    <button class="metric-label" onclick="storeAlertType('escalation-checkbox')">Escalation</button>
                 </div>
                 <div class="metric">
                     <div class="metric-value">1412</div>
-                    <div class="metric-label">Persistence</div>
+                    <button class="metric-label" onclick="storeAlertType('persistence-checkbox')">Persistence</button>
                 </div>
             </div>
         </div>
+        <script>
+            function storeAlertType(alertID){
+                sessionStorage.setItem(alertID, 'true');
+                window.location.href = 'dashboard.html';
+            }
+        </script>
     </main>
 </body>
-
 </html>
