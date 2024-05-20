@@ -116,7 +116,9 @@
           </div>
 
           <div class="table-container">
-            <canvas id="doughnutChart"></canvas>
+            <div class="d-Chart">
+              <canvas id="doughnutChart"></canvas>
+            </div>
             <br>
 
             <table class="dash-Table">
@@ -175,7 +177,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
     <script>
       const severityLevels = ['Informational', 'Low', 'Medium', 'High', 'Critical'];
-      const alertNumbers = [0, 2, 2, 1, 0]
+      const alertNumbers = [1, 1, 1, 2, 0]
       const pieColors = ['#505050', 'rgb(224, 191, 0)', 'rgb(211, 137, 1)', 'rgb(255, 0, 0)', 'rgb(139, 0, 0)']
       const alertChart = new Chart("doughnutChart", {
         type: "doughnut",

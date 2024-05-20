@@ -124,6 +124,7 @@ body {
   justify-content: space-between;
   align-items: center;
   margin-bottom: 20px;
+  width: 1250px;
 }
 
 .result-count {
@@ -386,4 +387,7 @@ canvas {
   color: #0000EE;
   font-size: 14px;
   text-decoration: none;
+}
+.d-Chart {
+  width: 1000px;
 }
