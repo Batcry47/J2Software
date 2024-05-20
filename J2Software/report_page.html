@@ -30,25 +30,54 @@
   <div class="date-selector">
     <h2>Select Date Range</h2>
     <label for="start_date">Start Date:</label>
-    <input type="date" class="date-selector" id="start_date" name="start_date" min="2024-01-01"
-      onchange="updateEndDateMin()">
+    <input type="date" class="date-selector" id="start_date" name="start_date" min="2024-01-01">
 
     <label for="end_date">End Date:</label>
-    <input type="date" class="date-selector" id="end_date" name="end_date" min="2024-01-01">
+    <input type="date" class="date-selector" id="end_date" name="end_date" min="2024-01-01"
+      onchange="updateEndDateMin()">>
   </div>
   <script>
     function updateEndDateMin() {
-      var startDate = document.getElementById('start_date').value;
-      var endDate = document.getElementById('end_date');
-
+      const startDate = document.getElementById('start_date').value;
+      const endDate = document.getElementById('end_date').value;
+      if (startDate && endDate) {
+        const reportDate = document.querySelector('.report-container h1');
+        reportDate.textContent = `Alert Report for ${startDate} - ${endDate}`;
+      }
       if (startDate) {
         endDate.min = startDate;
         if (endDate.value < startDate) {
           endDate.value = startDate;
         }
+
+        const maliciousAlerts = Math.floor(Math.random() * 100);
+        const impact = Math.floor(Math.random() * 100);
+        const initialAccess = Math.floor(Math.random() * 100);
+        const defenceEvasion = Math.floor(Math.random() * 100);
+        const exfiltration = Math.floor(Math.random() * 100);
+        const collection = Math.floor(Math.random() * 100);
+        const escalation = Math.floor(Math.random() * 100);
+        const persistence = Math.floor(Math.random() * 100);
+
+        const reportContainer = document.querySelector('.report-container ul');
+
+        reportContainer.innerHTML = `
+            <li>Malicious Alerts: ${maliciousAlerts}</li><br>
+            <li>Impact: ${impact}</li><br>
+            <li>Initial Access: ${initialAccess}</li><br>
+            <li>Defence Evasion: ${defenceEvasion}</li><br>
+            <li>Exfiltration: ${exfiltration}</li><br>
+            <li>Collection: ${collection}</li><br>
+            <li>Escalation: ${escalation}</li><br>
+            <li>Persistence: ${persistence}</li><br>
+            <li>
+                <h3>Total Alerts: ${maliciousAlerts + impact + initialAccess + defenceEvasion + exfiltration + collection + escalation + persistence}</h3>
+            </li>
+        `;
       }
     }
   </script>
+
   <br /><br /><br />
   <div class="report-container">
     <h1>Alert Report for 01-01-2024 - 31-01-2024</h1>
@@ -106,24 +135,13 @@
     const lineChart = new Chart(lineChartCanvas, lineChartConfig);
 
     function downloadReport() {
-      const reportContent = `
-      Alert Report for 01-01-2024 - 31-01-2024
-      Malicious Alerts: 0
-      Impact: 0
-      Initial Access: 0
-      Defence Evasion: 0
-      Exfiltration: 0
-      Collection: 0
-      Escalation: 0
-      Persistence: 1412
-      Total Alerts: 1412
-    `;
+      const reportContent = document.querySelector('.report-container').innerHTML;
 
-      const blob = new Blob([reportContent], { type: 'text/plain' });
+      const blob = new Blob([reportContent], { type: 'text/html' });
 
       const a = document.createElement('a');
       a.href = window.URL.createObjectURL(blob);
-      a.download = 'report.txt';
+      a.download = 'Alert_Report.txt';
 
       document.body.appendChild(a);
 
