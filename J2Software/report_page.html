@@ -98,7 +98,13 @@
   </div>
   <br />
   <div class="button-container">
-    <button id="downloadReportButton" class="report-button">Download Report</button>
+    <div class="dropdown">
+      <button id="downloadReportButton" class="report-button">Download Report</button>
+      <div class="dropdown-content">
+        <a href="#" id="downloadTxt">TXT</a>
+        <a href="#" id="downloadCsv">CSV</a>
+      </div>
+    </div>
   </div>
   <div class="line-graph">
     <canvas id="lineChart"></canvas>
@@ -134,14 +140,41 @@
 
     const lineChart = new Chart(lineChartCanvas, lineChartConfig);
 
-    function downloadReport() {
-      const reportContent = document.querySelector('.report-container').innerHTML;
+    function generateCsvContent() {
+      const maliciousAlerts = parseInt(document.querySelector('.report-container ul li:nth-of-type(1)').innerText.split(': ')[1]);
+      const impact = parseInt(document.querySelector('.report-container ul li:nth-of-type(2)').innerText.split(': ')[1]);
+      const initialAccess = parseInt(document.querySelector('.report-container ul li:nth-of-type(3)').innerText.split(': ')[1]);
+      const defenceEvasion = parseInt(document.querySelector('.report-container ul li:nth-of-type(4)').innerText.split(': ')[1]);
+      const exfiltration = parseInt(document.querySelector('.report-container ul li:nth-of-type(5)').innerText.split(': ')[1]);
+      const collection = parseInt(document.querySelector('.report-container ul li:nth-of-type(6)').innerText.split(': ')[1]);
+      const escalation = parseInt(document.querySelector('.report-container ul li:nth-of-type(7)').innerText.split(': ')[1]);
+      const persistence = parseInt(document.querySelector('.report-container ul li:nth-of-type(8)').innerText.split(': ')[1]);
 
-      const blob = new Blob([reportContent], { type: 'text/html' });
+      const totalAlerts = maliciousAlerts + impact + initialAccess + defenceEvasion + exfiltration + collection + escalation + persistence;
+
+      const csvContent = `Malicious Alerts,Impact,Initial Access,Defence Evasion,Exfiltration,Collection,Escalation,Persistence,Total Alerts\n${maliciousAlerts},${impact},${initialAccess},${defenceEvasion},${exfiltration},${collection},${escalation},${persistence},${totalAlerts}`;
+
+      return csvContent;
+    }
+
+    function downloadReport(format) {
+      let reportContent;
+      let blob;
+      let filename;
+
+      if (format === 'txt') {
+        reportContent = document.querySelector('.report-container').innerText;
+        blob = new Blob([reportContent], { type: 'text/plain' });
+        filename = 'Alert_Report.txt';
+      } else if (format === 'csv') {
+        const csvContent = generateCsvContent();
+        blob = new Blob([csvContent], { type: 'text/csv' });
+        filename = 'Alert_Report.csv';
+      }
 
       const a = document.createElement('a');
       a.href = window.URL.createObjectURL(blob);
-      a.download = 'Alert_Report.txt';
+      a.download = filename;
 
       document.body.appendChild(a);
 
@@ -150,9 +183,18 @@
       document.body.removeChild(a);
     }
 
-    const downloadReportButton = document.getElementById('downloadReportButton');
+    document.getElementById('downloadReportButton').addEventListener('click', function () {
+      const dropdownContent = document.querySelector('.dropdown-content');
+      dropdownContent.classList.toggle('show');
+    });
 
-    downloadReportButton.addEventListener('click', downloadReport);
+    document.getElementById('downloadTxt').addEventListener('click', function () {
+      downloadReport('txt');
+    });
+
+    document.getElementById('downloadCsv').addEventListener('click', function () {
+      downloadReport('csv');
+    });
   </script>
 </body>
 
