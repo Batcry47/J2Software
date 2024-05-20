@@ -105,56 +105,73 @@
         <a href="#" id="downloadCsv">CSV</a>
       </div>
     </div>
+    <button id="downloadChartButton" class="report-button">Download Graph</button>
   </div>
   <div class="line-graph">
     <canvas id="lineChart"></canvas>
   </div>
 
   <script>
-const lineChartCanvas = document.getElementById('lineChart');
+    const lineChartCanvas = document.getElementById('lineChart');
 
-const lineChartData = {
-  labels: ['Jan 1', 'Jan 8', 'Jan 15', 'Jan 22', 'Jan 29'],
-  datasets: [
-    {
-      label: 'Alerts',
-      data: [100, 200, 150, 300, 250],
-      backgroundColor: 'rgba(255, 99, 132, 0.2)',
-      borderColor: 'rgba(255, 99, 132, 1)',
-      borderWidth: 1
-    }
-  ]
-};
+    const lineChartData = {
+      labels: ['Jan 1', 'Jan 8', 'Jan 15', 'Jan 22', 'Jan 29'],
+      datasets: [
+        {
+          label: 'Alerts',
+          data: [100, 200, 150, 300, 250],
+          backgroundColor: 'rgba(255, 99, 132, 0.2)',
+          borderColor: 'rgba(255, 99, 132, 1)',
+          borderWidth: 1
+        }
+      ]
+    };
 
-const lineChartConfig = {
-  type: 'line',
-  data: lineChartData,
-  options: {
-    scales: {
-      y: {
-        beginAtZero: true
+    const lineChartConfig = {
+      type: 'line',
+      data: lineChartData,
+      options: {
+        scales: {
+          y: {
+            beginAtZero: true
+          }
+        }
       }
+    };
+
+    const lineChart = new Chart(lineChartCanvas, lineChartConfig);
+
+    function generateCsvContent() {
+      const maliciousAlerts = parseInt(document.querySelector('.report-container ul li:nth-of-type(1)').innerText.split(': ')[1]);
+      const impact = parseInt(document.querySelector('.report-container ul li:nth-of-type(2)').innerText.split(': ')[1]);
+      const initialAccess = parseInt(document.querySelector('.report-container ul li:nth-of-type(3)').innerText.split(': ')[1]);
+      const defenceEvasion = parseInt(document.querySelector('.report-container ul li:nth-of-type(4)').innerText.split(': ')[1]);
+      const exfiltration = parseInt(document.querySelector('.report-container ul li:nth-of-type(5)').innerText.split(': ')[1]);
+      const collection = parseInt(document.querySelector('.report-container ul li:nth-of-type(6)').innerText.split(': ')[1]);
+      const escalation = parseInt(document.querySelector('.report-container ul li:nth-of-type(7)').innerText.split(': ')[1]);
+      const persistence = parseInt(document.querySelector('.report-container ul li:nth-of-type(8)').innerText.split(': ')[1]);
+
+      const totalAlerts = maliciousAlerts + impact + initialAccess + defenceEvasion + exfiltration + collection + escalation + persistence;
+
+      const csvContent = `Malicious Alerts,Impact,Initial Access,Defence Evasion,Exfiltration,Collection,Escalation,Persistence,Total Alerts\n${maliciousAlerts},${impact},${initialAccess},${defenceEvasion},${exfiltration},${collection},${escalation},${persistence},${totalAlerts}`;
+
+      return csvContent;
     }
-  }
-};
 
-const lineChart = new Chart(lineChartCanvas, lineChartConfig);
+    function downloadReport(format) {
+      let reportContent;
+      let blob;
+      let filename;
 
-    function downloadReport() {
-      const reportContent = `
-      Alert Report for 01-01-2024 - 31-01-2024
-      Malicious Alerts: 0
-      Impact: 0
-      Initial Access: 0
-      Defence Evasion: 0
-      Exfiltration: 0
-      Collection: 0
-      Escalation: 0
-      Persistence: 1412
-      Total Alerts: 1412
-    `;
-
-      const blob = new Blob([reportContent], { type: 'text/plain' });
+      if (format === 'txt') {
+        reportContent = document.querySelector('.report-container').innerText;
+        blob = new Blob([reportContent], { type: 'text/plain' });
+        filename = 'Alert_Report.txt';
+      } else if (format === 'csv') {
+        const csvContent = generateCsvContent();
+        blob = new Blob([csvContent], { type: 'text/csv' });
+        filename = 'Alert_Report.csv';
+      }
 
       const a = document.createElement('a');
       a.href = window.URL.createObjectURL(blob);
@@ -167,9 +184,35 @@ const lineChart = new Chart(lineChartCanvas, lineChartConfig);
       document.body.removeChild(a);
     }
 
-    const downloadReportButton = document.getElementById('downloadReportButton');
+    function downloadChart() {
+      const chartCanvas = document.getElementById('lineChart');
+      const chartDataUrl = chartCanvas.toDataURL('image/jpeg');
 
-    downloadReportButton.addEventListener('click', downloadReport);
+      const a = document.createElement('a');
+      a.href = chartDataUrl;
+      a.download = 'chart.jpg';
+
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+    }
+
+    document.getElementById('downloadChartButton').addEventListener('click', function () {
+      downloadChart();
+    });
+
+    document.getElementById('downloadReportButton').addEventListener('click', function () {
+      const dropdownContent = document.querySelector('.dropdown-content');
+      dropdownContent.classList.toggle('show');
+    });
+
+    document.getElementById('downloadTxt').addEventListener('click', function () {
+      downloadReport('txt');
+    });
+
+    document.getElementById('downloadCsv').addEventListener('click', function () {
+      downloadReport('csv');
+    });
   </script>
 </body>
 
