@@ -1,29 +1,71 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="styles.css" />
-    <title>Login</title>
-  </head>
-  <body class="login-page">
-    <a href="factor-authentication.html">2FA Page</a>
-    <a href="report_page.html">Report Page</a>
 
-    <br /><br /><br />
-    <div class="login-container">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="styles.css" />
+  <title>Login</title>
+</head>
+
+<body class="login-page">
+  <a href="factor-authentication.html">2FA Page</a>
+  <a href="report_page.html">Report Page</a>
+
+  <br /><br /><br />
+  <div class="login-container">
+    <form>
       <img src="_images/j2_logo.png" class="rounded" alt="J2 Software">
       <br />
       <h2>Sign in to your account</h2>
-      <br />
-      <label><h3>Username:</h3></label>
-      <input type="text" /><br /><br />
+      <label>
+        <p id="user-message"></p>
+        <h3>Username:</h3>
+        <input type="text" id="username" /><br />
+      </label>
+      <label>
+        <p id="pass-message"></p>
+        <h3>Password:</h3><input type="password" id="pass" /><br />
+      </label>
+    </form>
+    <button>Exit</button>
+    <button onclick="checkInput()">Log In</button>
+  </div>
+  <script>
+    const username = "Thato452";
+    const password = "@dream456";
+    function checkInput() {
+      enteredUsername = document.getElementById('username').value;
+      enteredPassword = document.getElementById('pass').value;
+      if (enteredUsername == "" && enteredPassword !== "") {
+        document.getElementById('user-message').textContent = "Please enter your username";
+        document.getElementById('pass-message').textContent = "";
 
-      <label><h3>Password:</h3></label>
-      <input type="password" /><br /><br />
+      } else if (enteredPassword == "" && enteredUsername !== "") {
+        document.getElementById('pass-message').textContent = "Please enter your password";
+        document.getElementById('user-message').textContent = "";
+      } else if (enteredUsername == "" && enteredPassword == "") {
+        document.getElementById('user-message').textContent = "Please enter your username";
+        document.getElementById('pass-message').textContent = "Please enter your password";
+      }
+      else {
+        document.getElementById('user-message').textContent = "";
+        document.getElementById('pass-message').textContent = "";
+        validateData();
+      }
+    }
 
-      <button>Exit</button>
-      <button>Log In</button>
-    </div>
-  </body>
+    function validateData() {
+      enteredUsername = document.getElementById('username').value;
+      enteredPassword = document.getElementById('pass').value;
+      if (enteredUsername !== username && enteredPassword !== password) {
+        alert('Invalid Credentials');
+      }
+      else {
+        window.location.href = "factor-authentication.html";
+      }
+    }
+  </script>
+</body>
+
 </html>
