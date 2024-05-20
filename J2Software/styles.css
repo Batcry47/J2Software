@@ -205,7 +205,9 @@ button {
   border-radius: 6px;
   outline: none;
 }
-
+button:hover{
+  background-color: #940c0c;
+}
 h1 {
   text-align: center;
 }
@@ -388,6 +390,7 @@ canvas {
   font-size: 14px;
   text-decoration: none;
 }
+
 .d-Chart {
   width: 1000px;
 }
@@ -397,7 +400,7 @@ canvas {
   position: absolute;
   background-color: #f9f9f9;
   min-width: 160px;
-  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
   z-index: 1;
 }
 
@@ -414,4 +417,24 @@ canvas {
 
 .show {
   display: block;
+}
+
+dialog::backdrop{
+  background-color: rgba(0, 0, 0, 0.2);
+}
+
+.popup {
+  background-color: black;
+  color: white;
+  position: absolute;
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+  border-style: groove;
+  border-color: #fc2f2f;
+}
+
+
+.red-bar {
+  background-color: red;
 }

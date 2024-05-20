@@ -9,11 +9,10 @@
 </head>
 
 <body class="login-page">
-  <a href="factor-authentication.html">2FA Page</a>
-  <a href="report_page.html">Report Page</a>
-
   <br /><br /><br />
   <div class="login-container">
+
+
     <form>
       <img src="_images/j2_logo.png" class="rounded" alt="J2 Software">
       <br />
@@ -30,10 +29,20 @@
     </form>
     <button>Exit</button>
     <button onclick="checkInput()">Log In</button>
+    <dialog class="popup" id="popup-box">
+        <div class="red-bar"><br /></div>
+        <h2>Invalid credentials, please try again</h2>
+        <button onclick="closePopup()">Close<br></button>
+    </dialog>
+    
   </div>
+
+
   <script>
-    const username = "Thato452";
+    const username = "Thato456";
     const password = "@dream456";
+    const popup = document.getElementById('popup-box');
+
     function checkInput() {
       enteredUsername = document.getElementById('username').value;
       enteredPassword = document.getElementById('pass').value;
@@ -48,23 +57,26 @@
         document.getElementById('user-message').textContent = "Please enter your username";
         document.getElementById('pass-message').textContent = "Please enter your password";
       }
-      else {
+      else{
         document.getElementById('user-message').textContent = "";
         document.getElementById('pass-message').textContent = "";
         validateData();
       }
     }
-
     function validateData() {
       enteredUsername = document.getElementById('username').value;
       enteredPassword = document.getElementById('pass').value;
-      if (enteredUsername !== username && enteredPassword !== password) {
-        alert('Invalid Credentials');
+      if (enteredUsername !== username || enteredPassword !== password) {
+        popup.showModal();
       }
       else {
         window.location.href = "factor-authentication.html";
       }
     }
+    function closePopup() {
+        popup.close();
+    }
+    popup.addEventListener('click', () => { closePopup()});
   </script>
 </body>
 
