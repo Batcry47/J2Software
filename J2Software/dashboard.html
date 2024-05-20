@@ -209,6 +209,81 @@
         });
       });
 
+      document.addEventListener("DOMContentLoaded", function () {
+        const sortSelect = document.querySelector('.sort-select');
+        const tableBody = document.querySelector('.dash-Table tbody');
+        const severityClearAll = document.querySelector('.clear-severity');
+        const categoryClearAll = document.querySelector('.clear-category');
+
+        function applyFilters() {
+          const checkedSeverities = Array.from(document.querySelectorAll('.filter-checkbox.informational:checked, .filter-checkbox.low:checked, .filter-checkbox.medium:checked, .filter-checkbox.high:checked, .filter-checkbox.critical:checked')).map(checkbox => checkbox.classList[1]);
+          const checkedCategories = Array.from(document.querySelectorAll('.filter-checkbox.collection:checked, .filter-checkbox.defence-evasion:checked, .filter-checkbox.exfiltration:checked, .filter-checkbox.impact:checked, .filter-checkbox.initial-access:checked, .filter-checkbox.escalation:checked, .filter-checkbox.persistence:checked')).map(checkbox => checkbox.classList[1]);
+          const rows = document.querySelectorAll('.result-list:not(.headings)');
+          let visibleCount = 0;
+          rows.forEach(function (row) {
+            const severity = row.classList[1];
+            const category = row.querySelector('td:first-child').textContent.trim().toLowerCase().replace(' ', '-');
+            const shouldBeVisible = (checkedSeverities.includes(severity) || checkedSeverities.length === 0) && (checkedCategories.includes(category) || checkedCategories.length === 0);
+            row.classList.toggle('hidden', !shouldBeVisible);
+            if (shouldBeVisible) {
+              visibleCount++;
+            }
+          });
+          document.querySelector('.result-count').textContent = visibleCount + ' Results';
+        }
+
+        sortSelect.addEventListener('change', function () {
+          const selectedColumn = parseInt(sortSelect.value);
+          const tableData = Array.from(tableBody.querySelectorAll('tr'));
+
+          tableData.sort(function (rowA, rowB) {
+            const valueA = rowA.querySelectorAll('td')[selectedColumn].textContent.trim();
+            const valueB = rowB.querySelectorAll('td')[selectedColumn].textContent.trim();
+            return valueA.localeCompare(valueB);
+          });
+
+          tableBody.innerHTML = '';
+          tableData.forEach(function (row) {
+            tableBody.appendChild(row);
+          });
+        });
+
+        const checkboxes = document.querySelectorAll('.filter-checkbox');
+        checkboxes.forEach(function (checkbox) {
+          checkbox.addEventListener('change', applyFilters);
+        });
+
+        severityClearAll.addEventListener('click', function (e) {
+          e.preventDefault();
+          const severityCheckboxes = document.querySelectorAll('.filter-checkbox.informational, .filter-checkbox.low, .filter-checkbox.medium, .filter-checkbox.high, .filter-checkbox.critical');
+          severityCheckboxes.forEach(function (checkbox) {
+            checkbox.checked = false;
+          });
+          applyFilters();
+        });
+
+        categoryClearAll.addEventListener('click', function (e) {
+          e.preventDefault();
+          const categoryCheckboxes = document.querySelectorAll('.filter-checkbox.collection, .filter-checkbox.defence-evasion, .filter-checkbox.exfiltration, .filter-checkbox.impact, .filter-checkbox.initial-access, .filter-checkbox.escalation, .filter-checkbox.persistence');
+          categoryCheckboxes.forEach(function (checkbox) {
+            checkbox.checked = false;
+          });
+          applyFilters();
+        });
+
+        const urlParams = new URLSearchParams(window.location.search);
+        const category = urlParams.get('category');
+
+        if (category) {
+          const checkbox = document.querySelector(`.filter-checkbox.${category}`);
+          if (checkbox) {
+            checkbox.checked = true;
+          }
+          applyFilters();
+
+          history.replaceState({}, document.title, window.location.pathname);
+        }
+      });
     </script>
   </div>
 </body>
