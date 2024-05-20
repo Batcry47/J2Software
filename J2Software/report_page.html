@@ -74,6 +74,68 @@
   <div class="line-graph">
     <canvas id="lineChart"></canvas>
   </div>
+
+  <script>
+    const lineChartCanvas = document.getElementById('lineChart');
+
+    const lineChartData = {
+      labels: ['Jan 1', 'Jan 8', 'Jan 15', 'Jan 22', 'Jan 29'],
+      datasets: [
+        {
+          label: 'Alerts',
+          data: [100, 200, 150, 300, 250],
+          backgroundColor: 'rgba(255, 99, 132, 0.2)',
+          borderColor: 'rgba(255, 99, 132, 1)',
+          borderWidth: 1
+        }
+      ]
+    };
+
+    const lineChartConfig = {
+      type: 'line',
+      data: lineChartData,
+      options: {
+        scales: {
+          y: {
+            beginAtZero: true
+          }
+        }
+      }
+    };
+
+    const lineChart = new Chart(lineChartCanvas, lineChartConfig);
+
+    function downloadReport() {
+      const reportContent = `
+      Alert Report for 01-01-2024 - 31-01-2024
+      Malicious Alerts: 0
+      Impact: 0
+      Initial Access: 0
+      Defence Evasion: 0
+      Exfiltration: 0
+      Collection: 0
+      Escalation: 0
+      Persistence: 1412
+      Total Alerts: 1412
+    `;
+
+      const blob = new Blob([reportContent], { type: 'text/plain' });
+
+      const a = document.createElement('a');
+      a.href = window.URL.createObjectURL(blob);
+      a.download = 'report.txt';
+
+      document.body.appendChild(a);
+
+      a.click();
+
+      document.body.removeChild(a);
+    }
+
+    const downloadReportButton = document.getElementById('downloadReportButton');
+
+    downloadReportButton.addEventListener('click', downloadReport);
+  </script>
 </body>
 
 </html>
