@@ -43,156 +43,122 @@
                         There were 0 alerts, of which 0 were malicious.
                     </p>
 
-                    <!-- Date Picker -->
                     <h2>Select Date Range</h2>
                     <label for="start_date">Start Date:</label>
                     <input type="date" class="date-selector" id="start_date" name="start_date" min="2024-01-01"
-                        onchange="updateEndDateMin()">
+                        onchange="updateDateRange()">
 
                     <label for="end_date">End Date:</label>
-                    <input type="date" class="date-selector" id="end_date" name="end_date" min="2024-01-01">
-                    <!-- prevents setting end date before start date -->
-                    <script>
+                    <input type="date" class="date-selector" id="end_date" name="end_date" min="2024-01-01"
+                        onchange="updateDateRange()">
 
+                    <script>
+                        function updateDateRange() {
+                            const startDate = document.getElementById('start_date').value;
+                            const endDate = document.getElementById('end_date').value;
+                            const imageElements = [
+                                document.getElementById('impactImg'),
+                                document.getElementById('initialAccessImg'),
+                                document.getElementById('defenceEvasionImg'),
+                                document.getElementById('exfiltrationImg'),
+                                document.getElementById('collectionImg'),
+                                document.getElementById('escalationImg'),
+                                document.getElementById('persistenceImg')
+                            ];
+
+                            const newImageSources = {
+                                impact: '_images/new_impact.png',
+                                initialaccess: '_images/new_initial_access.png',
+                                defenceevasion: '_images/new_defence_evasion.png',
+                                exfiltration: '_images/new_exfiltration.png',
+                                collection: '_images/new_collection.png',
+                                escalation: '_images/new_escalation.png',
+                                persistence: '_images/new_persistence.png'
+                            };
+
+                            if (startDate !== '' && endDate !== '') {
+                                if (endDate > '2024-04-30') {
+                                    imageElements.forEach(img => {
+                                        const imageId = img.id;
+                                        img.src = newImageSources[imageId.replace('Img', '').toLowerCase()];
+                                    });
+                                } else {
+                                    imageElements.forEach(img => {
+                                        const imageId = img.id;
+                                        img.src = `_images/${imageId.replace('Img', '').toLowerCase()}.png`;
+                                    });
+                                }
+                            }
+                        }
                     </script>
 
                 </div>
             </div>
-
             <div class="metrics">
                 <div class="metric">
-                    <div class="metric-value" id="total-alerts"></div>
-                    <div>Total Alerts</div>
+                    <img src="_images/total_alerts.png" id="totalAlertsImg">
+                    <div class="metric-value">Total Alerts</div>
                 </div>
                 <div class="metric">
-                    <div class="metric-value" id="malicious-count"></div>
-                    <button class="metric-label" onclick="storeAlertType('malicious-checkbox')">Malicious
-                        Alerts</button>
+                    <a href="dashboard.html?category=impact">
+                        <img src="_images/impact.png" id="impactImg">
+                    </a>
+                    <div class="metric-value">Impact</div>
+                    <div class="metric-label">This measure is destructive attacks against your systems and data.</div>
                 </div>
                 <div class="metric">
-                    <div class="metric-value" id="impact-count"></div>
-                    <button class="metric-label" onclick="storeAlertType('impact-checkbox')">Impact</button>
+                    <img src="_images/malicious_alerts.png" id="maliciousAlertsImg">
+                    <div class="metric-value">Malicious Alerts</div>
                 </div>
                 <div class="metric">
-                    <div class="metric-value" id="initial-access-count"></div>
-                    <button class="metric-label" onclick="storeAlertType('initial-access-checkbox')">Initial
-                        Access</button>
+                    <a href="dashboard.html?category=initial-access">
+                        <img src="_images/initial_access.png" id="initialAccessImg">
+                    </a>
+                    <div class="metric-value">Initial Access</div>
+                    <div class="metric-label">These are tactics that can be used by attackers to get into your network.
+                    </div>
                 </div>
                 <div class="metric">
-                    <div class="metric-value" id="defence-evasion-count"></div>
-                    <button class="metric-label" onclick="storeAlertType('defence-evasion-checkbox')">Defence
-                        Evasion</button>
+                    <a href="dashboard.html?category=defence-evasion">
+                        <img src="_images/defence_evasion.png" id="defenceEvasionImg">
+                    </a>
+                    <div class="metric-value">Defence Evasion</div>
+                    <div class="metric-label">We measure tactics used by attackers to avoid detection.</div>
                 </div>
                 <div class="metric">
-                    <div class="metric-value" id="exfiltration-count"></div>
-                    <button class="metric-label" onclick="storeAlertType('exfiltration-checkbox')">Exfiltration</button>
+                    <a href="dashboard.html?category=exfiltration">
+                        <img src="_images/exfiltration.png" id="exfiltrationImg">
+                    </a>
+                    <div class="metric-value">Exfiltration</div>
+                    <div class="metric-label">The tactics that are used by attackers to maintain a presence in your
+                        network.</div>
                 </div>
                 <div class="metric">
-                    <div class="metric-value" id="collection-count"></div>
-                    <button class="metric-label" onclick="storeAlertType('collection-checkbox')">Collection</button>
+                    <a href="dashboard.html?category=collection">
+                        <img src="_images/collection.png" id="collectionImg">
+                    </a>
+                    <div class="metric-value">Collection</div>
+                    <div class="metric-label">Measuring the activities used by attackers to gather or collect your data.
+                    </div>
                 </div>
                 <div class="metric">
-                    <div class="metric-value" id="escalation-count"></div>
-                    <button class="metric-label" onclick="storeAlertType('escalation-checkbox')">Escalation</button>
+                    <a href="dashboard.html?category=escalation">
+                        <img src="_images/escalation.png" id="escalationImg">
+                    </a>
+                    <div class="metric-value">Escalation</div>
+                    <div class="metric-label">These are the tactics used by attackers to elevate their privileges on
+                        your network.</div>
                 </div>
                 <div class="metric">
-                    <div class="metric-value" id="persistence-count"></div>
-                    <button class="metric-label" onclick="storeAlertType('persistence-checkbox')">Persistence</button>
+                    <a href="dashboard.html?category=persistence">
+                        <img src="_images/persistence.png" id="persistenceImg">
+                    </a>
+                    <div class="metric-value">Persistence</div>
+                    <div class="metric-label">Attackers use different tactics to move data in order to remove it from
+                        your network.</div>
                 </div>
             </div>
         </div>
-        <script>
-            totalAlerts = 0;
-            initialAccessAlerts = 0;
-            impactAlerts = 0;
-            maliciousAlerts = 0;
-            defenceEvasionAlerts = 0;
-            collectionAlerts = 0;
-            exfiltrationAlerts = 0;
-            escalationAlerts = 0;
-            persistenceAlerts = 0;
-
-            const alerts = [
-                { date: '2024-05-01', type: 'Impact' },
-                { date: '2024-05-05', type: 'Exfiltration' },
-                { date: '2024-05-07', type: 'Impact' },
-                { date: '2024-05-07', type: 'Initial Access' },
-                { date: '2024-05-10', type: 'Persistence' },
-                { date: '2024-05-11', type: 'Collection' },
-                { date: '2024-05-12', type: 'Collection' },
-                { date: '2024-05-13', type: 'Impact' },
-                { date: '2024-05-14', type: 'Initial Access' },
-                { date: '2024-05-15', type: 'Exfiltration' },
-                { date: '2024-05-16', type: 'Persistence' }
-            ];
-
-            function storeAlertType(alertID) {
-                sessionStorage.setItem(alertID, 'true');
-                window.location.href = 'dashboard.html';
-            }
-            function updateEndDateMin() {
-                var startDate = document.getElementById('start_date').value;
-                var endDate = document.getElementById('end_date');
-
-                if (startDate) {
-                    endDate.min = startDate;
-                    if (endDate.value < startDate) {
-                        endDate.value = startDate;
-                    }
-                }
-            }
-
-            window.onload = function () {
-                countAlerts()
-            }
-
-            function countAlerts() {
-                alerts.forEach(alert => {
-                    if (alert.type !== null) {
-                        switch (alert.type) {
-                            case 'Malicious':
-                                maliciousAlerts++;
-                                break;
-                            case 'Impact':
-                                impactAlerts++;
-                                break;
-                            case 'Initial Access':
-                                initialAccessAlerts++;
-                                break;
-                            case 'Defence Evasion':
-                                defenceEvasionAlerts++;
-                                break;
-                            case 'Exfiltration':
-                                exfiltrationAlerts++;
-                                break;
-                            case 'Collection':
-                                collectionAlerts++;
-                                break;
-                            case 'Escalation':
-                                escalationAlerts++
-                                break;
-                            case 'Persistence':
-                                persistenceAlerts++;
-                                break;
-                        }
-                    }
-                });
-                totalAlerts = maliciousAlerts + impactAlerts + initialAccessAlerts +
-                    defenceEvasionAlerts + exfiltrationAlerts + collectionAlerts + escalationAlerts + persistenceAlerts;
-
-                document.getElementById('malicious-count').innerHTML = maliciousAlerts;
-                document.getElementById('impact-count').innerHTML = impactAlerts;
-                document.getElementById('initial-access-count').innerHTML = initialAccessAlerts;
-                document.getElementById('defence-evasion-count').innerHTML = defenceEvasionAlerts;
-                document.getElementById('exfiltration-count').innerHTML = exfiltrationAlerts;
-                document.getElementById('collection-count').innerHTML = collectionAlerts;
-                document.getElementById('escalation-count').innerHTML = escalationAlerts;
-                document.getElementById('persistence-count').innerHTML = persistenceAlerts;
-                document.getElementById('total-alerts').innerHTML = totalAlerts;
-            }
-
-
-        </script>
     </main>
 </body>
 
