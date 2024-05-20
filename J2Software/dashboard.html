@@ -34,88 +34,82 @@
     <div class="row">
       <div class="col-9">
         <div class="result-header">
-          <h3 class="result-count">5 Results</h3>
+          <div class="result-count">5 Results</div>
+          <div class="sort-options">
+            <span class="sort-label">SORT BY:</span>
+            <select class="sort-select">
+              <option value="0">Category</option>
+              <option value="1">Method</option>
+              <option value="2">Username</option>
+              <option value="3">IP Address</option>
+              <option value="4">Timestamp</option>
+            </select>
+          </div>
         </div>
         <div class="dash-Table">
           <div class="filter-bar">
-            <h3>FILTER BY</h3>
-            <h4>Severity Level</h4>
+            <h3>FILTER BY:</h3>
+            <h4>Severity Level <a href="#" class="clear-severity">Clear All</a></h4>
             <div class="filter-options">
               <label class="checkbox-label">
-                <span class="checkbox-label-text">Informational </span>
-                <input type="checkbox" class="filter-checkbox">
+                <span class="checkbox-label-text">Informational</span>
+                <input type="checkbox" class="filter-checkbox informational">
+                <span class="checkbox-custom"></span>
               </label>
               <label class="checkbox-label">
-                <span class="checkbox-label-text">Low </span>
-                <input type="checkbox" class="filter-checkbox">
+                <span class="checkbox-label-text">Low</span>
+                <input type="checkbox" class="filter-checkbox low">
+                <span class="checkbox-custom"></span>
               </label>
               <label class="checkbox-label">
-                <span class="checkbox-label-text">Medium </span>
-                <input type="checkbox" class="filter-checkbox">
+                <span class="checkbox-label-text">Medium</span>
+                <input type="checkbox" class="filter-checkbox medium">
+                <span class="checkbox-custom"></span>
               </label>
               <label class="checkbox-label">
-                <span class="checkbox-label-text">High </span>
-                <input type="checkbox" class="filter-checkbox">
+                <span class="checkbox-label-text">High</span>
+                <input type="checkbox" class="filter-checkbox high">
+                <span class="checkbox-custom"></span>
               </label>
               <label class="checkbox-label">
-                <span class="checkbox-label-text"> Critical</span>
-                <input type="checkbox" class="filter-checkbox">
+                <span class="checkbox-label-text">Critical</span>
+                <input type="checkbox" class="filter-checkbox critical">
+                <span class="checkbox-custom"></span>
               </label>
-              <h4>Category</h4>
+              <h4>Category <a href="#" class="clear-category">Clear All</a></h4>
               <label class="checkbox-label">
-                <span class="checkbox-label-text">Malicious Alerts</span>
-                <input type="checkbox" class="filter-checkbox" id="malicious-checkbox">
+                <span class="checkbox-label-text">Collection</span>
+                <input type="checkbox" class="filter-checkbox collection">
+                <span class="checkbox-custom"></span>
               </label>
-              <br>
-              <label class="checkbox-label">
-                <span class="checkbox-label-text">Impact Alerts</span>
-                <input type="checkbox" class="filter-checkbox" id="impact-checkbox">
-              </label>
-              <br>
-              <label class="checkbox-label">
-                <span class="checkbox-label-text">Initial Access</span>
-                <input type="checkbox" class="filter-checkbox" id="initial-access-checkbox">
-              </label>
-              <br>
               <label class="checkbox-label">
                 <span class="checkbox-label-text">Defence Evasion</span>
-                <input type="checkbox" class="filter-checkbox" id="defence-evasion-checkbox">
-              </label>
-              <br>
-              <label class="checkbox-label">
-                <span class="checkbox-label-text">Exfiltration Alerts</span>
-                <input type="checkbox" class="filter-checkbox" id="exfiltration-checkbox">
-              </label>
-              <br>
-              <label class="checkbox-label">
-                <span class="checkbox-label-text">Collection Alerts</span>
-                <input type="checkbox" class="filter-checkbox" id="collection-checkbox">
-              </label>
-              <br>
-              <label class="checkbox-label">
-                <span class="checkbox-label-text">Escalation Alerts</span>
-                <input type="checkbox" class="filter-checkbox" id="escalation-checkbox">
-              </label>
-              <br>
-              <label class="checkbox-label">
-                <span class="checkbox-label-text">Persistence Alerts</span>
-                <input type="checkbox" class="filter-checkbox" id="persistence-checkbox">
-              </label>
-
-              <h4>Sort by</h4>
-              <label class="checkbox-label">
-                <span class="checkbox-label-text">Category </span>
-                <input type="checkbox" class="filter-checkbox">
+                <input type="checkbox" class="filter-checkbox defence-evasion">
                 <span class="checkbox-custom"></span>
               </label>
               <label class="checkbox-label">
-                <span class="checkbox-label-text">Method </span>
-                <input type="checkbox" class="filter-checkbox">
+                <span class="checkbox-label-text">Escalation</span>
+                <input type="checkbox" class="filter-checkbox escalation">
                 <span class="checkbox-custom"></span>
               </label>
               <label class="checkbox-label">
-                <span class="checkbox-label-text">Username </span>
-                <input type="checkbox" class="filter-checkbox">
+                <span class="checkbox-label-text">Exfiltration</span>
+                <input type="checkbox" class="filter-checkbox exfiltration">
+                <span class="checkbox-custom"></span>
+              </label>
+              <label class="checkbox-label">
+                <span class="checkbox-label-text">Impact</span>
+                <input type="checkbox" class="filter-checkbox impact">
+                <span class="checkbox-custom"></span>
+              </label>
+              <label class="checkbox-label">
+                <span class="checkbox-label-text">Initial Access</span>
+                <input type="checkbox" class="filter-checkbox initial-access">
+                <span class="checkbox-custom"></span>
+              </label>
+              <label class="checkbox-label">
+                <span class="checkbox-label-text">Persistence</span>
+                <input type="checkbox" class="filter-checkbox persistence">
                 <span class="checkbox-custom"></span>
               </label>
             </div>
