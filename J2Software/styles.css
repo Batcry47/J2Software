@@ -306,6 +306,16 @@ li a {
   margin: 0 3rem;
   position: relative;
   list-style: none;
+  text-decoration: none;
+}
+
+.current:hover {
+  text-decoration: none;
+  cursor: default;
+}
+
+li a:hover {
+  text-decoration: underline;
 }
 
 nav {
@@ -395,7 +405,6 @@ canvas {
   text-decoration: none;
 }
 
-/*piechart*/
 .d-Chart {
   width: 1000px;
 }
