@@ -292,6 +292,10 @@ h1 {
 
 }
 
+.dropdown{
+  text-align: center;
+}
+
 .report-button {
   background-color: #c01010;
   cursor: pointer;
