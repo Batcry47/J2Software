@@ -20,9 +20,49 @@
       <br />
       <h3>The code expires in 30 seconds</h3>
       <br />
-      <input type="text" /><br /><br />
+      <input type="text" id="authCodeInputBox" /><br /><br />
       <button>Resend Code</button>
-      <button>Verify Code</button>
+
+      <button onclick="checkAuthInput()">Verify Code</button>
+
+      <p id="user-message" class="error-message"></p>
+
+      <dialog class="popup" id="popup-box">
+        <div class="red-bar"><br /></div>
+        <h2>Invalid credentials, please try again</h2>
+        <button onclick="closePopup()">Close<br></button>
+      </dialog>
     </div>
+
+    <script>
+      const authcode = "123456";
+      const popup = document.getElementById('popup-box');
+  
+      function checkAuthInput() {
+        const enteredCode = document.getElementById('authCodeInputBox').value;
+        const userMessage = document.getElementById('user-message');
+        if (enteredCode === "") {
+          userMessage.textContent = "Please enter the Authentication code";
+        } else {
+          userMessage.textContent = "";
+          validateData(enteredCode);
+        }
+      }
+
+      function validateData(enteredCode) {
+        if (enteredCode !== authcode) {
+          popup.showModal();
+        } else {
+          window.location.href = "index.html";
+        }
+      }
+
+      function closePopup() {
+        popup.close();
+      }
+
+      popup.addEventListener('click', closePopup);
+    </script>
+
   </body>
 </html>
