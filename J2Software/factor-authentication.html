@@ -23,7 +23,7 @@
     <h3 id="expiry-message"></h3>
     <h3 id="code-time">The code expires in 15 seconds</h3>
     <br />
-    <input type="text" id="authCodeInputBox" maxlength="6"/><br /><br />
+    <input type="text" id="authCodeInputBox" maxlength="6" /><br /><br />
     <button onclick="resendCode()">Resend Code</button>
 
     <button onclick="checkAuthInput()">Verify Code</button>
@@ -58,7 +58,7 @@
       if (newCode === "") {
         if (enteredCode !== authCode) {
           document.getElementById('popup-message').textContent = "The code entered is either invalid or has expired,  " +
-          " please enter the correct code to proceed";
+            " please enter the correct code to proceed";
           popup.showModal();
         } else {
           window.location.href = "index.html";
@@ -66,8 +66,8 @@
       }
       else {
         if (enteredCode !== newCode) {
-          document.getElementById('popup-message').textContent = "The code entered is either invalid or it has expired, " +  
-          "please enter the correct code to proceed";
+          document.getElementById('popup-message').textContent = "The code entered is either invalid or it has expired, " +
+            "please enter the correct code to proceed";
           popup.showModal();
         } else {
           window.location.href = "index.html";
@@ -85,7 +85,7 @@
       popup.showModal();
       newCode = "456789";
     }
-    function refreshTimer(){
+    function refreshTimer() {
       clearInterval(timer);
       codeTimer = 15;
       startTimer();
@@ -102,10 +102,10 @@
           document.getElementById('expiry-message').textContent = "The code has expired, please request for a new one";
           document.getElementById('code-time').textContent = "";
         }
-        else{
+        else {
           document.getElementById('expiry-message').textContent = "";
         }
-        
+
       }, 1000)
     }
     function closePopup() {

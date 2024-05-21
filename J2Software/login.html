@@ -29,11 +29,11 @@
     </form>
     <button onclick="checkInput()">Log In</button>
     <dialog class="popup" id="popup-box">
-        <div class="red-bar"><br /></div>
-        <h2>Invalid credentials, please try again</h2>
-        <button onclick="closePopup()">Close<br></button>
+      <div class="red-bar"><br /></div>
+      <h2>Invalid credentials, please try again</h2>
+      <button onclick="closePopup()">Close<br></button>
     </dialog>
-    
+
   </div>
 
 
@@ -56,7 +56,7 @@
         document.getElementById('user-message').textContent = "Please enter your username";
         document.getElementById('pass-message').textContent = "Please enter your password";
       }
-      else{
+      else {
         document.getElementById('user-message').textContent = "";
         document.getElementById('pass-message').textContent = "";
         validateData();
@@ -73,9 +73,9 @@
       }
     }
     function closePopup() {
-        popup.close();
+      popup.close();
     }
-    popup.addEventListener('click', () => { closePopup()});
+    popup.addEventListener('click', () => { closePopup() });
   </script>
 </body>
 
