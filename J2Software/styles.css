@@ -160,11 +160,6 @@ body {
   width: 150px;
 }
 
-.report-container {
-  margin-left: 30%;
-  margin-right: 28%;
-}
-
 .report-button {
   text-align: center;
 }
@@ -254,7 +249,7 @@ h1 {
   border-width: 15px;
   border-color: #fc2f2f;
   justify-content: space-between;
-  margin-left: 250px;
+  margin: 0 auto;
 }
 
 .alert-report {
