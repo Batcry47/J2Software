@@ -159,7 +159,7 @@ body {
   border-radius: 4px;
   text-align: center;
   margin: 10px;
-  min-width: 150px;
+  width: 150px;
 }
 
 .report-container {
