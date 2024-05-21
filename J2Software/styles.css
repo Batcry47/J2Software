@@ -234,8 +234,15 @@ h1 {
 .date-selector {
   text-align: center;
   width: 160px;
+  
+
 }
 
+.date-selector-div{
+  justify-content: center;
+  text-align: center;
+  padding-right:10%;
+}
 .top-right-nav {
   float: right;
   padding-right: 5%;
@@ -259,12 +266,14 @@ h1 {
 }
 
 .line-graph {
+  display: flex;
   flex: 1;
-  max-width: 600px;
-  width: 55%;
+ height: 500px;
+  
   align-items: center;
-  margin-left: 1250px;
-  margin-top: -400px;
+  justify-content: center;
+  
+ 
 }
 
 .filter-list {
@@ -390,7 +399,7 @@ canvas {
   font-size: 14px;
   text-decoration: none;
 }
-
+/*piechart*/
 .d-Chart {
   width: 1000px;
 }

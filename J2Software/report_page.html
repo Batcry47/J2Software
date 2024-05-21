@@ -27,7 +27,7 @@
       </div>
     </nav>
   </header>
-  <div class="date-selector">
+  <div class="date-selector-div">
     <h2>Select Date Range</h2>
     <label for="start_date">Start Date:</label>
     <input type="date" class="date-selector" id="start_date" name="start_date" min="2024-01-01">
@@ -97,6 +97,9 @@
     <br />
   </div>
   <br />
+  <div class="line-graph">
+    <canvas id="lineChart"></canvas>
+  </div>
   <div class="button-container">
     <div class="dropdown">
       <button id="downloadReportButton" class="report-button">Download Report</button>
@@ -107,9 +110,7 @@
     </div>
     <button id="downloadChartButton" class="report-button">Download Graph</button>
   </div>
-  <div class="line-graph">
-    <canvas id="lineChart"></canvas>
-  </div>
+
 
   <script>
     const lineChartCanvas = document.getElementById('lineChart');
@@ -122,7 +123,8 @@
           data: [100, 200, 150, 300, 250],
           backgroundColor: 'rgba(255, 99, 132, 0.2)',
           borderColor: 'rgba(255, 99, 132, 1)',
-          borderWidth: 1
+          borderWidth: 1,
+          
         }
       ]
     };
