@@ -47,9 +47,8 @@
             represent the "why" of an attack technique. It is the adversary's
             reason for performing an action. Tactics group together the
             different methods attackers use. <br /><br />
-            There were 1412 alerts, of which 0 were malicious.
           </p>
-
+          <p id="alert-counter">There were 1412 total alerts, of which 0 were malicious</p>
           <h2>Select Date Range</h2>
           <label for="start_date">Start Date:</label>
           <input type="date" class="date-selector" id="start_date" name="start_date" min="2024-01-01"
@@ -88,6 +87,7 @@
               };
 
               if (startDate !== "" && endDate !== "") {
+              document.getElementById('alert-counter').textContent = "There were 4 total alerts, of which 2 were malicious";
                 if (endDate > "2024-04-30") {
                   imageElements.forEach((img) => {
                     const imageId = img.id;
@@ -105,6 +105,7 @@
                   });
                 }
               }
+
             }
 
             const logoutPrompt = document.getElementById("logout");
