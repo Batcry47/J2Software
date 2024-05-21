@@ -93,8 +93,6 @@ body {
 }
 
 .metric {
-  border: 1px solid #ccc;
-  border-radius: 4px;
   padding: 20px;
   text-align: center;
 }
@@ -202,10 +200,13 @@ button {
   border: none;
   border-radius: 6px;
   outline: none;
+  cursor: pointer;
 }
+
 button:hover {
   background-color: #940c0c;
 }
+
 h1 {
   text-align: center;
 }
@@ -239,6 +240,7 @@ h1 {
   text-align: center;
   padding-right: 10%;
 }
+
 .top-right-nav {
   float: right;
   padding-right: 5%;
@@ -291,7 +293,6 @@ h1 {
 
 .report-button {
   background-color: #c01010;
-  cursor: pointer;
 }
 
 a {
@@ -349,10 +350,10 @@ th {
 }
 
 .rounded {
-  width: 100%; /* or any other percentage or fixed width */
-  max-width: 696px; /* Maximum width to prevent it from exceeding the original dimensions */
-  height: auto; /* Maintain aspect ratio */
-  object-fit: contain; /* Ensures the image fits within the container without stretching */
+  width: 100%;
+  max-width: 696px;
+  height: auto;
+  object-fit: contain;
 }
 
 .informational {
@@ -398,6 +399,7 @@ canvas {
   font-size: 14px;
   text-decoration: none;
 }
+
 /*piechart*/
 .d-Chart {
   width: 1000px;
