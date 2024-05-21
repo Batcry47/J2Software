@@ -1,67 +1,86 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="styles.css" />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <title>Report | J2 Software</title>
+  </head>
 
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="stylesheet" href="styles.css" />
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <title>Report | J2 Software</title>
-</head>
+  <body class="report-page">
+    <dialog class="logout-prompt" id="logout">
+      <div class="red-bar"><br /></div>
+      <h2>Are you sure you would like to log out?</h2>
+      <button onclick="window.location.href ='login.html'">Yes</button>
+      <button onclick="closePrompt()">No<br /></button>
+    </dialog>
+    <header>
+      <nav>
+        <div class="top-left-nav">
+          <ul>
+            <li><img src="_images/logo_10_2019.png" id="NavLogo" /></li>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="dashboard.html">Dashboard</a></li>
+            <li><a class="current">Report</a></li>
+          </ul>
+        </div>
+        <div class="top-right-nav">
+          <ul>
+            <li><a href="#" onclick="openPrompt()">Logout</a></li>
+          </ul>
+        </div>
+      </nav>
+    </header>
+    <div class="date-selector-div">
+      <h2>Select Date Range</h2>
+      <label for="start_date">Start Date:</label>
+      <input
+        type="date"
+        class="date-selector"
+        id="start_date"
+        name="start_date"
+        min="2024-01-01"
+      />
 
-<body class="report-page">
-  <header>
-    <nav>
-      <div class="top-left-nav">
-        <ul>
-          <li> <img src="_images/logo_10_2019.png" id="NavLogo"></li>
-          <li><a href="index.html">Home</a></li>
-          <li><a href="dashboard.html">Dashboard</a></li>
-          <li><a class="current">Report</a></li>
-        </ul>
-      </div>
-      <div class="top-right-nav">
-        <ul>
-          <li><a href="login.html">Logout</a></li>
-        </ul>
-      </div>
-    </nav>
-  </header>
-  <div class="date-selector-div">
-    <h2>Select Date Range</h2>
-    <label for="start_date">Start Date:</label>
-    <input type="date" class="date-selector" id="start_date" name="start_date" min="2024-01-01">
-
-    <label for="end_date">End Date:</label>
-    <input type="date" class="date-selector" id="end_date" name="end_date" min="2024-01-01"
-      onchange="updateEndDateMin()">
-  </div>
-  <script>
-    function updateEndDateMin() {
-      const startDate = document.getElementById('start_date').value;
-      const endDate = document.getElementById('end_date').value;
-      if (startDate && endDate) {
-        const reportDate = document.querySelector('.report-container h1');
-        reportDate.textContent = `Alert Report for ${startDate} - ${endDate}`;
-      }
-      if (startDate) {
-        endDate.min = startDate;
-        if (endDate.value < startDate) {
-          endDate.value = startDate;
+      <label for="end_date">End Date:</label>
+      <input
+        type="date"
+        class="date-selector"
+        id="end_date"
+        name="end_date"
+        min="2024-01-01"
+        onchange="updateEndDateMin()"
+      />
+    </div>
+    <script>
+      function updateEndDateMin() {
+        const startDate = document.getElementById("start_date").value;
+        const endDate = document.getElementById("end_date").value;
+        if (startDate && endDate) {
+          const reportDate = document.querySelector(".report-container h1");
+          reportDate.textContent = `Alert Report for ${startDate} - ${endDate}`;
         }
+        if (startDate) {
+          endDate.min = startDate;
+          if (endDate.value < startDate) {
+            endDate.value = startDate;
+          }
 
-        const maliciousAlerts = Math.floor(Math.random() * 100);
-        const impact = Math.floor(Math.random() * 100);
-        const initialAccess = Math.floor(Math.random() * 100);
-        const defenceEvasion = Math.floor(Math.random() * 100);
-        const exfiltration = Math.floor(Math.random() * 100);
-        const collection = Math.floor(Math.random() * 100);
-        const escalation = Math.floor(Math.random() * 100);
-        const persistence = Math.floor(Math.random() * 100);
+          const maliciousAlerts = Math.floor(Math.random() * 100);
+          const impact = Math.floor(Math.random() * 100);
+          const initialAccess = Math.floor(Math.random() * 100);
+          const defenceEvasion = Math.floor(Math.random() * 100);
+          const exfiltration = Math.floor(Math.random() * 100);
+          const collection = Math.floor(Math.random() * 100);
+          const escalation = Math.floor(Math.random() * 100);
+          const persistence = Math.floor(Math.random() * 100);
 
-        const reportContainer = document.querySelector('.report-container ul');
+          const reportContainer = document.querySelector(
+            ".report-container ul"
+          );
 
-        reportContainer.innerHTML = `
+          reportContainer.innerHTML = `
             <li>Malicious Alerts: ${maliciousAlerts}</li><br>
             <li>Impact: ${impact}</li><br>
             <li>Initial Access: ${initialAccess}</li><br>
@@ -71,151 +90,229 @@
             <li>Escalation: ${escalation}</li><br>
             <li>Persistence: ${persistence}</li><br>
             <li>
-                <h3>Total Alerts: ${maliciousAlerts + impact + initialAccess + defenceEvasion + exfiltration + collection + escalation + persistence}</h3>
+                <h3>Total Alerts: ${
+                  maliciousAlerts +
+                  impact +
+                  initialAccess +
+                  defenceEvasion +
+                  exfiltration +
+                  collection +
+                  escalation +
+                  persistence
+                }</h3>
             </li>
         `;
+        }
       }
-    }
-  </script>
+    </script>
 
-  <br /><br /><br />
-  <div class="report-container">
-    <h1>Alert Report for 01-01-2024 - 31-01-2024</h1>
-    <ul>
-      <li>Malicious Alerts: 0</li><br>
-      <li>Impact: 0</li><br>
-      <li>Initial Access: 0</li><br>
-      <li>Defence Evasion: 0</li><br>
-      <li>Exfiltration: 0</li><br>
-      <li>Collection: 0</li><br>
-      <li>Escalation: 0</li><br>
-      <li>Persistence: 1412</li><br>
-      <li>
-        <h3>Total Alerts: 1412</h3>
-      </li>
-    </ul>
-    <br />
-  </div>
-
-  <div class="dropdown">
-    <button id="downloadReportButton" class="report-button">Download Report</button>
-    <div class="dropdown-content">
-      <a href="#" id="downloadTxt">TXT</a>
-      <a href="#" id="downloadCsv">CSV</a>
+    <br /><br /><br />
+    <div class="report-container">
+      <h1>Alert Report for 01-01-2024 - 31-01-2024</h1>
+      <ul>
+        <li>Malicious Alerts: 0</li>
+        <br />
+        <li>Impact: 0</li>
+        <br />
+        <li>Initial Access: 0</li>
+        <br />
+        <li>Defence Evasion: 0</li>
+        <br />
+        <li>Exfiltration: 0</li>
+        <br />
+        <li>Collection: 0</li>
+        <br />
+        <li>Escalation: 0</li>
+        <br />
+        <li>Persistence: 1412</li>
+        <br />
+        <li>
+          <h3>Total Alerts: 1412</h3>
+        </li>
+      </ul>
+      <br />
     </div>
-  </div>
-  <div class="line-graph">
-    <canvas id="lineChart"></canvas>
-  </div>
-  <div class="button-container">
-    <button id="downloadChartButton" class="report-button">Download Graph</button>
-  </div>
 
+    <div class="dropdown">
+      <button id="downloadReportButton" class="report-button">
+        Download Report
+      </button>
+      <div class="dropdown-content">
+        <a href="#" id="downloadTxt">TXT</a>
+        <a href="#" id="downloadCsv">CSV</a>
+      </div>
+    </div>
+    <div class="line-graph">
+      <canvas id="lineChart"></canvas>
+    </div>
+    <div class="button-container">
+      <button id="downloadChartButton" class="report-button">
+        Download Graph
+      </button>
+    </div>
 
-  <script>
-    const lineChartCanvas = document.getElementById('lineChart');
+    <script>
+      const lineChartCanvas = document.getElementById("lineChart");
 
-    const lineChartData = {
-      labels: ['Jan 1', 'Jan 8', 'Jan 15', 'Jan 22', 'Jan 29'],
-      datasets: [
-        {
-          label: 'Alerts',
-          data: [100, 200, 150, 300, 250],
-          backgroundColor: 'rgba(255, 99, 132, 0.2)',
-          borderColor: 'rgba(255, 99, 132, 1)',
-          borderWidth: 1,
-          
-        }
-      ]
-    };
+      const lineChartData = {
+        labels: ["Jan 1", "Jan 8", "Jan 15", "Jan 22", "Jan 29"],
+        datasets: [
+          {
+            label: "Alerts",
+            data: [100, 200, 150, 300, 250],
+            backgroundColor: "rgba(255, 99, 132, 0.2)",
+            borderColor: "rgba(255, 99, 132, 1)",
+            borderWidth: 1,
+          },
+        ],
+      };
 
-    const lineChartConfig = {
-      type: 'line',
-      data: lineChartData,
-      options: {
-        scales: {
-          y: {
-            beginAtZero: true
-          }
-        }
+      const lineChartConfig = {
+        type: "line",
+        data: lineChartData,
+        options: {
+          scales: {
+            y: {
+              beginAtZero: true,
+            },
+          },
+        },
+      };
+
+      const lineChart = new Chart(lineChartCanvas, lineChartConfig);
+
+      function generateCsvContent() {
+        const maliciousAlerts = parseInt(
+          document
+            .querySelector(".report-container ul li:nth-of-type(1)")
+            .innerText.split(": ")[1]
+        );
+        const impact = parseInt(
+          document
+            .querySelector(".report-container ul li:nth-of-type(2)")
+            .innerText.split(": ")[1]
+        );
+        const initialAccess = parseInt(
+          document
+            .querySelector(".report-container ul li:nth-of-type(3)")
+            .innerText.split(": ")[1]
+        );
+        const defenceEvasion = parseInt(
+          document
+            .querySelector(".report-container ul li:nth-of-type(4)")
+            .innerText.split(": ")[1]
+        );
+        const exfiltration = parseInt(
+          document
+            .querySelector(".report-container ul li:nth-of-type(5)")
+            .innerText.split(": ")[1]
+        );
+        const collection = parseInt(
+          document
+            .querySelector(".report-container ul li:nth-of-type(6)")
+            .innerText.split(": ")[1]
+        );
+        const escalation = parseInt(
+          document
+            .querySelector(".report-container ul li:nth-of-type(7)")
+            .innerText.split(": ")[1]
+        );
+        const persistence = parseInt(
+          document
+            .querySelector(".report-container ul li:nth-of-type(8)")
+            .innerText.split(": ")[1]
+        );
+
+        const totalAlerts =
+          maliciousAlerts +
+          impact +
+          initialAccess +
+          defenceEvasion +
+          exfiltration +
+          collection +
+          escalation +
+          persistence;
+
+        const csvContent = `Malicious Alerts,Impact,Initial Access,Defence Evasion,Exfiltration,Collection,Escalation,Persistence,Total Alerts\n${maliciousAlerts},${impact},${initialAccess},${defenceEvasion},${exfiltration},${collection},${escalation},${persistence},${totalAlerts}`;
+
+        return csvContent;
       }
-    };
 
-    const lineChart = new Chart(lineChartCanvas, lineChartConfig);
+      function downloadReport(format) {
+        let reportContent;
+        let blob;
+        let filename;
 
-    function generateCsvContent() {
-      const maliciousAlerts = parseInt(document.querySelector('.report-container ul li:nth-of-type(1)').innerText.split(': ')[1]);
-      const impact = parseInt(document.querySelector('.report-container ul li:nth-of-type(2)').innerText.split(': ')[1]);
-      const initialAccess = parseInt(document.querySelector('.report-container ul li:nth-of-type(3)').innerText.split(': ')[1]);
-      const defenceEvasion = parseInt(document.querySelector('.report-container ul li:nth-of-type(4)').innerText.split(': ')[1]);
-      const exfiltration = parseInt(document.querySelector('.report-container ul li:nth-of-type(5)').innerText.split(': ')[1]);
-      const collection = parseInt(document.querySelector('.report-container ul li:nth-of-type(6)').innerText.split(': ')[1]);
-      const escalation = parseInt(document.querySelector('.report-container ul li:nth-of-type(7)').innerText.split(': ')[1]);
-      const persistence = parseInt(document.querySelector('.report-container ul li:nth-of-type(8)').innerText.split(': ')[1]);
+        if (format === "txt") {
+          reportContent = document.querySelector(".report-container").innerText;
+          blob = new Blob([reportContent], { type: "text/plain" });
+          filename = "Alert_Report.txt";
+        } else if (format === "csv") {
+          const csvContent = generateCsvContent();
+          blob = new Blob([csvContent], { type: "text/csv" });
+          filename = "Alert_Report.csv";
+        }
 
-      const totalAlerts = maliciousAlerts + impact + initialAccess + defenceEvasion + exfiltration + collection + escalation + persistence;
+        const a = document.createElement("a");
+        a.href = window.URL.createObjectURL(blob);
+        a.download = filename;
 
-      const csvContent = `Malicious Alerts,Impact,Initial Access,Defence Evasion,Exfiltration,Collection,Escalation,Persistence,Total Alerts\n${maliciousAlerts},${impact},${initialAccess},${defenceEvasion},${exfiltration},${collection},${escalation},${persistence},${totalAlerts}`;
+        document.body.appendChild(a);
 
-      return csvContent;
-    }
+        a.click();
 
-    function downloadReport(format) {
-      let reportContent;
-      let blob;
-      let filename;
-
-      if (format === 'txt') {
-        reportContent = document.querySelector('.report-container').innerText;
-        blob = new Blob([reportContent], { type: 'text/plain' });
-        filename = 'Alert_Report.txt';
-      } else if (format === 'csv') {
-        const csvContent = generateCsvContent();
-        blob = new Blob([csvContent], { type: 'text/csv' });
-        filename = 'Alert_Report.csv';
+        document.body.removeChild(a);
       }
 
-      const a = document.createElement('a');
-      a.href = window.URL.createObjectURL(blob);
-      a.download = filename;
+      function downloadChart() {
+        const chartCanvas = document.getElementById("lineChart");
+        const chartDataUrl = chartCanvas.toDataURL("image/jpeg");
 
-      document.body.appendChild(a);
+        const a = document.createElement("a");
+        a.href = chartDataUrl;
+        a.download = "chart.jpg";
 
-      a.click();
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+      }
 
-      document.body.removeChild(a);
-    }
+      document
+        .getElementById("downloadChartButton")
+        .addEventListener("click", function () {
+          downloadChart();
+        });
 
-    function downloadChart() {
-      const chartCanvas = document.getElementById('lineChart');
-      const chartDataUrl = chartCanvas.toDataURL('image/jpeg');
+      document
+        .getElementById("downloadReportButton")
+        .addEventListener("click", function () {
+          const dropdownContent = document.querySelector(".dropdown-content");
+          dropdownContent.classList.toggle("show");
+        });
 
-      const a = document.createElement('a');
-      a.href = chartDataUrl;
-      a.download = 'chart.jpg';
+      document
+        .getElementById("downloadTxt")
+        .addEventListener("click", function () {
+          downloadReport("txt");
+        });
 
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
-    }
+      document
+        .getElementById("downloadCsv")
+        .addEventListener("click", function () {
+          downloadReport("csv");
+        });
+      const logoutPrompt = document.getElementById("logout");
+      function openPrompt() {
+        logoutPrompt.showModal();
+      }
 
-    document.getElementById('downloadChartButton').addEventListener('click', function () {
-      downloadChart();
-    });
+      function closePrompt() {
+        logoutPrompt.close();
+      }
 
-    document.getElementById('downloadReportButton').addEventListener('click', function () {
-      const dropdownContent = document.querySelector('.dropdown-content');
-      dropdownContent.classList.toggle('show');
-    });
-
-    document.getElementById('downloadTxt').addEventListener('click', function () {
-      downloadReport('txt');
-    });
-
-    document.getElementById('downloadCsv').addEventListener('click', function () {
-      downloadReport('csv');
-    });
-  </script>
-</body>
-
+      logoutPrompt.addEventListener("click", () => {
+        closePrompt();
+      });
+    </script>
+  </body>
 </html>

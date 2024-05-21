@@ -1,293 +1,382 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dashboard | J2 Software</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
 
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Dashboard | J2 Software</title>
-  <link rel="stylesheet" href="styles.css">
-
-</head>
-
-<body>
-  <header>
-    <nav>
-      <div class="top-left-nav">
-        <ul>
-          <li><img src="_images/logo_10_2019.png" id="NavLogo"></li>
-          <li><a href="index.html">Home</a></li>
-          <li><a class="current">Dashboard</a></li>
-          <li><a href="report_page.html">Report</a></li>
-
-        </ul>
-      </div>
-      <div class="top-right-nav">
-        <ul>
-          <li><a href="login.html">Logout</a></li>
-        </ul>
-      </div>
-    </nav>
-  </header>
-
-  <div class="dashboard-container">
-    <h1>Dashboard</h1>
-    <div class="row">
-      <div class="col-9">
-        <div class="result-header">
-          <div class="result-count">5 Results</div>
-          <div class="sort-options">
-            <span class="sort-label">SORT BY:</span>
-            <select class="sort-select">
-              <option value="0">Category</option>
-              <option value="1">Method</option>
-              <option value="2">Username</option>
-              <option value="3">IP Address</option>
-              <option value="4">Timestamp</option>
-            </select>
-          </div>
+  <body>
+    <header>
+      <nav>
+        <div class="top-left-nav">
+          <ul>
+            <li><img src="_images/logo_10_2019.png" id="NavLogo" /></li>
+            <li><a href="index.html">Home</a></li>
+            <li><a class="current">Dashboard</a></li>
+            <li><a href="report_page.html">Report</a></li>
+          </ul>
         </div>
-        <div class="dash-Table">
-          <div class="filter-bar">
-            <h3>FILTER BY:</h3>
-            <h4>Severity Level <a href="#" class="clear-severity">Clear All</a></h4>
-            <div class="filter-options">
-              <label class="checkbox-label">
-                <span class="checkbox-label-text">Informational</span>
-                <input type="checkbox" class="filter-checkbox informational">
-                <span class="checkbox-custom"></span>
-              </label>
-              <label class="checkbox-label">
-                <span class="checkbox-label-text">Low</span>
-                <input type="checkbox" class="filter-checkbox low">
-                <span class="checkbox-custom"></span>
-              </label>
-              <label class="checkbox-label">
-                <span class="checkbox-label-text">Medium</span>
-                <input type="checkbox" class="filter-checkbox medium">
-                <span class="checkbox-custom"></span>
-              </label>
-              <label class="checkbox-label">
-                <span class="checkbox-label-text">High</span>
-                <input type="checkbox" class="filter-checkbox high">
-                <span class="checkbox-custom"></span>
-              </label>
-              <label class="checkbox-label">
-                <span class="checkbox-label-text">Critical</span>
-                <input type="checkbox" class="filter-checkbox critical">
-                <span class="checkbox-custom"></span>
-              </label>
-              <h4>Category <a href="#" class="clear-category">Clear All</a></h4>
-              <label class="checkbox-label">
-                <span class="checkbox-label-text">Collection</span>
-                <input type="checkbox" class="filter-checkbox collection">
-                <span class="checkbox-custom"></span>
-              </label>
-              <label class="checkbox-label">
-                <span class="checkbox-label-text">Defence Evasion</span>
-                <input type="checkbox" class="filter-checkbox defence-evasion">
-                <span class="checkbox-custom"></span>
-              </label>
-              <label class="checkbox-label">
-                <span class="checkbox-label-text">Escalation</span>
-                <input type="checkbox" class="filter-checkbox escalation">
-                <span class="checkbox-custom"></span>
-              </label>
-              <label class="checkbox-label">
-                <span class="checkbox-label-text">Exfiltration</span>
-                <input type="checkbox" class="filter-checkbox exfiltration">
-                <span class="checkbox-custom"></span>
-              </label>
-              <label class="checkbox-label">
-                <span class="checkbox-label-text">Impact</span>
-                <input type="checkbox" class="filter-checkbox impact">
-                <span class="checkbox-custom"></span>
-              </label>
-              <label class="checkbox-label">
-                <span class="checkbox-label-text">Initial Access</span>
-                <input type="checkbox" class="filter-checkbox initial-access">
-                <span class="checkbox-custom"></span>
-              </label>
-              <label class="checkbox-label">
-                <span class="checkbox-label-text">Persistence</span>
-                <input type="checkbox" class="filter-checkbox persistence">
-                <span class="checkbox-custom"></span>
-              </label>
+        <div class="top-right-nav">
+          <ul>
+            <li><a href="#" onclick="openPrompt()">Logout</a></li>
+          </ul>
+        </div>
+      </nav>
+    </header>
+    <dialog class="logout-prompt" id="logout">
+      <div class="red-bar"><br /></div>
+      <h2>Are you sure you would like to log out?</h2>
+      <button onclick="window.location.href ='login.html'">Yes</button>
+      <button onclick="closePrompt()">No<br /></button>
+    </dialog>
+    <div class="dashboard-container">
+      <h1>Dashboard</h1>
+      <div class="row">
+        <div class="col-9">
+          <div class="result-header">
+            <div class="result-count">5 Results</div>
+            <div class="sort-options">
+              <span class="sort-label">SORT BY:</span>
+              <select class="sort-select">
+                <option value="0">Category</option>
+                <option value="1">Method</option>
+                <option value="2">Username</option>
+                <option value="3">IP Address</option>
+                <option value="4">Timestamp</option>
+              </select>
             </div>
           </div>
-
-          <div class="table-container">
-            <div class="d-Chart">
-              <canvas id="doughnutChart"></canvas>
+          <div class="dash-Table">
+            <div class="filter-bar">
+              <h3>FILTER BY:</h3>
+              <h4>
+                Severity Level <a href="#" class="clear-severity">Clear All</a>
+              </h4>
+              <div class="filter-options">
+                <label class="checkbox-label">
+                  <span class="checkbox-label-text">Informational</span>
+                  <input
+                    type="checkbox"
+                    class="filter-checkbox informational"
+                  />
+                  <span class="checkbox-custom"></span>
+                </label>
+                <label class="checkbox-label">
+                  <span class="checkbox-label-text">Low</span>
+                  <input type="checkbox" class="filter-checkbox low" />
+                  <span class="checkbox-custom"></span>
+                </label>
+                <label class="checkbox-label">
+                  <span class="checkbox-label-text">Medium</span>
+                  <input type="checkbox" class="filter-checkbox medium" />
+                  <span class="checkbox-custom"></span>
+                </label>
+                <label class="checkbox-label">
+                  <span class="checkbox-label-text">High</span>
+                  <input type="checkbox" class="filter-checkbox high" />
+                  <span class="checkbox-custom"></span>
+                </label>
+                <label class="checkbox-label">
+                  <span class="checkbox-label-text">Critical</span>
+                  <input type="checkbox" class="filter-checkbox critical" />
+                  <span class="checkbox-custom"></span>
+                </label>
+                <h4>
+                  Category <a href="#" class="clear-category">Clear All</a>
+                </h4>
+                <label class="checkbox-label">
+                  <span class="checkbox-label-text">Collection</span>
+                  <input type="checkbox" class="filter-checkbox collection" />
+                  <span class="checkbox-custom"></span>
+                </label>
+                <label class="checkbox-label">
+                  <span class="checkbox-label-text">Defence Evasion</span>
+                  <input
+                    type="checkbox"
+                    class="filter-checkbox defence-evasion"
+                  />
+                  <span class="checkbox-custom"></span>
+                </label>
+                <label class="checkbox-label">
+                  <span class="checkbox-label-text">Escalation</span>
+                  <input type="checkbox" class="filter-checkbox escalation" />
+                  <span class="checkbox-custom"></span>
+                </label>
+                <label class="checkbox-label">
+                  <span class="checkbox-label-text">Exfiltration</span>
+                  <input type="checkbox" class="filter-checkbox exfiltration" />
+                  <span class="checkbox-custom"></span>
+                </label>
+                <label class="checkbox-label">
+                  <span class="checkbox-label-text">Impact</span>
+                  <input type="checkbox" class="filter-checkbox impact" />
+                  <span class="checkbox-custom"></span>
+                </label>
+                <label class="checkbox-label">
+                  <span class="checkbox-label-text">Initial Access</span>
+                  <input
+                    type="checkbox"
+                    class="filter-checkbox initial-access"
+                  />
+                  <span class="checkbox-custom"></span>
+                </label>
+                <label class="checkbox-label">
+                  <span class="checkbox-label-text">Persistence</span>
+                  <input type="checkbox" class="filter-checkbox persistence" />
+                  <span class="checkbox-custom"></span>
+                </label>
+              </div>
             </div>
-            <br>
 
-            <table class="dash-Table">
-              <thead>
-                <tr class="result-list headings">
-                  <th class="heading">Category</th>
-                  <th class="heading">Method</th>
-                  <th class="heading">Username</th>
-                  <th class="heading">IP Address</th>
-                  <th class="heading">Timestamp</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr class="result-list informational">
-                  <td class="result-item">Defence Evasion</td>
-                  <td class="result-item">Suspicious File extension</td>
-                  <td class="result-item">Example</td>
-                  <td class="result-item">192.168.1.1</td>
-                  <td class="result-item">20234/04/15 02:54:12</td>
-                </tr>
-                <tr class="result-list low">
-                  <td class="result-item">Lateral Movement</td>
-                  <td class="result-item">Suspicious File share</td>
-                  <td class="result-item">Example</td>
-                  <td class="result-item">196.168.2.1</td>
-                  <td class="result-item">2024/04/15 03:25:09</td>
-                </tr>
-                <tr class="result-list medium">
-                  <td class="result-item">Impact</td>
-                  <td class="result-item">Process with Elevated Permissions</td>
-                  <td class="result-item">Example</td>
-                  <td class="result-item">127.0.0.1</td>
-                  <td class="result-item">2024/04/15 03:36:14</td>
-                </tr>
-                <tr class="result-list high">
-                  <td class="result-item">Exfiltration</td>
-                  <td class="result-item">FTP File share</td>
-                  <td class="result-item">Example</td>
-                  <td class="result-item">187.296.58.7</td>
-                  <td class="result-item">2024/04/15 09:24:08</td>
-                </tr>
-                <tr class="result-list high">
-                  <td class="result-item">Initial Access</td>
-                  <td class="result-item">Unusual Login</td>
-                  <td class="result-item">Example</td>
-                  <td class="result-item">172.486.24.5</td>
-                  <td class="result-item">2024/04/15 12:36:18</td>
-                </tr>
-              </tbody>
-            </table>
+            <div class="table-container">
+              <div class="d-Chart">
+                <canvas id="doughnutChart"></canvas>
+              </div>
+              <br />
+
+              <table class="dash-Table">
+                <thead>
+                  <tr class="result-list headings">
+                    <th class="heading">Category</th>
+                    <th class="heading">Method</th>
+                    <th class="heading">Username</th>
+                    <th class="heading">IP Address</th>
+                    <th class="heading">Timestamp</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr class="result-list informational">
+                    <td class="result-item">Defence Evasion</td>
+                    <td class="result-item">Suspicious File extension</td>
+                    <td class="result-item">Example</td>
+                    <td class="result-item">192.168.1.1</td>
+                    <td class="result-item">20234/04/15 02:54:12</td>
+                  </tr>
+                  <tr class="result-list low">
+                    <td class="result-item">Lateral Movement</td>
+                    <td class="result-item">Suspicious File share</td>
+                    <td class="result-item">Example</td>
+                    <td class="result-item">196.168.2.1</td>
+                    <td class="result-item">2024/04/15 03:25:09</td>
+                  </tr>
+                  <tr class="result-list medium">
+                    <td class="result-item">Impact</td>
+                    <td class="result-item">
+                      Process with Elevated Permissions
+                    </td>
+                    <td class="result-item">Example</td>
+                    <td class="result-item">127.0.0.1</td>
+                    <td class="result-item">2024/04/15 03:36:14</td>
+                  </tr>
+                  <tr class="result-list high">
+                    <td class="result-item">Exfiltration</td>
+                    <td class="result-item">FTP File share</td>
+                    <td class="result-item">Example</td>
+                    <td class="result-item">187.296.58.7</td>
+                    <td class="result-item">2024/04/15 09:24:08</td>
+                  </tr>
+                  <tr class="result-list high">
+                    <td class="result-item">Initial Access</td>
+                    <td class="result-item">Unusual Login</td>
+                    <td class="result-item">Example</td>
+                    <td class="result-item">172.486.24.5</td>
+                    <td class="result-item">2024/04/15 12:36:18</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
           </div>
-
         </div>
       </div>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
+      <script>
+        const severityLevels = [
+          "Informational",
+          "Low",
+          "Medium",
+          "High",
+          "Critical",
+        ];
+        const alertNumbers = [1, 1, 1, 2, 0];
+        const pieColors = [
+          "#505050",
+          "rgb(224, 191, 0)",
+          "rgb(211, 137, 1)",
+          "rgb(255, 0, 0)",
+          "rgb(139, 0, 0)",
+        ];
+        const alertChart = new Chart("doughnutChart", {
+          type: "doughnut",
+          data: {
+            labels: severityLevels,
+            datasets: [
+              {
+                backgroundColor: pieColors,
+                data: alertNumbers,
+              },
+            ],
+          },
+          options: {
+            title: {
+              display: true,
+              text: "Alert Severity Levels",
+            },
+          },
+        });
+        document.addEventListener("DOMContentLoaded", (event) => {
+          const alertFilterOptions = [
+            "malicious-checkbox",
+            "impact-checkbox",
+            "initial-access-checkbox",
+            "defence-evasion-checkbox",
+            "exfiltration-checkbox",
+            "collection-checkbox",
+            "escalation-checkbox",
+            "persistence-checkbox",
+          ];
+          alertFilterOptions.forEach((option) => {
+            const category = sessionStorage.getItem(option);
+            if (category !== null) {
+              if (category === "true") {
+                document.getElementById(option).checked = true;
+                sessionStorage.removeItem(option);
+              }
+            }
+          });
+        });
+
+        document.addEventListener("DOMContentLoaded", function () {
+          const sortSelect = document.querySelector(".sort-select");
+          const tableBody = document.querySelector(".dash-Table tbody");
+          const severityClearAll = document.querySelector(".clear-severity");
+          const categoryClearAll = document.querySelector(".clear-category");
+
+          function applyFilters() {
+            const checkedSeverities = Array.from(
+              document.querySelectorAll(
+                ".filter-checkbox.informational:checked, .filter-checkbox.low:checked, .filter-checkbox.medium:checked, .filter-checkbox.high:checked, .filter-checkbox.critical:checked"
+              )
+            ).map((checkbox) => checkbox.classList[1]);
+            const checkedCategories = Array.from(
+              document.querySelectorAll(
+                ".filter-checkbox.collection:checked, .filter-checkbox.defence-evasion:checked, .filter-checkbox.exfiltration:checked, .filter-checkbox.impact:checked, .filter-checkbox.initial-access:checked, .filter-checkbox.escalation:checked, .filter-checkbox.persistence:checked"
+              )
+            ).map((checkbox) => checkbox.classList[1]);
+            const rows = document.querySelectorAll(
+              ".result-list:not(.headings)"
+            );
+            let visibleCount = 0;
+            rows.forEach(function (row) {
+              const severity = row.classList[1];
+              const category = row
+                .querySelector("td:first-child")
+                .textContent.trim()
+                .toLowerCase()
+                .replace(" ", "-");
+              const shouldBeVisible =
+                (checkedSeverities.includes(severity) ||
+                  checkedSeverities.length === 0) &&
+                (checkedCategories.includes(category) ||
+                  checkedCategories.length === 0);
+              row.classList.toggle("hidden", !shouldBeVisible);
+              if (shouldBeVisible) {
+                visibleCount++;
+              }
+            });
+            document.querySelector(".result-count").textContent =
+              visibleCount + " Results";
+          }
+
+          sortSelect.addEventListener("change", function () {
+            const selectedColumn = parseInt(sortSelect.value);
+            const tableData = Array.from(tableBody.querySelectorAll("tr"));
+
+            tableData.sort(function (rowA, rowB) {
+              const valueA = rowA
+                .querySelectorAll("td")
+                [selectedColumn].textContent.trim();
+              const valueB = rowB
+                .querySelectorAll("td")
+                [selectedColumn].textContent.trim();
+              return valueA.localeCompare(valueB);
+            });
+
+            tableBody.innerHTML = "";
+            tableData.forEach(function (row) {
+              tableBody.appendChild(row);
+            });
+          });
+
+          const checkboxes = document.querySelectorAll(".filter-checkbox");
+          checkboxes.forEach(function (checkbox) {
+            checkbox.addEventListener("change", applyFilters);
+          });
+
+          severityClearAll.addEventListener("click", function (e) {
+            e.preventDefault();
+            const severityCheckboxes = document.querySelectorAll(
+              ".filter-checkbox.informational, .filter-checkbox.low, .filter-checkbox.medium, .filter-checkbox.high, .filter-checkbox.critical"
+            );
+            severityCheckboxes.forEach(function (checkbox) {
+              checkbox.checked = false;
+            });
+            applyFilters();
+          });
+
+          categoryClearAll.addEventListener("click", function (e) {
+            e.preventDefault();
+            const categoryCheckboxes = document.querySelectorAll(
+              ".filter-checkbox.collection, .filter-checkbox.defence-evasion, .filter-checkbox.exfiltration, .filter-checkbox.impact, .filter-checkbox.initial-access, .filter-checkbox.escalation, .filter-checkbox.persistence"
+            );
+            categoryCheckboxes.forEach(function (checkbox) {
+              checkbox.checked = false;
+            });
+            applyFilters();
+          });
+
+          const urlParams = new URLSearchParams(window.location.search);
+          const category = urlParams.get("category");
+
+          if (category) {
+            const checkbox = document.querySelector(
+              `.filter-checkbox.${category}`
+            );
+            if (checkbox) {
+              checkbox.checked = true;
+            }
+            applyFilters();
+
+            history.replaceState({}, document.title, window.location.pathname);
+
+            const logoutPrompt = document.getElementById("logout");
+            function openPrompt() {
+              logoutPrompt.showModal();
+            }
+
+            function closePrompt() {
+              logoutPrompt.close();
+            }
+
+            logoutPrompt.addEventListener("click", () => {
+              closePrompt();
+            });
+          }
+        });
+        const logoutPrompt = document.getElementById("logout");
+        function openPrompt() {
+          logoutPrompt.showModal();
+        }
+
+        function closePrompt() {
+          logoutPrompt.close();
+        }
+
+        logoutPrompt.addEventListener("click", () => {
+          closePrompt();
+        });
+      </script>
     </div>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
-    <script>
-      const severityLevels = ['Informational', 'Low', 'Medium', 'High', 'Critical'];
-      const alertNumbers = [1, 1, 1, 2, 0]
-      const pieColors = ['#505050', 'rgb(224, 191, 0)', 'rgb(211, 137, 1)', 'rgb(255, 0, 0)', 'rgb(139, 0, 0)']
-      const alertChart = new Chart("doughnutChart", {
-        type: "doughnut",
-        data: {
-          labels: severityLevels,
-          datasets: [{
-            backgroundColor: pieColors,
-            data: alertNumbers
-          }]
-        },
-        options: {
-          title: {
-            display: true,
-            text: 'Alert Severity Levels'
-          }
-        }
-      })
-      document.addEventListener('DOMContentLoaded', (event) => {
-        const alertFilterOptions = ['malicious-checkbox', 'impact-checkbox', 'initial-access-checkbox', 'defence-evasion-checkbox',
-          'exfiltration-checkbox', 'collection-checkbox', 'escalation-checkbox', 'persistence-checkbox'];
-        alertFilterOptions.forEach(option => {
-          const category = sessionStorage.getItem(option);
-          if (category !== null) {
-            if (category === 'true') {
-              document.getElementById(option).checked = true;
-              sessionStorage.removeItem(option);
-            }
-
-          }
-
-        });
-      });
-
-      document.addEventListener("DOMContentLoaded", function () {
-        const sortSelect = document.querySelector('.sort-select');
-        const tableBody = document.querySelector('.dash-Table tbody');
-        const severityClearAll = document.querySelector('.clear-severity');
-        const categoryClearAll = document.querySelector('.clear-category');
-
-        function applyFilters() {
-          const checkedSeverities = Array.from(document.querySelectorAll('.filter-checkbox.informational:checked, .filter-checkbox.low:checked, .filter-checkbox.medium:checked, .filter-checkbox.high:checked, .filter-checkbox.critical:checked')).map(checkbox => checkbox.classList[1]);
-          const checkedCategories = Array.from(document.querySelectorAll('.filter-checkbox.collection:checked, .filter-checkbox.defence-evasion:checked, .filter-checkbox.exfiltration:checked, .filter-checkbox.impact:checked, .filter-checkbox.initial-access:checked, .filter-checkbox.escalation:checked, .filter-checkbox.persistence:checked')).map(checkbox => checkbox.classList[1]);
-          const rows = document.querySelectorAll('.result-list:not(.headings)');
-          let visibleCount = 0;
-          rows.forEach(function (row) {
-            const severity = row.classList[1];
-            const category = row.querySelector('td:first-child').textContent.trim().toLowerCase().replace(' ', '-');
-            const shouldBeVisible = (checkedSeverities.includes(severity) || checkedSeverities.length === 0) && (checkedCategories.includes(category) || checkedCategories.length === 0);
-            row.classList.toggle('hidden', !shouldBeVisible);
-            if (shouldBeVisible) {
-              visibleCount++;
-            }
-          });
-          document.querySelector('.result-count').textContent = visibleCount + ' Results';
-        }
-
-        sortSelect.addEventListener('change', function () {
-          const selectedColumn = parseInt(sortSelect.value);
-          const tableData = Array.from(tableBody.querySelectorAll('tr'));
-
-          tableData.sort(function (rowA, rowB) {
-            const valueA = rowA.querySelectorAll('td')[selectedColumn].textContent.trim();
-            const valueB = rowB.querySelectorAll('td')[selectedColumn].textContent.trim();
-            return valueA.localeCompare(valueB);
-          });
-
-          tableBody.innerHTML = '';
-          tableData.forEach(function (row) {
-            tableBody.appendChild(row);
-          });
-        });
-
-        const checkboxes = document.querySelectorAll('.filter-checkbox');
-        checkboxes.forEach(function (checkbox) {
-          checkbox.addEventListener('change', applyFilters);
-        });
-
-        severityClearAll.addEventListener('click', function (e) {
-          e.preventDefault();
-          const severityCheckboxes = document.querySelectorAll('.filter-checkbox.informational, .filter-checkbox.low, .filter-checkbox.medium, .filter-checkbox.high, .filter-checkbox.critical');
-          severityCheckboxes.forEach(function (checkbox) {
-            checkbox.checked = false;
-          });
-          applyFilters();
-        });
-
-        categoryClearAll.addEventListener('click', function (e) {
-          e.preventDefault();
-          const categoryCheckboxes = document.querySelectorAll('.filter-checkbox.collection, .filter-checkbox.defence-evasion, .filter-checkbox.exfiltration, .filter-checkbox.impact, .filter-checkbox.initial-access, .filter-checkbox.escalation, .filter-checkbox.persistence');
-          categoryCheckboxes.forEach(function (checkbox) {
-            checkbox.checked = false;
-          });
-          applyFilters();
-        });
-
-        const urlParams = new URLSearchParams(window.location.search);
-        const category = urlParams.get('category');
-
-        if (category) {
-          const checkbox = document.querySelector(`.filter-checkbox.${category}`);
-          if (checkbox) {
-            checkbox.checked = true;
-          }
-          applyFilters();
-
-          history.replaceState({}, document.title, window.location.pathname);
-        }
-      });
-    </script>
-  </div>
-</body>
-
+  </body>
 </html>

@@ -2,7 +2,6 @@ body {
   font-family: Arial, sans-serif;
   background-image: url(_images/background_image.jpg);
   margin: 0;
-
 }
 
 #NavLogo {
@@ -35,7 +34,6 @@ body {
   border-style: ridge;
   border-width: 15px;
   border-color: #fc2f2f;
-
 }
 
 .logo {
@@ -205,7 +203,7 @@ button {
   border-radius: 6px;
   outline: none;
 }
-button:hover{
+button:hover {
   background-color: #940c0c;
 }
 h1 {
@@ -234,14 +232,12 @@ h1 {
 .date-selector {
   text-align: center;
   width: 160px;
-  
-
 }
 
-.date-selector-div{
+.date-selector-div {
   justify-content: center;
   text-align: center;
-  padding-right:10%;
+  padding-right: 10%;
 }
 .top-right-nav {
   float: right;
@@ -268,12 +264,10 @@ h1 {
 .line-graph {
   display: flex;
   flex: 1;
- height: 500px;
-  
+  height: 500px;
+
   align-items: center;
   justify-content: center;
-  
- 
 }
 
 .filter-list {
@@ -289,10 +283,9 @@ h1 {
 
 .button-container {
   text-align: center;
-
 }
 
-.dropdown{
+.dropdown {
   text-align: center;
 }
 
@@ -361,7 +354,7 @@ th {
 }
 
 .informational {
-  color: #505050
+  color: #505050;
 }
 
 .low {
@@ -392,14 +385,14 @@ canvas {
 
 .clear-category {
   margin-left: 10px;
-  color: #0000EE;
+  color: #0000ee;
   font-size: 14px;
   text-decoration: none;
 }
 
 .clear-severity {
   margin-left: 10px;
-  color: #0000EE;
+  color: #0000ee;
   font-size: 14px;
   text-decoration: none;
 }
@@ -432,7 +425,7 @@ canvas {
   display: block;
 }
 
-dialog::backdrop{
+dialog::backdrop {
   background-color: rgba(0, 0, 0, 0.2);
 }
 
@@ -447,6 +440,16 @@ dialog::backdrop{
   border-color: #fc2f2f;
 }
 
+.logout-prompt {
+  background-color: black;
+  color: white;
+  position: absolute;
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+  border-style: groove;
+  border-color: #fc2f2f;
+}
 
 .red-bar {
   background-color: red;
