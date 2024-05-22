@@ -208,6 +208,7 @@ h1 {
 
 .factor-container {
   color: red;
+  max-width: 696px;
   text-align: center;
   padding-right: 0;
   padding-bottom: 5%;
