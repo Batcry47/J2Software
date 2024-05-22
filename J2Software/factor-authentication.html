@@ -1,120 +1,123 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="styles.css" />
+    <title>Document</title>
+  </head>
 
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="stylesheet" href="styles.css" />
-  <title>Document</title>
-</head>
+  <body class="factor-authentication-page">
+    <a href="login.html">Login Page</a>
+    <br /><br /><br />
+    <div class="factor-container">
+      <img
+        src="_images/j2_logo.png"
+        class="rounded"
+        alt="J2 Software"
+        width="530"
+        height="215"
+      />
+      <br />
+      <h3 id="new-message">
+        A verification code has been sent to your email address,
+        <br />please enter the code recieved to continue
+      </h3>
+      <br />
+      <h3 id="expiry-message"></h3>
+      <h3 id="code-time">The code expires in 30 seconds</h3>
+      <br />
+      <input type="text" id="authCodeInputBox" maxlength="6" /><br /><br />
+      <button onclick="resendCode()">Resend Code</button>
 
-<body class="factor-authentication-page">
-  <a href="login.html">Login Page</a>
-  <br /><br /><br />
-  <div class="factor-container">
+      <button onclick="checkAuthInput()">Verify Code</button>
 
-    <img src="_images/j2_logo.png" class="rounded" alt="J2 Software" width="530" height="215">
-    <br />
-    <h3 id="new-message">
-      A verification code has been sent to your email address,
-      <br />please enter the code recieved to continue
-    </h3>
-    <br />
-    <h3 id="expiry-message"></h3>
-    <h3 id="code-time">The code expires in 15 seconds</h3>
-    <br />
-    <input type="text" id="authCodeInputBox" maxlength="6" /><br /><br />
-    <button onclick="resendCode()">Resend Code</button>
+      <p id="user-message" class="error-message"></p>
+      <dialog class="popup" id="popup-box">
+        <div class="red-bar"><br /></div>
+        <h2 id="popup-message"></h2>
+        <button onclick="closePopup()">Close<br /></button>
+      </dialog>
+    </div>
 
-    <button onclick="checkAuthInput()">Verify Code</button>
+    <script>
+      const authCode = "123456";
+      newCode = "";
+      codeTimer = 0;
+      let timer;
+      const popup = document.getElementById("popup-box");
 
-    <p id="user-message" class="error-message"></p>
-    <dialog class="popup" id="popup-box">
-      <div class="red-bar"><br /></div>
-      <h2 id="popup-message"></h2>
-      <button onclick="closePopup()">Close<br></button>
-    </dialog>
-  </div>
-
-  <script>
-    const authCode = "123456";
-    newCode = "";
-    codeTimer = 0;
-    let timer;
-    const popup = document.getElementById('popup-box');
-
-    function checkAuthInput() {
-      const enteredCode = document.getElementById('authCodeInputBox').value;
-      const userMessage = document.getElementById('user-message');
-      if (enteredCode === "") {
-        userMessage.textContent = "Please enter the Authentication code";
-      } else {
-        userMessage.textContent = "";
-        validateData(enteredCode);
-      }
-    }
-
-    function validateData(enteredCode) {
-      if (newCode === "") {
-        if (enteredCode !== authCode) {
-          document.getElementById('popup-message').textContent = "The code entered is either invalid or has expired,  " +
-            " please enter the correct code to proceed";
-          popup.showModal();
+      function checkAuthInput() {
+        const enteredCode = document.getElementById("authCodeInputBox").value;
+        const userMessage = document.getElementById("user-message");
+        if (enteredCode === "") {
+          userMessage.textContent = "Please enter the Authentication code";
         } else {
-          window.location.href = "index.html";
+          userMessage.textContent = "";
+          validateData(enteredCode);
         }
       }
-      else {
-        if (enteredCode !== newCode) {
-          document.getElementById('popup-message').textContent = "The code entered is either invalid or it has expired, " +
-            "please enter the correct code to proceed";
-          popup.showModal();
+
+      function validateData(enteredCode) {
+        if (newCode === "") {
+          if (enteredCode !== authCode) {
+            document.getElementById("popup-message").textContent =
+              "The code entered is either invalid or has expired,  " +
+              " please enter the correct code to proceed";
+            popup.showModal();
+          } else {
+            window.location.href = "index.html";
+          }
         } else {
-          window.location.href = "index.html";
+          if (enteredCode !== newCode) {
+            document.getElementById("popup-message").textContent =
+              "The code entered is either invalid or it has expired, " +
+              "please enter the correct code to proceed";
+            popup.showModal();
+          } else {
+            window.location.href = "index.html";
+          }
         }
       }
 
-    }
+      window.onload = function () {
+        startTimer();
+      };
+      function resendCode() {
+        refreshTimer();
+        document.getElementById("popup-message").textContent =
+          "Code has been resent, please check your email";
+        popup.showModal();
+        newCode = "456789";
+      }
+      function refreshTimer() {
+        clearInterval(timer);
+        codeTimer = 30;
+        startTimer();
+      }
 
-    window.onload = function () {
-      startTimer();
-    }
-    function resendCode() {
-      refreshTimer();
-      document.getElementById('popup-message').textContent = "Code has been resent, please check your email";
-      popup.showModal();
-      newCode = "456789";
-    }
-    function refreshTimer() {
-      clearInterval(timer);
-      codeTimer = 15;
-      startTimer();
-    }
+      function startTimer() {
+        codeTimer = 30;
+        timer = setInterval(() => {
+          codeTimer--;
+          document.getElementById("code-time").textContent =
+            "The code expires in " + codeTimer + " seconds";
+          if (codeTimer === 0) {
+            clearInterval(timer);
+            newCode = "1";
+            document.getElementById("expiry-message").textContent =
+              "The code has expired, please request for a new one";
+            document.getElementById("code-time").textContent = "";
+          } else {
+            document.getElementById("expiry-message").textContent = "";
+          }
+        }, 1000);
+      }
+      function closePopup() {
+        popup.close();
+      }
 
-    function startTimer() {
-      codeTimer = 15;
-      timer = setInterval(() => {
-        codeTimer--;
-        document.getElementById('code-time').textContent = "The code expires in " + codeTimer + " seconds";
-        if (codeTimer === 0) {
-          clearInterval(timer);
-          newCode = "1";
-          document.getElementById('expiry-message').textContent = "The code has expired, please request for a new one";
-          document.getElementById('code-time').textContent = "";
-        }
-        else {
-          document.getElementById('expiry-message').textContent = "";
-        }
-
-      }, 1000)
-    }
-    function closePopup() {
-      popup.close();
-    }
-
-    popup.addEventListener('click', closePopup);
-  </script>
-
-</body>
-
+      popup.addEventListener("click", closePopup);
+    </script>
+  </body>
 </html>
