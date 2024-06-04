@@ -21,17 +21,71 @@
       </div>
       <div class="top-right-nav">
         <ul>
+          <li class="dropdown">
+            <a href="#" class="dropdown-toggle">Preferences</a>
+            <div class="dropdown-menu">
+              <label for="darkModeToggle">Dark Mode</label>
+              <label class="switch">
+                <input type="checkbox" id="darkModeToggle" onchange="toggleDarkMode()">
+                <span class="slider round"></span>
+              </label>
+              <hr>
+              <label for="languageSelect">Language:</label>
+              <select id="languageSelect" onchange="changeLanguage()">
+                <option value="en">English</option>
+                <option value="af">Afrikaans</option>
+              </select>
+            </div>
+          </li>
           <li><a href="#" onclick="openPrompt()">Logout</a></li>
         </ul>
       </div>
     </nav>
   </header>
+
   <dialog class="logout-prompt" id="logout">
     <div class="red-bar"><br /></div>
     <h2>Are you sure you would like to log out?</h2>
     <button class="popup-button" onclick="window.location.href ='login.html'">Yes</button>
     <button class="popup-button" onclick="closePrompt()">No<br /></button>
   </dialog>
+
+  <script>
+    function toggleDarkMode() {
+      const darkModeToggle = document.getElementById("darkModeToggle");
+      const body = document.body;
+
+      if (darkModeToggle.checked) {
+        body.classList.add("dark-mode");
+        localStorage.setItem("darkMode", "true");
+      } else {
+        body.classList.remove("dark-mode");
+        localStorage.setItem("darkMode", "false");
+      }
+    }
+
+    function checkDarkMode() {
+      const darkMode = localStorage.getItem("darkMode");
+      const darkModeToggle = document.getElementById("darkModeToggle");
+      const body = document.body;
+
+      if (darkMode === "true") {
+        body.classList.add("dark-mode");
+        darkModeToggle.checked = true;
+      }
+    }
+
+    function changeLanguage() {
+      const languageSelect = document.getElementById("languageSelect");
+      const selectedLanguage = languageSelect.value;
+
+      window.location.href = "dashboard_language.html";
+
+    }
+
+    document.addEventListener("DOMContentLoaded", checkDarkMode);
+  </script>
+
   <div class="dashboard-container">
     <h1>Dashboard</h1>
     <div class="row">

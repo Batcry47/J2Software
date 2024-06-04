@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="af">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dashboard | J2 Software</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+
+<body>
+  <header>
+    <nav>
+      <div class="top-left-nav">
+        <ul>
+          <li><img src="_images/logo_10_2019.png" id="NavLogo" /></li>
+          <li><a href="index_language.html">Tuis</a></li>
+          <li><a class="current">Dashboard</a></li>
+          <li><a href="report_language.html">Verslag</a></li>
+        </ul>
+      </div>
+      <div class="top-right-nav">
+        <ul>
+          <li class="dropdown">
+            <a href="#" class="dropdown-toggle">Voorkeure</a>
+            <div class="dropdown-menu">
+              <label for="darkModeToggle">Donker Modus</label>
+              <label class="switch">
+                <input type="checkbox" id="darkModeToggle" onchange="toggleDarkMode()">
+                <span class="slider round"></span>
+              </label>
+              <hr>
+              <label for="languageSelect">Taal:</label>
+              <select id="languageSelect" onchange="changeLanguage()">
+                <option value="en">Afrikaans</option>
+                <option value="af">Engels</option>
+              </select>
+            </div>
+          </li>
+          <li><a href="#" onclick="openPrompt()">Teken Uit</a></li>
+        </ul>
+      </div>
+    </nav>
+  </header>
+
+  <dialog class="logout-prompt" id="logout">
+    <div class="red-bar"><br /></div>
+    <h2>Is jy seker jy wil uit teken?</h2>
+    <button class="popup-button" onclick="window.location.href ='login.html'">Ja</button>
+    <button class="popup-button" onclick="closePrompt()">Nee<br /></button>
+  </dialog>
+
+  <script>
+    function toggleDarkMode() {
+      const darkModeToggle = document.getElementById("darkModeToggle");
+      const body = document.body;
+  
+      if (darkModeToggle.checked) {
+        body.classList.add("dark-mode");
+        localStorage.setItem("darkMode", "true");
+      } else {
+        body.classList.remove("dark-mode");
+        localStorage.setItem("darkMode", "false");
+      }
+    }
+  
+    function checkDarkMode() {
+      const darkMode = localStorage.getItem("darkMode");
+      const darkModeToggle = document.getElementById("darkModeToggle");
+      const body = document.body;
+  
+      if (darkMode === "true") {
+        body.classList.add("dark-mode");
+        darkModeToggle.checked = true;
+      }
+    }
+
+    function changeLanguage() {
+      const languageSelect = document.getElementById("languageSelect");
+      const selectedLanguage = languageSelect.value;
+
+      window.location.href = "dashboard.html";
+
+    }
+  
+    document.addEventListener("DOMContentLoaded", checkDarkMode);
+  </script>
+
+  <div class="dashboard-container">
+    <h1>Dashboard</h1>
+    <div class="row">
+      <div class="col-9">
+        <div class="result-header">
+          <div class="result-count">5 Resultate</div>
+          <div class="sort-options">
+            <span class="sort-label">SORTEREN OP:</span>
+            <select class="sort-select">
+              <option value="0">Kategorie</option>
+              <option value="1">Metode</option>
+              <option value="2">Gebruikersnaam</option>
+              <option value="3">IP-Adres</option>
+              <option value="4">Tydmerk</option>
+            </select>
+          </div>
+        </div>
+        <div class="dash-Table">
+          <div class="filter-bar">
+            <h3>FILTER OP:</h3>
+            <h4>
+              Ernstvlak <a href="#" class="clear-severity">Alles Skoon</a>
+            </h4>
+            <div class="filter-options">
+              <label class="checkbox-label">
+                <span class="checkbox-label-text">Inligting</span>
+                <input type="checkbox" class="filter-checkbox informational" />
+                <span class="checkbox-custom"></span>
+              </label>
+              <label class="checkbox-label">
+                <span class="checkbox-label-text">Laag</span>
+                <input type="checkbox" class="filter-checkbox low" />
+                <span class="checkbox-custom"></span>
+              </label>
+              <label class="checkbox-label">
+                <span class="checkbox-label-text">Medium</span>
+                <input type="checkbox" class="filter-checkbox medium" />
+                <span class="checkbox-custom"></span>
+              </label>
+              <label class="checkbox-label">
+                <span class="checkbox-label-text">Hoog</span>
+                <input type="checkbox" class="filter-checkbox high" />
+                <span class="checkbox-custom"></span>
+              </label>
+              <label class="checkbox-label">
+                <span class="checkbox-label-text">Krities</span>
+                <input type="checkbox" class="filter-checkbox critical" />
+                <span class="checkbox-custom"></span>
+              </label>
+              <h4>
+                Kategorie <a href="#" class="clear-category">Alles Skoon</a>
+              </h4>
+              <label class="checkbox-label">
+                <span class="checkbox-label-text">Versameling</span>
+                <input type="checkbox" class="filter-checkbox collection" />
+                <span class="checkbox-custom"></span>
+              </label>
+              <label class="checkbox-label">
+                <span class="checkbox-label-text">Verdediging Vermyding</span>
+                <input type="checkbox" class="filter-checkbox defence-evasion" />
+                <span class="checkbox-custom"></span>
+              </label>
+              <label class="checkbox-label">
+                <span class="checkbox-label-text">Escalasie</span>
+                <input type="checkbox" class="filter-checkbox escalation" />
+                <span class="checkbox-custom"></span>
+              </label>
+              <label class="checkbox-label">
+                <span class="checkbox-label-text">Uitvoering</span>
+                <input type="checkbox" class="filter-checkbox exfiltration" />
+                <span class="checkbox-custom"></span>
+              </label>
+              <label class="checkbox-label">
+                <span class="checkbox-label-text">Impak</span>
+                <input type="checkbox" class="filter-checkbox impact" />
+                <span class="checkbox-custom"></span>
+              </label>
+              <label class="checkbox-label">
+                <span class="checkbox-label-text">Begin Toegang</span>
+                <input type="checkbox" class="filter-checkbox initial-access" />
+                <span class="checkbox-custom"></span>
+              </label>
+              <label class="checkbox-label">
+                <span class="checkbox-label-text">Volharding</span>
+                <input type="checkbox" class="filter-checkbox persistence" />
+                <span class="checkbox-custom"></span>
+              </label>
+            </div>
+          </div>
+
+          <div class="table-container">
+            <div class="d-Chart">
+              <canvas id="doughnutChart"></canvas>
+            </div>
+            <br />
+            <table class="dash-Table">
+              <thead>
+                <tr class="result-list headings">
+                  <th class="heading">Kategorie</th>
+                  <th class="heading">Metode</th>
+                  <th class="heading">Gebruikersnaam</th>
+                  <th class="heading">IP-Adres</th>
+                  <th class="heading">Tydmerk</th>
+                </tr>
+              </thead>
+            </table>
+
+            <table class="dash-Table">
+              <tr class="result-list informational">
+                <td class="result-item">Verdediging Vermyding</td>
+                <td class="result-item">Verdagte Lêer Uitbreiding</td>
+                <td class="result-item">John Doe</td>
+                <td class="result-item">192.168.1.1</td>
+                <td class="result-item">2024/04/15 02:54:12</td>
+              </tr>
+              <tr class="result-list low">
+                <td class="result-item">Volharding</td>
+                <td class="result-item">Verdagte Lêer Deel</td>
+                <td class="result-item">James Smith</td>
+                <td class="result-item">196.168.2.1</td>
+                <td class="result-item">2024/04/15 03:25:09</td>
+              </tr>
+              <tr class="result-list medium">
+                <td class="result-item">Impak</td>
+                <td class="result-item">Proses met Verhoogde Regte</td>
+                <td class="result-item">Alex Davidson</td>
+                <td class="result-item">127.0.0.1</td>
+                <td class="result-item">2024/04/15 03:36:14</td>
+              </tr>
+              <tr class="result-list high">
+                <td class="result-item">Uitvoering</td>
+                <td class="result-item">FTP Lêer Deel</td>
+                <td class="result-item">Sam Smith</td>
+                <td class="result-item">187.296.58.7</td>
+                <td class="result-item">2024/04/15 09:24:08</td>
+              </tr>
+              <tr class="result-list high">
+                <td class="result-item">Begin Toegang</td>
+                <td class="result-item">Ongewone Aanmelding</td>
+                <td class="result-item">Ben Benson</td>
+                <td class="result-item">172.486.24.5</td>
+                <td class="result-item">2024/04/15 12:36:18</td>
+              </tr>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
+    <script>
+      const severityLevels = [
+        "Inligting",
+        "Laag",
+        "Medium",
+        "Hoog",
+        "Krities",
+      ];
+      const alertNumbers = [1, 1, 1, 2, 0];
+      const pieColors = [
+        "#505050",
+        "rgb(143, 140, 0)",
+        "rgb(173, 113, 0)",
+        "rgb(255, 0, 0)",
+        "rgb(139, 0, 0)",
+      ];
+      const alertChart = new Chart("doughnutChart", {
+        type: "doughnut",
+        data: {
+          labels: severityLevels,
+          datasets: [
+            {
+              backgroundColor: pieColors,
+              data: alertNumbers,
+            },
+          ],
+        },
+        options: {
+          title: {
+            display: true,
+            text: "Melding Ernstvlakke",
+          },
+        },
+      });
+      document.addEventListener("DOMContentLoaded", (event) => {
+        const alertFilterOptions = [
+          "malicious-checkbox",
+          "impact-checkbox",
+          "initial-access-checkbox",
+          "defence-evasion-checkbox",
+          "exfiltration-checkbox",
+          "collection-checkbox",
+          "escalation-checkbox",
+          "persistence-checkbox",
+        ];
+        alertFilterOptions.forEach((option) => {
+          const category = sessionStorage.getItem(option);
+          if (category !== null) {
+            if (category === "true") {
+              document.getElementById(option).checked = true;
+              sessionStorage.removeItem(option);
+            }
+          }
+        });
+      });
+
+      document.addEventListener("DOMContentLoaded", function () {
+        const sortSelect = document.querySelector(".sort-select");
+        const tableBody = document.querySelector(".dash-Table tbody");
+        const severityClearAll = document.querySelector(".clear-severity");
+        const categoryClearAll = document.querySelector(".clear-category");
+
+        function applyFilters() {
+          const checkedSeverities = Array.from(
+            document.querySelectorAll(
+              ".filter-checkbox.informational:checked, .filter-checkbox.low:checked, .filter-checkbox.medium:checked, .filter-checkbox.high:checked, .filter-checkbox.critical:checked"
+            )
+          ).map((checkbox) => checkbox.classList[1]);
+          const checkedCategories = Array.from(
+            document.querySelectorAll(
+              ".filter-checkbox.collection:checked, .filter-checkbox.defence-evasion:checked, .filter-checkbox.exfiltration:checked, .filter-checkbox.impact:checked, .filter-checkbox.initial-access:checked, .filter-checkbox.escalation:checked, .filter-checkbox.persistence:checked"
+            )
+          ).map((checkbox) => checkbox.classList[1]);
+          const rows = document.querySelectorAll(
+            ".result-list:not(.headings)"
+          );
+          let visibleCount = 0;
+          rows.forEach(function (row) {
+            const severity = row.classList[1];
+            const category = row
+              .querySelector("td:first-child")
+              .textContent.trim()
+              .toLowerCase()
+              .replace(" ", "-");
+            const shouldBeVisible =
+              (checkedSeverities.includes(severity) ||
+                checkedSeverities.length === 0) &&
+              (checkedCategories.includes(category) ||
+                checkedCategories.length === 0);
+            row.classList.toggle("hidden", !shouldBeVisible);
+            if (shouldBeVisible) {
+              visibleCount++;
+            }
+          });
+          document.querySelector(".result-count").textContent =
+            visibleCount + " Resultate";
+        }
+
+        sortSelect.addEventListener("change", function () {
+          const selectedColumn = parseInt(sortSelect.value);
+          const tableData = Array.from(tableBody.querySelectorAll("tr"));
+
+          tableData.sort(function (rowA, rowB) {
+            const valueA = rowA
+              .querySelectorAll("td")
+            [selectedColumn].textContent.trim();
+            const valueB = rowB
+              .querySelectorAll("td")
+            [selectedColumn].textContent.trim();
+            return valueA.localeCompare(valueB);
+          });
+
+          tableBody.innerHTML = "";
+          tableData.forEach(function (row) {
+            tableBody.appendChild(row);
+          });
+        });
+
+        const checkboxes = document.querySelectorAll(".filter-checkbox");
+        checkboxes.forEach(function (checkbox) {
+          checkbox.addEventListener("change", applyFilters);
+        });
+
+        severityClearAll.addEventListener("click", function (e) {
+          e.preventDefault();
+          const severityCheckboxes = document.querySelectorAll(
+            ".filter-checkbox.informational, .filter-checkbox.low, .filter-checkbox.medium, .filter-checkbox.high, .filter-checkbox.critical"
+          );
+          severityCheckboxes.forEach(function (checkbox) {
+            checkbox.checked = false;
+          });
+          applyFilters();
+        });
+
+        categoryClearAll.addEventListener("click", function (e) {
+          e.preventDefault();
+          const categoryCheckboxes = document.querySelectorAll(
+            ".filter-checkbox.collection, .filter-checkbox.defence-evasion, .filter-checkbox.exfiltration, .filter-checkbox.impact, .filter-checkbox.initial-access, .filter-checkbox.escalation, .filter-checkbox.persistence"
+          );
+          categoryCheckboxes.forEach(function (checkbox) {
+            checkbox.checked = false;
+          });
+          applyFilters();
+        });
+
+        const urlParams = new URLSearchParams(window.location.search);
+        const category = urlParams.get("category");
+
+        if (category) {
+          const checkbox = document.querySelector(
+            `.filter-checkbox.${category}`
+          );
+          if (checkbox) {
+            checkbox.checked = true;
+          }
+          applyFilters();
+
+          history.replaceState({}, document.title, window.location.pathname);
+
+          const logoutPrompt = document.getElementById("logout");
+          function openPrompt() {
+            logoutPrompt.showModal();
+          }
+
+          function closePrompt() {
+            logoutPrompt.close();
+          }
+
+          logoutPrompt.addEventListener("click", () => {
+            closePrompt();
+          });
+        }
+      });
+      const logoutPrompt = document.getElementById("logout");
+      function openPrompt() {
+        logoutPrompt.showModal();
+      }
+
+      function closePrompt() {
+        logoutPrompt.close();
+      }
+
+      logoutPrompt.addEventListener("click", () => {
+        closePrompt();
+      });
+    </script>
+  </div>
+</body>
+
+</html>
