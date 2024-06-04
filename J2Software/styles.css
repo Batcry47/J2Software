@@ -186,8 +186,8 @@ input [type="checkbox"] {
 
 button {
   text-align: center;
-  color: #000000;
-  background-color: #ffffff;
+  color: #ffffff;
+  background-color: #000000;
   font-family: inherit;
   font-size: inherit;
   padding: 10px;
@@ -199,22 +199,27 @@ button {
 }
 
 button:hover {
+<<<<<<< Updated upstream
   background-color: #0c5e94;
+=======
+  background-color: #252525;
+>>>>>>> Stashed changes
 }
 
 h1 {
   text-align: center;
 }
 
+
 .factor-container {
-  color: red;
+  color: rgb(0, 0, 0);
   max-width: 696px;
   text-align: center;
   padding-right: 0;
   padding-bottom: 5%;
-  border-style: ridge;
+  border-style: solid;
   border-width: 7px;
-  border-color: #fc2f2f;
+  border-color: #000000;
 }
 
 .top-left-nav {
@@ -259,6 +264,13 @@ h1 {
   width: 40%;
 }
 
+.popup-button{
+  background-color: red;
+}
+
+.popup-button:hover{
+  background-color: #830f0f;
+}
 .line-graph {
   display: flex;
   flex: 1;
@@ -289,6 +301,10 @@ h1 {
 
 .report-button {
   background-color: #c01010;
+  
+}
+.report-button:hover{
+  background-color: #830f0f;
 }
 
 a {
