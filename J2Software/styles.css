@@ -28,12 +28,12 @@ body {
 }
 
 .login-container {
-  color: red;
+  color: rgb(0, 0, 0);
   text-align: center;
   padding-bottom: 5%;
-  border-style: ridge;
-  border-width: 15px;
-  border-color: #fc2f2f;
+  border-style: solid;
+  border-width: 10px;
+  border-color: #000000;
 }
 
 .logo {
@@ -165,14 +165,14 @@ body {
 }
 
 input {
-  color: white;
-  background-color: #e72121;
+  color: rgb(0, 0, 0);
+  background-color: #ffffff;
   text-align: center;
   font-family: inherit;
   font-size: inherit;
   margin-bottom: 10px;
   padding: 10px;
-  border: none;
+  border: solid;
   border-radius: 6px;
   width: 300px;
   outline: none;
@@ -186,14 +186,12 @@ input [type="checkbox"] {
 button {
   text-align: center;
   color: #000000;
-  color: white;
-  background-color: #c01010;
+  background-color: #ffffff;
   font-family: inherit;
   font-size: inherit;
-  margin-right: 25px;
   padding: 10px;
-  border: none;
-  border-radius: 6px;
+  border: solid;
+  border-radius: 1px;
   outline: none;
   cursor: pointer;
 }
