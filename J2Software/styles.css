@@ -205,7 +205,6 @@ h1 {
   text-align: center;
 }
 
-
 .factor-container {
   color: rgb(0, 0, 0);
   max-width: 696px;
@@ -558,4 +557,30 @@ input:focus+.slider {
 
 input:checked+.slider:before {
   transform: translateX(26px);
+}
+
+.large-text h1 {
+  font-size: 37px;
+}
+
+.large-text h2 {
+  font-size: 29px;
+}
+
+.large-text h3 {
+  font-size: 23px;
+}
+
+.large-text p,
+.large-text label,
+.large-text .metric-label,
+.large-text h4,
+.large-text a,
+.large-text th,
+.large-text td {
+  font-size: 21px;
+}
+
+.large-text button {
+  font-size: 18px;
 }

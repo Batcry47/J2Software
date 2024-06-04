@@ -24,7 +24,7 @@
           <li class="dropdown">
             <a href="#" class="dropdown-toggle">Voorkeure</a>
             <div class="dropdown-menu">
-              <label for="darkModeToggle">Donker Modus</label>
+              <label for="darkModeToggle">Donkermodus</label>
               <label class="switch">
                 <input type="checkbox" id="darkModeToggle" onchange="toggleDarkMode()">
                 <span class="slider round"></span>
@@ -35,9 +35,15 @@
                 <option value="en">Afrikaans</option>
                 <option value="af">Engels</option>
               </select>
+              <hr>
+              <label for="textSizeToggle">Teks Grootte</label>
+              <label class="switch">
+                <input type="checkbox" id="textSizeToggle" onchange="toggleTextSize()">
+                <span class="slider round"></span>
+              </label>
             </div>
           </li>
-          <li><a href="#" onclick="openPrompt()">Teken Uit</a></li>
+          <li><a href="#" onclick="openPrompt()">Uitlog</a></li>
         </ul>
       </div>
     </nav>
@@ -75,6 +81,30 @@
       }
     }
 
+    function toggleTextSize() {
+      const textSize = localStorage.getItem("textSizeToggle");
+      const body = document.body;
+
+      if (textSizeToggle.checked) {
+        body.classList.add("large-text");
+        localStorage.setItem("textSize", "true");
+      } else {
+        body.classList.remove("large-text");
+        localStorage.setItem("textSize", "false");
+      }
+    }
+
+    function checkTextSize() {
+      const textSize = localStorage.getItem("textSize");
+      const textSizeToggle = document.getElementById("textSizeToggle");
+      const body = document.body;
+
+      if (textSize === "true") {
+        body.classList.add("large-text");
+        textSizeToggle.checked = true;
+      }
+    }
+
     function changeLanguage() {
       const languageSelect = document.getElementById("languageSelect");
       const selectedLanguage = languageSelect.value;
@@ -84,6 +114,7 @@
     }
   
     document.addEventListener("DOMContentLoaded", checkDarkMode);
+    document.addEventListener("DOMContentLoaded", checkTextSize);
   </script>
 
   <div class="dashboard-container">

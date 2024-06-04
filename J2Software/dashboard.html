@@ -35,6 +35,12 @@
                 <option value="en">English</option>
                 <option value="af">Afrikaans</option>
               </select>
+              <hr>
+              <label for="textSizeToggle">Text Size</label>
+              <label class="switch">
+                <input type="checkbox" id="textSizeToggle" onchange="toggleTextSize()">
+                <span class="slider round"></span>
+              </label>
             </div>
           </li>
           <li><a href="#" onclick="openPrompt()">Logout</a></li>
@@ -75,6 +81,30 @@
       }
     }
 
+    function toggleTextSize() {
+      const textSize = localStorage.getItem("textSizeToggle");
+      const body = document.body;
+
+      if (textSizeToggle.checked) {
+        body.classList.add("large-text");
+        localStorage.setItem("textSize", "true");
+      } else {
+        body.classList.remove("large-text");
+        localStorage.setItem("textSize", "false");
+      }
+    }
+
+    function checkTextSize() {
+      const textSize = localStorage.getItem("textSize");
+      const textSizeToggle = document.getElementById("textSizeToggle");
+      const body = document.body;
+
+      if (textSize === "true") {
+        body.classList.add("large-text");
+        textSizeToggle.checked = true;
+      }
+    }
+
     function changeLanguage() {
       const languageSelect = document.getElementById("languageSelect");
       const selectedLanguage = languageSelect.value;
@@ -84,6 +114,7 @@
     }
 
     document.addEventListener("DOMContentLoaded", checkDarkMode);
+    document.addEventListener("DOMContentLoaded", checkTextSize);
   </script>
 
   <div class="dashboard-container">
