@@ -19,8 +19,8 @@ body {
 .login-page,
 .factor-authentication-page {
   background-image: url(_images/background_image.jpg);
-  margin-left: 30%;
-  margin-right: 28%;
+  margin-left: 35%;
+  margin-right: 35%;
 }
 
 .dashboard-container {
@@ -174,7 +174,7 @@ input {
   padding: 10px;
   border: solid;
   border-radius: 6px;
-  width: 300px;
+  width: 50%;
   outline: none;
 }
 
