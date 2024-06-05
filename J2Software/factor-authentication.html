@@ -51,6 +51,7 @@
         const enteredCode = document.getElementById("authCodeInputBox").value;
         const userMessage = document.getElementById("user-message");
         if (enteredCode === "") {
+          userMessage.style.color = "red";
           userMessage.textContent = "Please enter the Authentication code";
         } else {
           userMessage.textContent = "";

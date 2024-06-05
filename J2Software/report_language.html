@@ -11,10 +11,9 @@
 
 <body class="report-page">
   <dialog class="logout-prompt" id="logout">
-    <div class="red-bar"><br /></div>
     <h2>Is jy seker jy wil uit teken?</h2>
-    <button class="popup-button" onclick="window.location.href ='login.html'">Ja</button>
-    <button class="popup-button" onclick="closePrompt()">Nee<br /></button>
+    <button onclick="window.location.href ='login.html'">Ja</button>
+    <button onclick="closePrompt()">Nee<br /></button>
   </dialog>
   <header>
     <nav>
@@ -117,7 +116,7 @@
   </script>
 
   <br /><br /><br />
-  <div class="report-container">
+  <div id="report-view" class="report-container">
     <h1>Verslag vir 01-01-2024 - 31-01-2024</h1>
     <ul>
       <li>Booswillige Waarskuwings: 0</li>
@@ -240,9 +239,11 @@
       if (darkModeToggle.checked) {
         body.classList.add("dark-mode");
         localStorage.setItem("darkMode", "true");
+        document.getElementById("report-view").style.backgroundColor = "black";
       } else {
         body.classList.remove("dark-mode");
         localStorage.setItem("darkMode", "false");
+        document.getElementById("report-view").style.backgroundColor = "transparent";
       }
     }
 
@@ -254,6 +255,7 @@
       if (darkMode === "true") {
         body.classList.add("dark-mode");
         darkModeToggle.checked = true;
+        document.getElementById("report-view").style.backgroundColor = "black";
       }
     }
 

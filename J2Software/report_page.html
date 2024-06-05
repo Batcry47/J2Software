@@ -11,7 +11,6 @@
 
 <body class="report-page">
   <dialog class="logout-prompt" id="logout">
-    <div class="red-bar"><br /></div>
     <h2>Are you sure you would like to log out?</h2>
     <button onclick="window.location.href ='login.html'">Yes</button>
     <button onclick="closePrompt()">No<br /></button>
@@ -59,24 +58,24 @@
   <div class="date-selector-div">
     <h2>Select Date Range</h2>
     <label for="start_date">Start Date:</label>
-    <input type="date" class="date-selector" id="start_date" name="start_date" min="2024-01-01" onchange="minEndDate()" />
+    <input type="date" class="date-selector" id="start_date" name="start_date" min="2024-01-01"
+      onchange="minEndDate()" />
 
     <label for="end_date">End Date:</label>
     <input type="date" class="date-selector" id="end_date" name="end_date" min="2024-01-01"
       onchange="updateEndDateMin()" />
   </div>
   <script>
-    function minEndDate()
-    { 
+    function minEndDate() {
       var startDate = document.getElementById('start_date').value;
-         var endDate = document.getElementById('end_date');
+      var endDate = document.getElementById('end_date');
 
-        if (startDate) {
-            endDate.min = startDate;
-            if (endDate.value < startDate) {
-                endDate.value = startDate;
-            }
-          }
+      if (startDate) {
+        endDate.min = startDate;
+        if (endDate.value < startDate) {
+          endDate.value = startDate;
+        }
+      }
     }
 
     function updateEndDateMin() {
@@ -130,7 +129,7 @@
   </script>
 
   <br /><br /><br />
-  <div class="report-container">
+  <div id="report-view" class="report-container">
     <h1>Alert Report for 01-01-2024 - 31-01-2024</h1>
     <ul>
       <li>Malicious Alerts: 0</li>
@@ -253,9 +252,12 @@
       if (darkModeToggle.checked) {
         body.classList.add("dark-mode");
         localStorage.setItem("darkMode", "true");
+        document.getElementById("report-view").style.backgroundColor = "black";
       } else {
         body.classList.remove("dark-mode");
         localStorage.setItem("darkMode", "false");
+        document.getElementById("report-view").style.backgroundColor = "transparent";
+
       }
     }
 
@@ -267,6 +269,7 @@
       if (darkMode === "true") {
         body.classList.add("dark-mode");
         darkModeToggle.checked = true;
+        document.getElementById("report-view").style.backgroundColor = "black";
       }
     }
 

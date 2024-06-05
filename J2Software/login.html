@@ -46,13 +46,18 @@
       enteredUsername = document.getElementById('username').value;
       enteredPassword = document.getElementById('pass').value;
       if (enteredUsername == "" && enteredPassword !== "") {
+        document.getElementById('user-message').style.color = "red";
         document.getElementById('user-message').textContent = "Please enter your username";
         document.getElementById('pass-message').textContent = "";
 
       } else if (enteredPassword == "" && enteredUsername !== "") {
+        document.getElementById('pass-message').style.color = "red";
         document.getElementById('pass-message').textContent = "Please enter your password";
         document.getElementById('user-message').textContent = "";
       } else if (enteredUsername == "" && enteredPassword == "") {
+        document.getElementById('pass-message').style.color = "red";
+        document.getElementById('user-message').style.color = "red";
+
         document.getElementById('user-message').textContent = "Please enter your username";
         document.getElementById('pass-message').textContent = "Please enter your password";
       }
