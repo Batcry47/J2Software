@@ -59,13 +59,26 @@
   <div class="date-selector-div">
     <h2>Select Date Range</h2>
     <label for="start_date">Start Date:</label>
-    <input type="date" class="date-selector" id="start_date" name="start_date" min="2024-01-01" />
+    <input type="date" class="date-selector" id="start_date" name="start_date" min="2024-01-01" onchange="minEndDate()" />
 
     <label for="end_date">End Date:</label>
     <input type="date" class="date-selector" id="end_date" name="end_date" min="2024-01-01"
       onchange="updateEndDateMin()" />
   </div>
   <script>
+    function minEndDate()
+    { 
+      var startDate = document.getElementById('start_date').value;
+         var endDate = document.getElementById('end_date');
+
+        if (startDate) {
+            endDate.min = startDate;
+            if (endDate.value < startDate) {
+                endDate.value = startDate;
+            }
+          }
+    }
+
     function updateEndDateMin() {
       const startDate = document.getElementById("start_date").value;
       const endDate = document.getElementById("end_date").value;
