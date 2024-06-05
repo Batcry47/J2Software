@@ -294,11 +294,6 @@ h1 {
   text-align: center;
 }
 
-.report-button {
-  background-color: #c01010;
-
-}
-
 .report-button:hover {
   background-color: #830f0f;
 }
@@ -479,6 +474,16 @@ dialog::backdrop {
 
 .dark-mode {
   background-image: url(_images/background_image_dark.jpg);
+  color: white;
+}
+
+.dark-mode .report-button {
+  background-color: white;
+  color: black;
+}
+
+.dark-mode .report-button:hover {
+  background-color: #830f0f;
   color: white;
 }
 
