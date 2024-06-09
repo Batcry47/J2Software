@@ -38,35 +38,45 @@
 
 
   <script>
+    // Predefined username and password for authentication
     const username = "Thato456";
     const password = "123456";
+
+    // Get the popup element by its ID
     const popup = document.getElementById('popup-box');
 
+    // Function to check the input fields for username and password
     function checkInput() {
+      // Get the values entered by the user for username and password
       enteredUsername = document.getElementById('username').value;
       enteredPassword = document.getElementById('pass').value;
+       // Check if the username is empty and password is not
       if (enteredUsername == "" && enteredPassword !== "") {
+        // Display an error message for the username field
         document.getElementById('user-message').style.color = "red";
         document.getElementById('user-message').textContent = "Please enter your username";
+        // Clear any message for the password field
         document.getElementById('pass-message').textContent = "";
 
-      } else if (enteredPassword == "" && enteredUsername !== "") {
+      } else if (enteredPassword == "" && enteredUsername !== "") {  // Display password error message if password is empty and username is not
         document.getElementById('pass-message').style.color = "red";
         document.getElementById('pass-message').textContent = "Please enter your password";
         document.getElementById('user-message').textContent = "";
-      } else if (enteredUsername == "" && enteredPassword == "") {
+      } else if (enteredUsername == "" && enteredPassword == "") {  // Display both username and password error messages if both are empty
         document.getElementById('pass-message').style.color = "red";
         document.getElementById('user-message').style.color = "red";
 
         document.getElementById('user-message').textContent = "Please enter your username";
         document.getElementById('pass-message').textContent = "Please enter your password";
       }
-      else {
+      
+      else { // Clear any previous error messages and proceed to data validation
         document.getElementById('user-message').textContent = "";
         document.getElementById('pass-message').textContent = "";
-        validateData();
+        validateData(); // Call function to validate entered data
       }
     }
+    // Function to validate entered username and password
     function validateData() {
       enteredUsername = document.getElementById('username').value;
       enteredPassword = document.getElementById('pass').value;
@@ -74,12 +84,15 @@
         popup.showModal();
       }
       else {
+      // Redirect to another page if credentials are valid
         window.location.href = "factor-authentication.html";
       }
     }
+    // Function to close the popup box
     function closePopup() {
       popup.close();
     }
+    // Event listener for clicking anywhere on the popup to close it
     popup.addEventListener('click', () => { closePopup() });
   </script>
 </body>

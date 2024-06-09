@@ -9,8 +9,10 @@
 </head>
 
 <body>
+  <!-- Header section containing navigation -->
   <header>
     <nav>
+      <!-- Top-left navigation section -->
       <div class="top-left-nav">
         <ul>
           <li><img src="_images/logo_10_2019.png" id="NavLogo" /></li>
@@ -19,23 +21,28 @@
           <li><a href="report_page.html">Report</a></li>
         </ul>
       </div>
+      <!-- Top-right navigation section -->
       <div class="top-right-nav">
         <ul>
           <li class="dropdown">
+             <!-- Preferences dropdown menu -->
             <a href="#" class="dropdown-toggle">Preferences</a>
             <div class="dropdown-menu">
+                <!-- Dark mode toggle -->
               <label for="darkModeToggle">Dark Mode</label>
               <label class="switch">
                 <input type="checkbox" id="darkModeToggle" onchange="toggleDarkMode()">
                 <span class="slider round"></span>
               </label>
               <hr>
+              <!-- Language selection -->
               <label for="languageSelect">Language:</label>
               <select id="languageSelect" onchange="changeLanguage()">
                 <option value="en">English</option>
                 <option value="af">Afrikaans</option>
               </select>
               <hr>
+               <!-- Text size toggle -->
               <label for="textSizeToggle">Text Size</label>
               <label class="switch">
                 <input type="checkbox" id="textSizeToggle" onchange="toggleTextSize()">
@@ -48,20 +55,25 @@
       </div>
     </nav>
   </header>
-
+<!-- Main content section -->
   <main>
+     <!-- Logout prompt dialog -->
     <dialog class="logout-prompt" id="logout">
       <h2>Are you sure you would like to log out?</h2>
       <button onclick="window.location.href ='login.html'">Yes</button>
       <button onclick="closePrompt()">No<br /></button>
     </dialog>
+      <!-- Container for main content -->
     <div class="container">
+       <!-- Text content -->
       <div class="col-text-center">
         <h1>Microsoft 365 Monitoring</h1>
       </div>
     </div>
+    <!-- Date range selection and metrics display -->
     <div class="container">
       <div class="col">
+           <!-- Date range selection -->
         <div style="margin-top: 3em">
           <p>
             We use Tactics as these are the core of the attack Framework and
@@ -79,6 +91,8 @@
           <input type="date" class="date-selector" id="end_date" name="end_date" min="2024-01-01"
             onchange="updateDateRange()" />
 
+          <!--Function to ensure the end date is not earlier than the start date-->
+          <!--makes sure data from only two specific days displays-->
           <script>
             function minEndDate() { 
               var startDate = document.getElementById('start_date').value;
@@ -91,7 +105,8 @@
                   }
                 }
               }
-
+             
+              
             function updateDateRange() {
               const startDate = document.getElementById("start_date").value;
               const endDate = document.getElementById("end_date").value;
@@ -236,7 +251,9 @@
       </div>
     </div>
   </main>
+  <!--this code functions for the preferences where the user will select the setting theiy are most comfortable with -->
   <script>
+   
     function toggleDarkMode() {
       const darkModeToggle = document.getElementById("darkModeToggle");
       const body = document.body;

@@ -8,9 +8,13 @@
   </head>
 
   <body class="factor-authentication-page">
+    <!-- Navigation link to the Login Page -->
     <a href="login.html">Login Page</a>
     <br /><br /><br />
+    
+    <!-- Container for the two-factor authentication UI -->
     <div class="factor-container">
+      <!-- Company logo -->
       <img
         src="_images/j2_logo.png"
         class="rounded"
@@ -19,20 +23,28 @@
         height="215"
       />
       <br />
+      
+      <!-- Instructional messages -->
       <h3 id="new-message">
         A verification code has been sent to your email address,
-        <br />please enter the code recieved to continue
+        <br />please enter the code received to continue
       </h3>
       <br />
       <h3 id="expiry-message"></h3>
       <h3 id="code-time">The code expires in 30 seconds</h3>
       <br />
+      
+      <!-- Input box for authentication code -->
       <input type="text" id="authCodeInputBox" maxlength="6" /><br /><br />
+      
+      <!-- Buttons to resend and verify the code -->
       <button onclick="resendCode()">Resend Code</button>
-
       <button onclick="checkAuthInput()">Verify Code</button>
-
+      
+      <!-- Display area for user messages and errors -->
       <p id="user-message" class="error-message"></p>
+      
+      <!-- Popup dialog box for notifications -->
       <dialog class="popup" id="popup-box">
         <div class="red-bar"><br /></div>
         <h2 id="popup-message"></h2>
@@ -40,13 +52,16 @@
       </dialog>
     </div>
 
+    <!-- JavaScript section for functionality -->
     <script>
+      // Initial authentication code and variables
       const authCode = "123456";
-      newCode = "";
-      codeTimer = 0;
+      let newCode = "";
+      let codeTimer = 0;
       let timer;
       const popup = document.getElementById("popup-box");
 
+      // Function to check the entered authentication code
       function checkAuthInput() {
         const enteredCode = document.getElementById("authCodeInputBox").value;
         const userMessage = document.getElementById("user-message");
@@ -59,15 +74,16 @@
         }
       }
 
+      // Function to validate entered code against expected code
       function validateData(enteredCode) {
         if (newCode === "") {
           if (enteredCode !== authCode) {
             document.getElementById("popup-message").textContent =
-              "The code entered is either invalid or has expired,  " +
-              " please enter the correct code to proceed";
+              "The code entered is either invalid or has expired, " +
+              "please enter the correct code to proceed";
             popup.showModal();
           } else {
-            window.location.href = "index.html";
+            window.location.href = "index.html"; // Redirect to main page on successful validation
           }
         } else {
           if (enteredCode !== newCode) {
@@ -76,48 +92,57 @@
               "please enter the correct code to proceed";
             popup.showModal();
           } else {
-            window.location.href = "index.html";
+            window.location.href = "index.html"; // Redirect to main page on successful validation
           }
         }
       }
 
+      // Function executed when the page loads
       window.onload = function () {
-        startTimer();
+        startTimer(); // Start countdown timer for code expiration
       };
+
+      // Function to resend the authentication code
       function resendCode() {
-        refreshTimer();
+        refreshTimer(); // Reset and start timer for new code expiration
         document.getElementById("popup-message").textContent =
           "Code has been resent, please check your email";
         popup.showModal();
-        newCode = "456789";
-      }
-      function refreshTimer() {
-        clearInterval(timer);
-        codeTimer = 30;
-        startTimer();
+        newCode = "456789"; // Simulated new authentication code
       }
 
+      // Function to refresh the countdown timer
+      function refreshTimer() {
+        clearInterval(timer); // Clear previous timer
+        codeTimer = 30; // Reset timer duration
+        startTimer(); // Restart countdown
+      }
+
+      // Function to start the countdown timer
       function startTimer() {
-        codeTimer = 30;
+        codeTimer = 30; // Initial timer duration
         timer = setInterval(() => {
-          codeTimer--;
+          codeTimer--; // Decrease timer value
           document.getElementById("code-time").textContent =
             "The code expires in " + codeTimer + " seconds";
           if (codeTimer === 0) {
-            clearInterval(timer);
-            newCode = "1";
+            clearInterval(timer); // Stop timer when it reaches zero
+            newCode = "1"; // Expired code indicator
             document.getElementById("expiry-message").textContent =
               "The code has expired, please request for a new one";
             document.getElementById("code-time").textContent = "";
           } else {
             document.getElementById("expiry-message").textContent = "";
           }
-        }, 1000);
+        }, 1000); // Timer update interval (1 second)
       }
+
+      // Function to close the popup dialog
       function closePopup() {
         popup.close();
       }
 
+      // Event listener to close the popup dialog when clicked outside
       popup.addEventListener("click", closePopup);
     </script>
   </body>
