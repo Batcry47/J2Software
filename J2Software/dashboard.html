@@ -492,6 +492,38 @@
       });
     </script>
   </div>
+  <script>
+    function toggleScreenReader() {
+      const screenReaderToggle = document.getElementById("screenReaderToggle");
+      const selectedOption = screenReaderToggle.checked ? "on" : "off";
+
+      if (selectedOption === "on") {
+        playScreenReaderAudio();
+      } else {
+        stopScreenReaderAudio();
+      }
+    }
+
+    let audioInstance;
+
+    function playScreenReaderAudio() {
+      if (!audioInstance) {
+        audioInstance = new Audio('_audio/dashboard.mp3');
+        audioInstance.addEventListener('ended', function () {
+          stopScreenReaderAudio();
+          document.getElementById("screenReaderToggle").checked = false;
+        }, false);
+      }
+      audioInstance.play();
+    }
+
+    function stopScreenReaderAudio() {
+      if (audioInstance) {
+        audioInstance.pause();
+        audioInstance.currentTime = 0;
+      }
+    }
+  </script>
 </body>
 
 </html>

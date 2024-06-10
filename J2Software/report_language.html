@@ -57,6 +57,12 @@
                 <input type="checkbox" id="textSizeToggle" onchange="toggleTextSize()">
                 <span class="slider round"></span>
               </label>
+              <hr>
+              <label for="screenReaderToggle" class="toggle-label">Skermlêser</label>
+              <label class="switch">
+                <input type="checkbox" id="screenReaderToggle" onchange="toggleScreenReader()">
+                <span class="slider round"></span>
+              </label>
             </div>
           </li>
           <li><a href="#" onclick="openPrompt()">Uitlog</a></li>
@@ -346,6 +352,39 @@
     logoutPrompt.addEventListener("click", () => {
       closePrompt();
     });
+  </script>
+
+  <script>
+    function toggleScreenReader() {
+      const screenReaderToggle = document.getElementById("screenReaderToggle");
+      const selectedOption = screenReaderToggle.checked ? "aan" : "af";
+
+      if (selectedOption === "aan") {
+        playScreenReaderAudio();
+      } else {
+        stopScreenReaderAudio();
+      }
+    }
+
+    let audioInstance;
+
+    function playScreenReaderAudio() {
+      if (!audioInstance) {
+        audioInstance = new Audio('_audio/report_language.mp3');
+        audioInstance.addEventListener('ended', function () {
+          stopScreenReaderAudio();
+          document.getElementById("screenReaderToggle").checked = false;
+        }, false);
+      }
+      audioInstance.play();
+    }
+
+    function stopScreenReaderAudio() {
+      if (audioInstance) {
+        audioInstance.pause();
+        audioInstance.currentTime = 0;
+      }
+    }
   </script>
 </body>
 
