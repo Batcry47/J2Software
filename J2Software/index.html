@@ -25,10 +25,10 @@
       <div class="top-right-nav">
         <ul>
           <li class="dropdown">
-             <!-- Preferences dropdown menu -->
+            <!-- Preferences dropdown menu -->
             <a href="#" class="dropdown-toggle">Preferences</a>
             <div class="dropdown-menu">
-                <!-- Dark mode toggle -->
+              <!-- Dark mode toggle -->
               <label for="darkModeToggle">Dark Mode</label>
               <label class="switch">
                 <input type="checkbox" id="darkModeToggle" onchange="toggleDarkMode()">
@@ -42,7 +42,7 @@
                 <option value="af">Afrikaans</option>
               </select>
               <hr>
-               <!-- Text size toggle -->
+              <!-- Text size toggle -->
               <label for="textSizeToggle">Text Size</label>
               <label class="switch">
                 <input type="checkbox" id="textSizeToggle" onchange="toggleTextSize()">
@@ -55,17 +55,27 @@
       </div>
     </nav>
   </header>
-<!-- Main content section -->
+  <!-- Main content section -->
   <main>
-     <!-- Logout prompt dialog -->
+    <!-- Logout prompt dialog -->
     <dialog class="logout-prompt" id="logout">
       <h2>Are you sure you would like to log out?</h2>
       <button onclick="window.location.href ='login.html'">Yes</button>
       <button onclick="closePrompt()">No<br /></button>
     </dialog>
-      <!-- Container for main content -->
+
+    <dialog class="logout-prompt" id="logoutPrompt">
+      <div class="popup-content">
+        <div class="red-bar"></div>
+        <h2>Are you still there?</h2>
+        <p>You've been inactive for a while. Would you like to continue?</p>
+        <button onclick="resetInactivityTimer(); closeLogoutPrompt();">Yes, I'm here</button>
+        <button onclick="logout()">Logout</button>
+      </div>
+    </dialog>
+    <!-- Container for main content -->
     <div class="container">
-       <!-- Text content -->
+      <!-- Text content -->
       <div class="col-text-center">
         <h1>Microsoft 365 Monitoring</h1>
       </div>
@@ -73,7 +83,7 @@
     <!-- Date range selection and metrics display -->
     <div class="container">
       <div class="col">
-           <!-- Date range selection -->
+        <!-- Date range selection -->
         <div style="margin-top: 3em">
           <p>
             We use Tactics as these are the core of the attack Framework and
@@ -85,7 +95,7 @@
           <h2>Select Date Range</h2>
           <label for="start_date">Start Date:</label>
           <input type="date" class="date-selector" id="start_date" name="start_date" min="2024-01-01"
-          onchange="minEndDate()" />
+            onchange="minEndDate()" />
 
           <label for="end_date">End Date:</label>
           <input type="date" class="date-selector" id="end_date" name="end_date" min="2024-01-01"
@@ -94,19 +104,19 @@
           <!--Function to ensure the end date is not earlier than the start date-->
           <!--makes sure data from only two specific days displays-->
           <script>
-            function minEndDate() { 
+            function minEndDate() {
               var startDate = document.getElementById('start_date').value;
               var endDate = document.getElementById('end_date');
 
               if (startDate) {
                 endDate.min = startDate;
-              if (endDate.value < startDate) {
-                endDate.value = startDate;
-                  }
+                if (endDate.value < startDate) {
+                  endDate.value = startDate;
                 }
               }
-             
-              
+            }
+
+
             function updateDateRange() {
               const startDate = document.getElementById("start_date").value;
               const endDate = document.getElementById("end_date").value;
@@ -172,7 +182,7 @@
         </div>
       </div>
       <div class="metrics">
-        
+
         <div class="metric">
           <img src="_images/total_alerts.png" id="totalAlertsImg" />
           <div class="metric-value">Total Alerts</div>
@@ -192,7 +202,7 @@
           <img src="_images/malicious_alerts.png" id="maliciousAlertsImg" />
           <div class="metric-value">Malicious Alerts</div>
         </div>
-        
+
         <div class="metric">
           <a href="dashboard.html?category=initial-access">
             <img src="_images/initial_access.png" id="initialAccessImg" />
@@ -263,7 +273,7 @@
   </main>
   <!--this code functions for the preferences where the user will select the setting theiy are most comfortable with -->
   <script>
-   
+
     function toggleDarkMode() {
       const darkModeToggle = document.getElementById("darkModeToggle");
       const body = document.body;
@@ -322,6 +332,36 @@
 
     document.addEventListener("DOMContentLoaded", checkDarkMode);
     document.addEventListener("DOMContentLoaded", checkTextSize);
+
+    const INACTIVITY_TIMEOUT = 30000;
+    let inactivityTimer;
+
+    function startInactivityTimer() {
+      inactivityTimer = setTimeout(showLogoutPrompt, INACTIVITY_TIMEOUT);
+    }
+
+    function resetInactivityTimer() {
+      clearTimeout(inactivityTimer);
+      startInactivityTimer();
+    }
+
+    function showLogoutPrompt() {
+      const logoutPrompt = document.getElementById("logoutPrompt");
+      logoutPrompt.showModal();
+    }
+
+    function closeLogoutPrompt() {
+      const logoutPrompt = document.getElementById("logoutPrompt");
+      logoutPrompt.close();
+    }
+
+    function logout() {
+      window.location.href = "login.html";
+    }
+
+    document.addEventListener("mousemove", resetInactivityTimer);
+    document.addEventListener("keydown", resetInactivityTimer);
+    document.addEventListener("DOMContentLoaded", startInactivityTimer);
   </script>
 </body>
 

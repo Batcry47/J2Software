@@ -15,6 +15,16 @@
     <button onclick="window.location.href ='login.html'">Yes</button>
     <button onclick="closePrompt()">No<br /></button>
   </dialog>
+
+  <dialog class="logout-prompt" id="logoutPrompt">
+    <div class="popup-content">
+      <div class="red-bar"></div>
+      <h2>Are you still there?</h2>
+      <p>You've been inactive for a while. Would you like to continue?</p>
+      <button onclick="resetInactivityTimer(); closeLogoutPrompt();">Yes, I'm here</button>
+      <button onclick="logout()">Logout</button>
+    </div>
+  </dialog>
   <header>
     <nav>
       <div class="top-left-nav">
@@ -27,10 +37,10 @@
       </div>
       <div class="top-right-nav">
         <ul>
-          <li class="dropdown">   <!-- Preferences dropdown menu -->
+          <li class="dropdown"> <!-- Preferences dropdown menu -->
             <a href="#" class="dropdown-toggle">Preferences</a>
             <div class="dropdown-menu">
-              <label for="darkModeToggle">Dark Mode</label>  <!-- Dark mode toggle -->
+              <label for="darkModeToggle">Dark Mode</label> <!-- Dark mode toggle -->
               <label class="switch">
                 <input type="checkbox" id="darkModeToggle" onchange="toggleDarkMode()">
                 <span class="slider round"></span>
@@ -43,7 +53,7 @@
                 <option value="af">Afrikaans</option>
               </select>
               <hr>
-               <!-- Text size toggle -->
+              <!-- Text size toggle -->
               <label for="textSizeToggle">Text Size</label>
               <label class="switch">
                 <input type="checkbox" id="textSizeToggle" onchange="toggleTextSize()">
@@ -56,7 +66,7 @@
       </div>
     </nav>
   </header>
- 
+
   <div class="date-selector-div"> <!-- Date range selection -->
     <h2>Select Date Range</h2>
     <label for="start_date">Start Date:</label>
@@ -81,7 +91,7 @@
         }
       }
     }
-// makes sure data from only two specific days displays
+    // makes sure data from only two specific days displays
     function updateEndDateMin() {
       const startDate = document.getElementById("start_date").value;
       const endDate = document.getElementById("end_date").value;
@@ -158,7 +168,7 @@
     </ul>
     <br />
   </div>
-<!--report download button-->
+  <!--report download button-->
   <div class="button-container">
     <br>
     <button id="downloadReportButton" class="report-button">
@@ -232,7 +242,7 @@
 
     downloadReportButton.addEventListener('click', downloadReport);
 
-  // chart download button function 
+    // chart download button function 
     function downloadChart() {
       const chartCanvas = document.getElementById("lineChart");
       const chartDataUrl = chartCanvas.toDataURL("image/jpeg");
@@ -252,7 +262,7 @@
         downloadChart();
       });
 
-      // function for dark mode
+    // function for dark mode
     function toggleDarkMode() {
       const darkModeToggle = document.getElementById("darkModeToggle");
       const body = document.body;
@@ -281,7 +291,7 @@
       }
     }
 
- // text size change function
+    // text size change function
     function toggleTextSize() {
       const textSize = localStorage.getItem("textSizeToggle");
       const body = document.body;
@@ -305,7 +315,7 @@
         textSizeToggle.checked = true;
       }
     }
-    
+
     //language change functionality.
     function changeLanguage() {
       const languageSelect = document.getElementById("languageSelect");
@@ -317,6 +327,36 @@
 
     document.addEventListener("DOMContentLoaded", checkDarkMode);
     document.addEventListener("DOMContentLoaded", checkTextSize);
+
+    const INACTIVITY_TIMEOUT = 30000;
+    let inactivityTimer;
+
+    function startInactivityTimer() {
+      inactivityTimer = setTimeout(showLogoutPrompt, INACTIVITY_TIMEOUT);
+    }
+
+    function resetInactivityTimer() {
+      clearTimeout(inactivityTimer);
+      startInactivityTimer();
+    }
+
+    function showLogoutPrompt() {
+      const logoutPrompt = document.getElementById("logoutPrompt");
+      logoutPrompt.showModal();
+    }
+
+    function closeLogoutPrompt() {
+      const logoutPrompt = document.getElementById("logoutPrompt");
+      logoutPrompt.close();
+    }
+
+    function logout() {
+      window.location.href = "login.html";
+    }
+
+    document.addEventListener("mousemove", resetInactivityTimer);
+    document.addEventListener("keydown", resetInactivityTimer);
+    document.addEventListener("DOMContentLoaded", startInactivityTimer);
 
     // functionslity for the user to logout.
     const logoutPrompt = document.getElementById("logout");

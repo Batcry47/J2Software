@@ -55,6 +55,16 @@
     <button class="popup-button" onclick="closePrompt()">Nee<br /></button>
   </dialog>
 
+  <dialog class="logout-prompt" id="logoutPrompt">
+    <div class="popup-content">
+      <div class="red-bar"></div>
+      <h2>Is jy nog daar?</h2>
+      <p>Jy het vir 'n ruk lank onaktief gewees. Wil jy voortgaan?</p>
+      <button onclick="resetInactivityTimer(); closeLogoutPrompt();">Ja, ek is hier</button>
+      <button onclick="logout()">Uitlogg</button>
+    </div>
+  </dialog>
+
   <script>
     function toggleDarkMode() {
       const darkModeToggle = document.getElementById("darkModeToggle");
@@ -114,6 +124,36 @@
   
     document.addEventListener("DOMContentLoaded", checkDarkMode);
     document.addEventListener("DOMContentLoaded", checkTextSize);
+
+    const INACTIVITY_TIMEOUT = 30000;
+    let inactivityTimer;
+
+    function startInactivityTimer() {
+      inactivityTimer = setTimeout(showLogoutPrompt, INACTIVITY_TIMEOUT);
+    }
+
+    function resetInactivityTimer() {
+      clearTimeout(inactivityTimer);
+      startInactivityTimer();
+    }
+
+    function showLogoutPrompt() {
+      const logoutPrompt = document.getElementById("logoutPrompt");
+      logoutPrompt.showModal();
+    }
+
+    function closeLogoutPrompt() {
+      const logoutPrompt = document.getElementById("logoutPrompt");
+      logoutPrompt.close();
+    }
+
+    function logout() {
+      window.location.href = "login.html";
+    }
+
+    document.addEventListener("mousemove", resetInactivityTimer);
+    document.addEventListener("keydown", resetInactivityTimer);
+    document.addEventListener("DOMContentLoaded", startInactivityTimer);
   </script>
 
   <div class="dashboard-container">
