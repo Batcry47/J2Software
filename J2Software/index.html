@@ -149,19 +149,24 @@
                 escalation: "_images/new_escalation.png",
                 persistence: "_images/new_persistence.png",
               };
-
-              if (startDate !== "" && endDate !== "") {
+                
+              // Check if both startDate and endDate are not empty
+              if (startDate !== "" && endDate !== "") 
+              {
                 document.getElementById('alert-counter').textContent = "There were 4 total alerts, of which 2 were malicious";
                 if (endDate > "2024-04-30") {
-                  imageElements.forEach((img) => {
+                  imageElements.forEach((img) =>
+                   {
                     const imageId = img.id;
                     img.src =
                       newImageSources[
                       imageId.replace("Img", "").toLowerCase()
                       ];
                   });
-                } else {
-                  imageElements.forEach((img) => {
+                } else 
+                {
+                  imageElements.forEach((img) => 
+                  {
                     const imageId = img.id;
                     img.src = `_images/${imageId
                       .replace("Img", "")

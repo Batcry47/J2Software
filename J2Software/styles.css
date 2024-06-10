@@ -589,12 +589,20 @@ input:checked+.slider:before {
 
 .large-text button {
   font-size: 18px;
+  font-size: 18px;
 }
 
 /* Mobile friendly code  */
 @media only screen and (max-width: 600px) {
   body {
     background-size: cover;
+  }
+
+  .d-Chart {
+    max-width: 100%;
+    width: 100%;
+    margin: 0 auto;
+    padding: 10px;
   }
 
   .container {
@@ -686,5 +694,25 @@ input:checked+.slider:before {
   .result-header,
   .sort-options {
     justify-content: center;
+  }
+
+  .filter-options {
+    display: none;
+  }
+  
+  .filter-options.show {
+    display: block;
+  }
+
+  .filter-menu-button {
+    display: block;
+    text-align: center;
+    margin: 10px auto;
+    padding: 10px;
+    background-color: #010a14;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
   }
 }

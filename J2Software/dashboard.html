@@ -84,7 +84,7 @@
         localStorage.setItem("darkMode", "false");
       }
     }
-
+    //
     function checkDarkMode() {
       const darkMode = localStorage.getItem("darkMode");
       const darkModeToggle = document.getElementById("darkModeToggle");
@@ -130,36 +130,46 @@
 
     document.addEventListener("DOMContentLoaded", checkDarkMode);
     document.addEventListener("DOMContentLoaded", checkTextSize);
-
+    
+    // Define the inactivity timeout period in milliseconds (30 seconds)
     const INACTIVITY_TIMEOUT = 30000;
     let inactivityTimer;
 
+    // Function to start the inactivity timer
     function startInactivityTimer() {
+      // Set a timeout to trigger the logout prompt after the defined period of inactivity
       inactivityTimer = setTimeout(showLogoutPrompt, INACTIVITY_TIMEOUT);
     }
 
+    // Function to reset the inactivity timer
     function resetInactivityTimer() {
-      clearTimeout(inactivityTimer);
-      startInactivityTimer();
+      clearTimeout(inactivityTimer);  // Clear the existing timeout
+      startInactivityTimer();// Restart the inactivity timer
     }
 
+    // Function to show the logout prompt
     function showLogoutPrompt() {
       const logoutPrompt = document.getElementById("logoutPrompt");
-      logoutPrompt.showModal();
+      logoutPrompt.showModal(); // Display the logout prompt dialog
     }
 
+    // Function to close the logout prompt
     function closeLogoutPrompt() {
       const logoutPrompt = document.getElementById("logoutPrompt");
-      logoutPrompt.close();
+      logoutPrompt.close();  // Close the logout prompt dialog
     }
 
+
+// Function to log the user out and redirect to the login page
     function logout() {
       window.location.href = "login.html";
     }
 
+    // Add event listeners to reset the inactivity timer on user activity
     document.addEventListener("mousemove", resetInactivityTimer);
     document.addEventListener("keydown", resetInactivityTimer);
-    document.addEventListener("DOMContentLoaded", startInactivityTimer);
+    
+    document.addEventListener("DOMContentLoaded", startInactivityTimer);// Start the inactivity timer when the DOM content is fully loaded
   </script>
 
   <div class="dashboard-container">
@@ -180,11 +190,13 @@
           </div>
         </div>
         <div class="dash-Table">
+          
           <div class="filter-bar">
             <h3>FILTER BY:</h3>
             <h4>
               Severity Level <a href="#" class="clear-severity">Clear All</a>
             </h4>
+            <button id="filterMenuButton" class="filter-menu-button">Filter Options</button>
             <div class="filter-options">
               <label class="checkbox-label">
                 <span class="checkbox-label-text">Informational</span>
@@ -312,41 +324,65 @@
     </div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
     <script>
-      const severityLevels = [
+      // Add a click event listener to the filter menu button
+      document.getElementById('filterMenuButton').addEventListener('click', function() 
+           {
+           var filterOptions = document.querySelector('.filter-options'); // Toggle the visibility of the filter options
+            filterOptions.classList.toggle('show');
+           });
+       // Define severity levels for the alerts
+      const severityLevels = 
+      [
         "Informational",
         "Low",
         "Medium",
         "High",
         "Critical",
       ];
+
+      // Define the number of alerts for each severity level
       const alertNumbers = [1, 1, 1, 2, 0];
-      const pieColors = [
+      // Define the colors for each section of the pie chart
+      const pieColors = 
+      [
         "#505050",
         "rgb(143, 140, 0)",
         "rgb(173, 113, 0)",
         "rgb(255, 0, 0)",
         "rgb(139, 0, 0)",
       ];
-      const alertChart = new Chart("doughnutChart", {
-        type: "doughnut",
-        data: {
-          labels: severityLevels,
-          datasets: [
+
+        // Create a new doughnut chart
+      const alertChart = new Chart("doughnutChart", 
+      {
+        type: "doughnut", // Chart type is doughnut
+        data:
+        {
+          labels: severityLevels, // Set the labels for the chart
+          datasets: 
+          [
             {
-              backgroundColor: pieColors,
-              data: alertNumbers,
+              backgroundColor: pieColors,// Set the data for the chart
+              data: alertNumbers,// Set the data for the chart
             },
           ],
         },
-        options: {
-          title: {
-            display: true,
-            text: "Alert Severity Levels",
+        options: 
+        {
+          title: 
+          {
+            display: true,// Display the chart title
+            text: "Alert Severity Levels",// Set the chart title text
           },
         },
       });
-      document.addEventListener("DOMContentLoaded", (event) => {
-        const alertFilterOptions = [
+
+      // Add an event listener for the DOMContentLoaded event
+      document.addEventListener("DOMContentLoaded", (event) => 
+      {
+         // Define the alert filter options
+        const alertFilterOptions = 
+        [
           "malicious-checkbox",
           "impact-checkbox",
           "initial-access-checkbox",
@@ -356,10 +392,15 @@
           "escalation-checkbox",
           "persistence-checkbox",
         ];
-        alertFilterOptions.forEach((option) => {
-          const category = sessionStorage.getItem(option);
-          if (category !== null) {
-            if (category === "true") {
+        
+         // Loop through each filter option
+        alertFilterOptions.forEach((option) => 
+        {
+          const category = sessionStorage.getItem(option); // Loop through each filter option
+          if (category !== null) 
+          {
+            if (category === "true") // If the saved state is true, check the corresponding checkbox and remove the item from sessionStorage
+            {
               document.getElementById(option).checked = true;
               sessionStorage.removeItem(option);
             }
@@ -367,28 +408,37 @@
         });
       });
 
-      document.addEventListener("DOMContentLoaded", function () {
+      document.addEventListener("DOMContentLoaded", function () 
+      {
+        // Get elements for sorting, table body, and clear buttons
         const sortSelect = document.querySelector(".sort-select");
         const tableBody = document.querySelector(".dash-Table tbody");
         const severityClearAll = document.querySelector(".clear-severity");
         const categoryClearAll = document.querySelector(".clear-category");
 
-        function applyFilters() {
-          const checkedSeverities = Array.from(
+        // Function to apply filters based on checked checkboxes
+        function applyFilters() 
+        {
+          const checkedSeverities = Array.from
+          ( // Get checked severity checkboxes and map to their class names
             document.querySelectorAll(
               ".filter-checkbox.informational:checked, .filter-checkbox.low:checked, .filter-checkbox.medium:checked, .filter-checkbox.high:checked, .filter-checkbox.critical:checked"
             )
           ).map((checkbox) => checkbox.classList[1]);
-          const checkedCategories = Array.from(
+          const checkedCategories = Array.from
+          (// Get checked category checkboxes and map to their class names
             document.querySelectorAll(
               ".filter-checkbox.collection:checked, .filter-checkbox.defence-evasion:checked, .filter-checkbox.exfiltration:checked, .filter-checkbox.impact:checked, .filter-checkbox.initial-access:checked, .filter-checkbox.escalation:checked, .filter-checkbox.persistence:checked"
             )
           ).map((checkbox) => checkbox.classList[1]);
-          const rows = document.querySelectorAll(
-            ".result-list:not(.headings)"
-          );
+          // Get all result rows except the header
+
+          const rows = document.querySelectorAll( ".result-list:not(.headings)");
           let visibleCount = 0;
-          rows.forEach(function (row) {
+
+           // Loop through each row and determine visibility based on filters
+          rows.forEach(function (row) 
+          {
             const severity = row.classList[1];
             const category = row
               .querySelector("td:first-child")
@@ -400,20 +450,29 @@
                 checkedSeverities.length === 0) &&
               (checkedCategories.includes(category) ||
                 checkedCategories.length === 0);
+
+             // Toggle visibility of the row   
             row.classList.toggle("hidden", !shouldBeVisible);
-            if (shouldBeVisible) {
+            if (shouldBeVisible) 
+            {
               visibleCount++;
             }
           });
+
+           // Update the result count display
           document.querySelector(".result-count").textContent =
             visibleCount + " Results";
         }
 
-        sortSelect.addEventListener("change", function () {
+        // Add event listener for the sort select dropdown
+        sortSelect.addEventListener("change", function () 
+        {
           const selectedColumn = parseInt(sortSelect.value);
           const tableData = Array.from(tableBody.querySelectorAll("tr"));
 
-          tableData.sort(function (rowA, rowB) {
+         // Sort the table rows based on the selected column 
+          tableData.sort(function (rowA, rowB) 
+          {
             const valueA = rowA
               .querySelectorAll("td")
             [selectedColumn].textContent.trim();
@@ -423,18 +482,24 @@
             return valueA.localeCompare(valueB);
           });
 
+          // Clear the table body and append sorted rows
           tableBody.innerHTML = "";
-          tableData.forEach(function (row) {
+          tableData.forEach(function (row) 
+          {
             tableBody.appendChild(row);
           });
         });
 
+        // Add event listeners to filter checkboxes to apply filters on change
         const checkboxes = document.querySelectorAll(".filter-checkbox");
-        checkboxes.forEach(function (checkbox) {
+        checkboxes.forEach(function (checkbox) 
+        {
           checkbox.addEventListener("change", applyFilters);
         });
 
-        severityClearAll.addEventListener("click", function (e) {
+         // Add event listener to clear all severity filters
+        severityClearAll.addEventListener("click", function (e) 
+        {
           e.preventDefault();
           const severityCheckboxes = document.querySelectorAll(
             ".filter-checkbox.informational, .filter-checkbox.low, .filter-checkbox.medium, .filter-checkbox.high, .filter-checkbox.critical"
@@ -445,64 +510,79 @@
           applyFilters();
         });
 
-        categoryClearAll.addEventListener("click", function (e) {
+        // Add event listener to clear all category filters
+        categoryClearAll.addEventListener("click", function (e) 
+        {
           e.preventDefault();
-          const categoryCheckboxes = document.querySelectorAll(
+          const categoryCheckboxes = document.querySelectorAll
+          (
             ".filter-checkbox.collection, .filter-checkbox.defence-evasion, .filter-checkbox.exfiltration, .filter-checkbox.impact, .filter-checkbox.initial-access, .filter-checkbox.escalation, .filter-checkbox.persistence"
           );
-          categoryCheckboxes.forEach(function (checkbox) {
+          categoryCheckboxes.forEach(function (checkbox) 
+          {
             checkbox.checked = false;
           });
           applyFilters();
         });
 
+        // Check URL parameters for a category filter and apply it if present
         const urlParams = new URLSearchParams(window.location.search);
         const category = urlParams.get("category");
 
-        if (category) {
+        if (category) 
+        {
           const checkbox = document.querySelector(
             `.filter-checkbox.${category}`
           );
-          if (checkbox) {
+          if (checkbox) 
+          {
             checkbox.checked = true;
           }
           applyFilters();
 
+          // Remove the category parameter from the URL
           history.replaceState({}, document.title, window.location.pathname);
 
           const logoutPrompt = document.getElementById("logout");
-          function openPrompt() {
+          function openPrompt() 
+          {
             logoutPrompt.showModal();
           }
 
-          function closePrompt() {
+          function closePrompt() 
+          {
             logoutPrompt.close();
           }
 
-          logoutPrompt.addEventListener("click", () => {
+          logoutPrompt.addEventListener("click", () => 
+          {
             closePrompt();
           });
         }
       });
+
+      // Add event listeners for the logout prompt
       const logoutPrompt = document.getElementById("logout");
       function openPrompt() {
         logoutPrompt.showModal();
       }
 
-      function closePrompt() {
+      function closePrompt() 
+      {
         logoutPrompt.close();
       }
 
-      logoutPrompt.addEventListener("click", () => {
-        closePrompt();
-      });
+      logoutPrompt.addEventListener("click", () => { closePrompt(); });
     </script>
   </div>
   <script>
-    function toggleScreenReader() {
-      const screenReaderToggle = document.getElementById("screenReaderToggle");
-      const selectedOption = screenReaderToggle.checked ? "on" : "off";
+    // Function to toggle screen reader audio based on the toggle switch state
+    function toggleScreenReader() 
+    {
+      const screenReaderToggle = document.getElementById("screenReaderToggle");  // Get the screen reader toggle switch element
+      const selectedOption = screenReaderToggle.checked ? "on" : "off";    // Determine if the toggle switch is checked (on) or not (off)
 
+      // Play or stop screen reader audio based on the selected option
       if (selectedOption === "on") {
         playScreenReaderAudio();
       } else {
@@ -510,21 +590,31 @@
       }
     }
 
-    let audioInstance;
+    let audioInstance; // Variable to hold the audio instance
 
-    function playScreenReaderAudio() {
-      if (!audioInstance) {
-        audioInstance = new Audio('_audio/dashboard.mp3');
-        audioInstance.addEventListener('ended', function () {
+    // Function to play screen reader audio
+    function playScreenReaderAudio() 
+    {
+       // If the audio instance does not exist, create a new one
+      if (!audioInstance)
+       {
+        audioInstance = new Audio('_audio/dashboard.mp3');// Add an event listener to handle when the audio ends
+        audioInstance.addEventListener('ended', function () 
+        {
           stopScreenReaderAudio();
-          document.getElementById("screenReaderToggle").checked = false;
+          document.getElementById("screenReaderToggle").checked = false;// Uncheck the toggle switch when the audio ends
         }, false);
       }
+      // Play the audio
       audioInstance.play();
     }
 
-    function stopScreenReaderAudio() {
-      if (audioInstance) {
+    // Function to stop screen reader audio
+    function stopScreenReaderAudio() 
+    {
+       // If the audio instance exists, pause it and reset its playback time
+      if (audioInstance) 
+      {
         audioInstance.pause();
         audioInstance.currentTime = 0;
       }
