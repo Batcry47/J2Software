@@ -67,8 +67,8 @@
     <input type="date" class="date-selector" id="end_date" name="end_date" min="2024-01-01"
       onchange="updateEndDateMin()" />
   </div>
-  <!--Function to ensure the end date is not earlier than the start date-->
-          <!--makes sure data from only two specific days displays-->
+
+  <!--Function to ensure the end date selected is not earlier than the start date-->
   <script>
     function minEndDate() {
       var startDate = document.getElementById('start_date').value;
@@ -81,7 +81,7 @@
         }
       }
     }
-
+// makes sure data from only two specific days displays
     function updateEndDateMin() {
       const startDate = document.getElementById("start_date").value;
       const endDate = document.getElementById("end_date").value;
