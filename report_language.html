@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="af">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="styles.css" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <title>Verslag | J2 Software</title>
+</head>
+
+<body class="report-page">
+  <dialog class="logout-prompt" id="logout">
+    <h2>Is jy seker jy wil uit teken?</h2>
+    <button onclick="window.location.href ='login.html'">Ja</button>
+    <button onclick="closePrompt()">Nee<br /></button>
+  </dialog>
+
+  <dialog class="logout-prompt" id="logoutPrompt">
+    <div class="popup-content">
+      <div class="red-bar"></div>
+      <h2>Is jy nog daar?</h2>
+      <p>Jy het vir 'n ruk lank onaktief gewees. Wil jy voortgaan?</p>
+      <button onclick="resetInactivityTimer(); closeLogoutPrompt();">Ja, ek is hier</button>
+      <button onclick="logout()">Uitlogg</button>
+    </div>
+  </dialog>
+  <header>
+    <nav>
+      <div class="top-left-nav">
+        <ul>
+          <li><img src="_images/logo_10_2019.png" id="NavLogo" /></li>
+          <li><a href="index_language.html">Tuis</a></li>
+          <li><a href="dashboard_language.html">Dashboard</a></li>
+          <li><a class="current">Verslag</a></li>
+        </ul>
+      </div>
+      <div class="top-right-nav">
+        <ul>
+          <li class="dropdown">
+            <a href="#" class="dropdown-toggle">Voorkeure</a>
+            <div class="dropdown-menu">
+              <label for="darkModeToggle">Donkermodus</label>
+              <label class="switch">
+                <input type="checkbox" id="darkModeToggle" onchange="toggleDarkMode()">
+                <span class="slider round"></span>
+              </label>
+              <hr>
+              <label for="languageSelect">Taal:</label>
+              <select id="languageSelect" onchange="changeLanguage()">
+                <option value="en">Afrikaans</option>
+                <option value="af">Engels</option>
+              </select>
+              <hr>
+              <label for="textSizeToggle">Teks Grootte</label>
+              <label class="switch">
+                <input type="checkbox" id="textSizeToggle" onchange="toggleTextSize()">
+                <span class="slider round"></span>
+              </label>
+              <hr>
+              <label for="screenReaderToggle" class="toggle-label">Skermlêser</label>
+              <label class="switch">
+                <input type="checkbox" id="screenReaderToggle" onchange="toggleScreenReader()">
+                <span class="slider round"></span>
+              </label>
+            </div>
+          </li>
+          <li><a href="#" onclick="openPrompt()">Uitlog</a></li>
+        </ul>
+      </div>
+    </nav>
+  </header>
+
+  <div class="date-selector-div">
+    <h2>Kies Datumreeks</h2>
+    <label for="start_date">Begin Datum:</label>
+    <input type="date" class="date-selector" id="start_date" name="start_date" min="2024-01-01" />
+
+    <label for="end_date">Eindig Datum:</label>
+    <input type="date" class="date-selector" id="end_date" name="end_date" min="2024-01-01"
+      onchange="updateEndDateMin()" />
+  </div>
+  <script>
+    function updateEndDateMin() {
+      const startDate = document.getElementById("start_date").value;
+      const endDate = document.getElementById("end_date").value;
+      if (startDate && endDate) {
+        const reportDate = document.querySelector(".report-container h1");
+        reportDate.textContent = `Verslag vir ${startDate} - ${endDate}`;
+      }
+      if (startDate) {
+        endDate.min = startDate;
+        if (endDate.value < startDate) {
+          endDate.value = startDate;
+        }
+
+        const maliciousAlerts = Math.floor(Math.random() * 100);
+        const impact = Math.floor(Math.random() * 100);
+        const initialAccess = Math.floor(Math.random() * 100);
+        const defenceEvasion = Math.floor(Math.random() * 100);
+        const exfiltration = Math.floor(Math.random() * 100);
+        const collection = Math.floor(Math.random() * 100);
+        const escalation = Math.floor(Math.random() * 100);
+        const persistence = Math.floor(Math.random() * 100);
+        const reportContainer = document.querySelector(
+          ".report-container ul"
+        );
+
+        reportContainer.innerHTML = `
+            <li>Booswillige Waarskuwings: ${maliciousAlerts}</li><br>
+            <li>Impak: ${impact}</li><br>
+            <li>Begin Toegang: ${initialAccess}</li><br>
+            <li>Verdediging Vermyding: ${defenceEvasion}</li><br>
+            <li>Uitvoering: ${exfiltration}</li><br>
+            <li>Versameling: ${collection}</li><br>
+            <li>Escalasie: ${escalation}</li><br>
+            <li>Volharding: ${persistence}</li><br>
+            <li>
+                <h3>Totaal Waarskuwings: ${maliciousAlerts +
+          impact +
+          initialAccess +
+          defenceEvasion +
+          exfiltration +
+          collection +
+          escalation +
+          persistence
+          }</h3>
+            </li>
+        `;
+      }
+    }
+  </script>
+
+  <br /><br /><br />
+  <div id="report-view" class="report-container">
+    <h1>Verslag vir 01-01-2024 - 31-01-2024</h1>
+    <ul>
+      <li>Booswillige Waarskuwings: 0</li>
+      <br />
+      <li>Impak: 0</li>
+      <br />
+      <li>Begin Toegang: 0</li>
+      <br />
+      <li>Verdediging Vermyding: 0</li>
+      <br />
+      <li>Uitvoering: 0</li>
+      <br />
+      <li>Versameling: 0</li>
+      <br />
+      <li>Escalasie: 0</li>
+      <br />
+      <li>Volharding: 1412</li>
+      <br />
+      <li>
+        <h3>Totaal Waarskuwings: 1412</h3>
+      </li>
+    </ul>
+    <br />
+  </div>
+
+  <div class="button-container">
+    <br>
+    <button id="downloadReportButton" class="report-button">
+      Laai Verslag Af
+    </button>
+    <br>
+    <br>
+  </div>
+  <div class="line-graph">
+    <canvas id="lineChart"></canvas>
+  </div>
+  <div class="button-container">
+    <br>
+    <button id="downloadChartButton" class="report-button">
+      Laai Grafiek Af
+    </button>
+    <br>
+    <br>
+  </div>
+
+  <script>
+    const lineChartCanvas = document.getElementById("lineChart");
+
+    const lineChartData = {
+      labels: ["Jan 1", "Jan 8", "Jan 15", "Jan 22", "Jan 29"],
+      datasets: [
+        {
+          label: "Waarskuwings",
+          data: [100, 200, 150, 300, 250],
+          backgroundColor: "rgba(255, 99, 132, 0.2)",
+          borderColor: "rgba(255, 99, 132, 1)",
+          borderWidth: 1,
+        },
+      ],
+    };
+
+    const lineChartConfig = {
+      type: "line",
+      data: lineChartData,
+      options: {
+        scales: {
+          y: {
+            beginAtZero: true,
+          },
+        },
+      },
+    };
+
+    const lineChart = new Chart(lineChartCanvas, lineChartConfig);
+
+    function downloadReport() {
+      const reportContent = document.querySelector('.report-container').innerText;
+
+      const blob = new Blob([reportContent], { type: 'text/plain' });
+
+      const a = document.createElement('a');
+      a.href = window.URL.createObjectURL(blob);
+      a.download = 'Verslag.txt';
+
+      document.body.appendChild(a);
+
+      a.click();
+
+      document.body.removeChild(a);
+    }
+
+    const downloadReportButton = document.getElementById('downloadReportButton');
+
+    downloadReportButton.addEventListener('click', downloadReport);
+
+
+    function downloadChart() {
+      const chartCanvas = document.getElementById("lineChart");
+      const chartDataUrl = chartCanvas.toDataURL("image/jpeg");
+
+      const a = document.createElement("a");
+      a.href = chartDataUrl;
+      a.download = "grafiek.jpg";
+
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+    }
+
+    document
+      .getElementById("downloadChartButton")
+      .addEventListener("click", function () {
+        downloadChart();
+      });
+
+    function toggleDarkMode() {
+      const darkModeToggle = document.getElementById("darkModeToggle");
+      const body = document.body;
+
+      if (darkModeToggle.checked) {
+        body.classList.add("dark-mode");
+        localStorage.setItem("darkMode", "true");
+        document.getElementById("report-view").style.backgroundColor = "black";
+      } else {
+        body.classList.remove("dark-mode");
+        localStorage.setItem("darkMode", "false");
+        document.getElementById("report-view").style.backgroundColor = "transparent";
+      }
+    }
+
+    function checkDarkMode() {
+      const darkMode = localStorage.getItem("darkMode");
+      const darkModeToggle = document.getElementById("darkModeToggle");
+      const body = document.body;
+
+      if (darkMode === "true") {
+        body.classList.add("dark-mode");
+        darkModeToggle.checked = true;
+        document.getElementById("report-view").style.backgroundColor = "black";
+      }
+    }
+
+    function toggleTextSize() {
+      const textSize = localStorage.getItem("textSizeToggle");
+      const body = document.body;
+
+      if (textSizeToggle.checked) {
+        body.classList.add("large-text");
+        localStorage.setItem("textSize", "true");
+      } else {
+        body.classList.remove("large-text");
+        localStorage.setItem("textSize", "false");
+      }
+    }
+
+    function checkTextSize() {
+      const textSize = localStorage.getItem("textSize");
+      const textSizeToggle = document.getElementById("textSizeToggle");
+      const body = document.body;
+
+      if (textSize === "true") {
+        body.classList.add("large-text");
+        textSizeToggle.checked = true;
+      }
+    }
+
+    function changeLanguage() {
+      const languageSelect = document.getElementById("languageSelect");
+      const selectedLanguage = languageSelect.value;
+
+      window.location.href = "report_page.html";
+
+    }
+
+    document.addEventListener("DOMContentLoaded", checkDarkMode);
+    document.addEventListener("DOMContentLoaded", checkTextSize);
+
+    const INACTIVITY_TIMEOUT = 30000;
+    let inactivityTimer;
+
+    function startInactivityTimer() {
+      inactivityTimer = setTimeout(showLogoutPrompt, INACTIVITY_TIMEOUT);
+    }
+
+    function resetInactivityTimer() {
+      clearTimeout(inactivityTimer);
+      startInactivityTimer();
+    }
+
+    function showLogoutPrompt() {
+      const logoutPrompt = document.getElementById("logoutPrompt");
+      logoutPrompt.showModal();
+    }
+
+    function closeLogoutPrompt() {
+      const logoutPrompt = document.getElementById("logoutPrompt");
+      logoutPrompt.close();
+    }
+
+    function logout() {
+      window.location.href = "login.html";
+    }
+
+    document.addEventListener("mousemove", resetInactivityTimer);
+    document.addEventListener("keydown", resetInactivityTimer);
+    document.addEventListener("DOMContentLoaded", startInactivityTimer);
+
+    const logoutPrompt = document.getElementById("logout");
+    function openPrompt() {
+      logoutPrompt.showModal();
+    }
+
+    function closePrompt() {
+      logoutPrompt.close();
+    }
+
+    logoutPrompt.addEventListener("click", () => {
+      closePrompt();
+    });
+  </script>
+
+  <script>
+    function toggleScreenReader() {
+      const screenReaderToggle = document.getElementById("screenReaderToggle");
+      const selectedOption = screenReaderToggle.checked ? "aan" : "af";
+
+      if (selectedOption === "aan") {
+        playScreenReaderAudio();
+      } else {
+        stopScreenReaderAudio();
+      }
+    }
+
+    let audioInstance;
+
+    function playScreenReaderAudio() {
+      if (!audioInstance) {
+        audioInstance = new Audio('_audio/report_language.mp3');
+        audioInstance.addEventListener('ended', function () {
+          stopScreenReaderAudio();
+          document.getElementById("screenReaderToggle").checked = false;
+        }, false);
+      }
+      audioInstance.play();
+    }
+
+    function stopScreenReaderAudio() {
+      if (audioInstance) {
+        audioInstance.pause();
+        audioInstance.currentTime = 0;
+      }
+    }
+  </script>
+</body>
+
+</html>
