@@ -1,0 +1,118 @@
+<div class="container">
+  <dialog class="logout-prompt" id="logout">
+    <div class="popup-header">
+      <div class="red-bar"></div>
+      <h2>Are you sure you would like to log out?</h2>
+    </div>
+    <div class="popup-buttons">
+      <button class="popup-button confirm" (click)="this.route.navigate(['/login'])">Yes</button>
+      <button class="popup-button cancel" (click)="closePrompt()">No</button>
+    </div>
+  </dialog>
+
+  <dialog class="logout-prompt" id="logoutPrompt">
+    <div class="popup-header">
+      <div class="red-bar"></div>
+      <h2>Are you still there?</h2>
+    </div>
+    <p>You've been inactive for a while. Would you like to continue?</p>
+    <div class="popup-buttons">
+      <button class="popup-button confirm" (click)="resetInactivityTimer(); closeLogoutPrompt()">Yes, I'm here</button>
+      <button class="popup-button cancel" (click)="this.route.navigate(['/login'])">Logout</button>
+    </div>
+  </dialog>
+
+  <div class="sidebar">
+    <h1>J2 Software</h1>
+    <ul>
+      <li><a routerLink="/home">Home</a></li>
+      <li><a routerLink="/dashboard">Dashboard</a></li>
+      <li><a routerLink="/report" class="active">Report</a></li>
+      <li><a (click)="openPrompt()">Logout</a></li>
+    </ul>
+  </div>
+
+  <div class="report-container">
+    <div class="date-selection">
+      <h2>Select Date</h2>
+      <div class="date-inputs">
+        <div class="date-input">
+          <label for="start_date">Start Date:</label>
+          <input type="date" class="date-selector" id="start_date" name="start_date" min="2024-01-01"
+                 (change)="minEndDate(startDateInput, endDateInput)" #startDateInput>
+        </div>
+        <div class="date-input">
+          <label for="end_date">End Date:</label>
+          <input type="date" class="date-selector" id="end_date" name="end_date" min="2024-01-01"
+                 (change)="updateAlertCount()" #endDateInput>
+        </div>
+      </div>
+    </div>
+
+    <header class="report-header">
+      <h1>Alert Report</h1>
+      <h2 *ngIf="startDateInput.value != '' && endDateInput.value != ''">
+        {{ startDateInput.value }} - {{ endDateInput.value }}
+      </h2>
+    </header>
+
+    <section class="report-table">
+      <table>
+        <tbody>
+          <tr>
+            <td>Malicious Alerts</td>
+            <td>0</td>
+          </tr>
+          <tr>
+            <td>Impact</td>
+            <td>0</td>
+          </tr>
+          <tr>
+            <td>Initial Access</td>
+            <td>0</td>
+          </tr>
+          <tr>
+            <td>Defence Evasion</td>
+            <td>0</td>
+          </tr>
+          <tr>
+            <td>Exfiltration</td>
+            <td>0</td>
+          </tr>
+          <tr>
+            <td>Collection</td>
+            <td>0</td>
+          </tr>
+          <tr>
+            <td>Escalation</td>
+            <td>0</td>
+          </tr>
+          <tr>
+            <td>Persistence</td>
+            <td>1412</td>
+          </tr>
+          <tr class="total-row">
+            <td>Total Alerts</td>
+            <td>1412</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <div class="downloaded-report-results">
+      <h2>Alert Report for {{startDateInput.value}} - {{endDateInput.value}}</h2><br>
+      <label>Malicious Alerts: 0</label><br>
+      <label>Impact: 0</label><br>
+      <label>Initial Access: 0</label><br>
+      <label>Defence Evasion: 0</label><br>
+      <label>Exfiltration: 0</label><br>
+      <label>Collection: 0</label><br>
+      <label>Escalation: 0</label><br>
+      <label>Persistence: 1412</label><br>
+    </div>
+
+    <div class="download-container">
+      <button class="download-btn" (click)="downloadReport()">Download Report</button>
+    </div>
+  </div>
+</div>

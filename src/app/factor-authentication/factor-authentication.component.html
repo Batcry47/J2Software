@@ -1,0 +1,26 @@
+<div class="factor-page">
+  <div class="factor-content">
+    <h3 class="instruction-message">
+      A verification code has been sent to your email address,
+      <br />please enter the code received to continue
+    </h3>
+    <h3 id="expiry-message" class="expiry-message"></h3>
+    <h3 id="code-time" class="code-time">The code expires in 30 seconds</h3>
+    <input type="text" id="authCodeInputBox" maxlength="6" class="auth-input" placeholder="Enter code here" />
+    <p id="user-message" class="error-message"></p>
+    <div class="button-group">
+      <button class="resend-btn" (click)="resendCode()">Resend Code</button>
+      <button class="verify-btn" (click)="checkAuthInput()">Verify Code</button>
+    </div>
+    <p id="user-message" class="error-message"></p>
+    <dialog class="logout-prompt" id="popup-box">
+      <div class="popup-header">
+        <div class="red-bar"></div>
+        <h2 id="popup-message"></h2>
+      </div>
+      <div class="popup-buttons">
+        <button class="popup-button cancel" (click)="closePopup()">Close</button>
+      </div>
+    </dialog>
+  </div>
+</div>

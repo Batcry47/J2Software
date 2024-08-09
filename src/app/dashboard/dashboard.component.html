@@ -1,0 +1,110 @@
+<div class="container">
+  <dialog class="logout-prompt" id="logout">
+    <div class="popup-header">
+      <div class="red-bar"></div>
+      <h2>Are you sure you would like to log out?</h2>
+    </div>
+    <div class="popup-buttons">
+      <button class="popup-button confirm" (click)="this.router.navigate(['/login'])">Yes</button>
+      <button class="popup-button cancel" (click)="closePrompt()">No</button>
+    </div>
+  </dialog>
+
+  <dialog class="logout-prompt" id="logoutPrompt">
+    <div class="popup-header">
+      <div class="red-bar"></div>
+      <h2>Are you still there?</h2>
+    </div>
+    <p>You've been inactive for a while. Would you like to continue?</p>
+    <div class="popup-buttons">
+      <button class="popup-button confirm" (click)="resetInactivityTimer(); closeLogoutPrompt()">Yes, I'm here</button>
+      <button class="popup-button cancel" (click)="this.router.navigate(['/login'])">Logout</button>
+    </div>
+  </dialog>
+
+  <div class="sidebar">
+    <h1>J2 Software</h1>
+    <ul>
+      <li><a routerLink="/home">Home</a></li>
+      <li><a routerLink="/dashboard" class="active">Dashboard</a></li>
+      <li><a routerLink="/report">Report</a></li>
+      <li><a (click)="openPrompt()">Logout</a></li>
+    </ul>
+  </div>
+
+  <div class="dashboard-container">
+    <h1 class="dashboard-title">Dashboard</h1>
+    <div class="dashboard-content">
+      <div class="result-header">
+        <div class="result-count">{{ results.length }} Results</div>
+        <div class="sort-options">
+          <span class="sort-label">SORT BY:</span>
+          <select class="sort-select" [(ngModel)]="selectedSortOption" (change)="sortResults()">
+            <option value="category">Category</option>
+            <option value="method">Method</option>
+            <option value="username">Username</option>
+            <option value="ipAddress">IP Address</option>
+            <option value="timestamp">Timestamp</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="results-table">
+        <table>
+          <thead>
+            <tr>
+              <th>Category</th>
+              <th>Method</th>
+              <th>Username</th>
+              <th>IP Address</th>
+              <th>Timestamp</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let result of results" [ngClass]="result.severity">
+              <td>{{ result.category }}</td>
+              <td>{{ result.method }}</td>
+              <td>{{ result.username }}</td>
+              <td>{{ result.ipAddress }}</td>
+              <td>{{ result.timestamp }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div class="filter-panel" [class.collapsed]="isFilterCollapsed">
+    <button class="filter-toggle" (click)="toggleFilter()">
+      <i class="fas" [ngClass]="isFilterCollapsed ? 'fa-chevron-left' : 'fa-chevron-right'"></i>
+      {{ isFilterCollapsed ? '<<' : '>>' }} </button>
+        <div class="filter-content" [class.hidden]="isFilterCollapsed">
+          <h3>FILTER BY:</h3>
+          <div class="filter-section">
+            <h4>Severity Level <a href="#" class="clear-filter"
+                (click)="clearSeverityFilters(); $event.preventDefault()">Clear All</a></h4>
+            <div class="filter-options">
+              <label class="checkbox-label"
+                *ngFor="let severity of ['Informational', 'Low', 'Medium', 'High', 'Critical']">
+                <input type="checkbox" class="filter-checkbox" [attr.data-severity]="severity.toLowerCase()"
+                  (change)="filterResults()">
+                <span class="checkbox-custom"></span>
+                <span class="checkbox-label-text">{{ severity }}</span>
+              </label>
+            </div>
+          </div>
+          <div class="filter-section">
+            <h4>Category <a href="#" class="clear-filter"
+                (click)="clearCategoryFilters(); $event.preventDefault()">Clear All</a></h4>
+            <div class="filter-options">
+              <label class="checkbox-label"
+                *ngFor="let category of ['Collection', 'Defence Evasion', 'Escalation', 'Exfiltration', 'Impact', 'Initial Access', 'Persistence']">
+                <input type="checkbox" class="filter-checkbox"
+                  [attr.data-category]="category.toLowerCase().replace(' ', '-')" (change)="filterResults()" [checked]="selectedCategory === category">
+                <span class="checkbox-custom"></span>
+                <span class="checkbox-label-text">{{ category }}</span>
+              </label>
+            </div>
+          </div>
+        </div>
+  </div>
