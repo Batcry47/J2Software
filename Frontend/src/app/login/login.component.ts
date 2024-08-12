@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { BackendConnectionService } from '../backend-connection.service';
 
 @Component({
   selector: 'app-login',
@@ -10,7 +11,7 @@ export class LoginComponent {
   private username = "Thato456";
   private password = "123456";
 
-  constructor(private router: Router) {}
+  constructor(private router: Router, private backendService: BackendConnectionService) {}
 
   checkInput() {
     const enteredUsername = (document.getElementById('username') as HTMLInputElement).value;
@@ -18,6 +19,7 @@ export class LoginComponent {
     const userMessage = document.getElementById('user-message') as HTMLParagraphElement;
     const passMessage = document.getElementById('pass-message') as HTMLParagraphElement;
 
+    
     if (enteredUsername === "" && enteredPassword !== "") {
       userMessage.textContent = "Please enter your username!";
       passMessage.textContent = "";
