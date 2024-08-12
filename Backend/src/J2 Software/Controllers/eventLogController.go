@@ -54,6 +54,7 @@ func GetEventLogs(c *gin.Context) {
 	c.JSON(200, gin.H{
 		"Eventlogs": eventlogs,
 	})
+	
 }
 
 // used to get a single event log accroding to it's event id

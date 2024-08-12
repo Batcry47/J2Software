@@ -2,7 +2,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
-export interface EventDetails{
+export interface Eventlogs{
   eventID: number;
   category: string;
   method: string;
@@ -11,7 +11,9 @@ export interface EventDetails{
   timestamp: Date;
   severity: string;
 }
-
+interface EventLogCollection{
+  Eventlogs: Eventlogs[]
+}
 export interface AlertCount{
   alertType: string;
   alertCount: string;
@@ -28,9 +30,9 @@ export class BackendConnectionService {
   //Gets the user's id based on the email and password entered if it exists
   
   //Gets all the events that belong to the user currently logged in
-  getEventLogs(): Observable<EventDetails[]>{
+  getEventLogs(): Observable<EventLogCollection>{
    //const params = new HttpParams().set('user_id', this.user_id);
-    return this.http.get<EventDetails[]>(`${this.api}/Eventlogs`);
+    return this.http.get<EventLogCollection>(`${this.api}/Eventlogs`);
   }
 
   //Returns the total number of each type of alert (incomplete)

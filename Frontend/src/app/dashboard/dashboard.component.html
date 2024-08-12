@@ -61,12 +61,12 @@
             </tr>
           </thead>
           <tbody>
-            <tr *ngFor="let result of results" [ngClass]="result.severity">
-              <td>{{ result.category }}</td>
-              <td>{{ result.method }}</td>
-              <td>{{ result.username }}</td>
-              <td>{{ result.ipAddress }}</td>
-              <td>{{ result.timestamp }}</td>
+            <tr *ngFor="let result of originalResults" [ngClass]="result.severity">
+              <td>{{ result.Category }}</td>
+              <td>{{ result.Method }}</td>
+              <td>{{ result.Username }}</td>
+              <td>{{ result.IPAddress }}</td>
+              <td>{{ result.EventTimeStamp }}</td>
             </tr>
           </tbody>
         </table>
