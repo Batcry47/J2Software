@@ -20,12 +20,13 @@ func CreateEventLog(c *gin.Context) {
 		Username       string
 		IPAddress      string
 		EventTimeStamp time.Time
+		Severity       string
 	}
 	c.Bind(&event)
 
 	//create an alert:
 	eventlog := models.EventLogs{EventID: event.EventID, Category: event.Category, Method: event.Method,
-		Username: event.Username, IPAddress: event.IPAddress, EventTimeStamp: event.EventTimeStamp}
+		Username: event.Username, IPAddress: event.IPAddress, EventTimeStamp: event.EventTimeStamp, Severity: event.Severity}
 
 	result := initializers.DB.Create(&eventlog)
 
@@ -42,6 +43,7 @@ func CreateEventLog(c *gin.Context) {
 
 // used to get all event logs in the database
 func GetEventLogs(c *gin.Context) {
+
 	//get the alerts and store them in a slice of type models.EventLogs
 	var eventlogs []models.EventLogs
 
@@ -82,6 +84,7 @@ func UpdateEventLog(c *gin.Context) {
 		Username       string
 		IPAddress      string
 		EventTimeStamp time.Time
+		Severity       string
 	}
 	c.Bind(&event)
 
@@ -97,6 +100,7 @@ func UpdateEventLog(c *gin.Context) {
 		Username:       event.Username,
 		IPAddress:      event.IPAddress,
 		EventTimeStamp: event.EventTimeStamp,
+		Severity:       event.Severity,
 	})
 
 	//respond with the eventlog
@@ -114,4 +118,20 @@ func DeleteEventLog(c *gin.Context) {
 
 	//respond
 	c.Status(200)
+}
+
+func GetEventLogsMethodNum(c *gin.Context) {
+	//get event category
+	Category := c.Param("Category")
+
+	//get eventlog records
+	var eventlogs []models.EventLogs
+
+	//respond with categories
+	result := initializers.DB.Where("Category <> ?", Category).Find(&eventlogs)
+	methodNum := result.RowsAffected
+
+	c.JSON(200, gin.H{
+		"CategoryCount": methodNum,
+	})
 }

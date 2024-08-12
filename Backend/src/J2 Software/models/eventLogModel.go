@@ -11,6 +11,7 @@ type EventLogs struct {
 	Username       string    `gorm:"column:Username;type:varchar(50);not null"`
 	IPAddress      string    `gorm:"column:IPAddress;type:varchar(15);not null"`
 	EventTimeStamp time.Time `gorm:"column:EventTimeStamp;type:datetime;not null"`
+	Severity       string    `gorm:"column:Severity;type:varchar(50);not null"`
 }
 
 // TableName overrides the default table name used by GORM

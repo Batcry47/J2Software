@@ -20,5 +20,6 @@ func main() {
 	r.GET("/Eventlog/:id", controllers.GetEventLog)
 	r.PUT("/Eventlog/:id", controllers.UpdateEventLog)
 	r.DELETE("/Eventlog/:id", controllers.DeleteEventLog)
+	r.GET("/Category", controllers.GetEventLogsMethodNum)
 	r.Run()
 }
