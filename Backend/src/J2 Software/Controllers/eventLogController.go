@@ -120,18 +120,18 @@ func DeleteEventLog(c *gin.Context) {
 	c.Status(200)
 }
 
-func GetEventLogsMethodNum(c *gin.Context) {
-	//get event category
-	Category := c.Param("Category")
+func GetEventLogsSeverityNum(c *gin.Context) {
+	//get event severity
+	Severity := c.Param("Severity")
 
 	//get eventlog records
 	var eventlogs []models.EventLogs
 
-	//respond with categories
-	result := initializers.DB.Where("Category <> ?", Category).Find(&eventlogs)
-	methodNum := result.RowsAffected
+	//respond with severity number
+	initializers.DB.Where("Severity <> ?", Severity).Find(&eventlogs)
+	severityNum := len(eventlogs)
 
 	c.JSON(200, gin.H{
-		"CategoryCount": methodNum,
+		"SeverityCount": severityNum,
 	})
 }
