@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
+import { BackendConnectionService } from '../backend-connection.service';
 
 @Component({
   selector: 'app-home',
@@ -19,8 +20,8 @@ export class HomeComponent implements OnInit {
 
   inactivityTimer: any;
   INACTIVITY_TIMEOUT = 30000;
-
-  constructor(public router: Router, private route: ActivatedRoute) {
+  user_id = 0;
+  constructor(public router: Router, private route: ActivatedRoute, private backendService: BackendConnectionService) {
     this.startEvents();
   }
 
@@ -69,10 +70,6 @@ export class HomeComponent implements OnInit {
   closeLogoutPrompt() {
     const logoutPrompt = document.getElementById("logoutPrompt") as HTMLDialogElement;
     logoutPrompt.close();
-  }
-
-  updateAlertCount() {
-
   }
 
   navigateToDashboard(category: string) {
