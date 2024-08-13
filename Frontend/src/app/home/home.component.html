@@ -57,21 +57,25 @@
     <div class="metrics">
       <div class="metric">
         <h2>Malicious Alerts</h2>
-        <h1>{{ maliciousAlerts }}</h1>
+        <h1>{{impactAlerts + initialAccessAlerts + defenceEvasionAlerts + exfiltrationAlerts 
+          + collectionAlerts + privilegeEscalationAlerts + persistenceAlerts + reconnaissanceAlerts + 
+          executionAlerts + resourceDevelopmentAlerts}}</h1>
       </div>
       <div class="metric" (click)="navigateToDashboard('impact')">
         <h2>Impact Alerts</h2>
         <p>This measure is destructive attacks against your systems and data.</p>
         <h1>{{ impactAlerts }}</h1>
       </div>
-      <div class="metric" (click)="navigateToDashboard('defence-evasion')">
+      <div class="metric" (click)="navigateToDashboard('defense-evasion')">
         <h2>Defence Evasion Alerts</h2>
         <p>We measure tactics used by attackers to avoid detection.</p>
         <h1>{{ defenceEvasionAlerts }}</h1>
       </div>
       <div class="metric">
         <h2>Total Alerts</h2>
-        <h1>{{ totalAlerts }}</h1>
+        <h1>{{impactAlerts + initialAccessAlerts + defenceEvasionAlerts + exfiltrationAlerts 
+          + collectionAlerts + privilegeEscalationAlerts + persistenceAlerts + reconnaissanceAlerts + 
+          executionAlerts + resourceDevelopmentAlerts}}</h1>
       </div>
       <div class="metric" (click)="navigateToDashboard('persistence')">
         <h2>Persistence Alerts</h2>

@@ -61,7 +61,9 @@
         <tbody>
           <tr>
             <td>Malicious Alerts</td>
-            <td>{{maliciousAlerts}}</td>
+            <td>{{impactAlerts + initialAccessAlerts + defenceEvasionAlerts + exfiltrationAlerts 
+              + collectionAlerts + privilegeEscalationAlerts + persistenceAlerts + reconnaissanceAlerts + 
+              executionAlerts + resourceDevelopmentAlerts}}</td>
           </tr>
           <tr>
             <td>Impact</td>
@@ -105,25 +107,28 @@
           </tr>
           <tr class="total-row">
             <td>Total Alerts</td>
-            <td>{{totalAlerts}}</td>
+            <td>{{impactAlerts + initialAccessAlerts + defenceEvasionAlerts + exfiltrationAlerts 
+            + collectionAlerts + privilegeEscalationAlerts + persistenceAlerts + reconnaissanceAlerts + 
+            executionAlerts + resourceDevelopmentAlerts}}</td>
           </tr>
         </tbody>
       </table>
     </div>
 
     <div class="downloaded-report-results">
-      <h2>Alert Report for {{startDateInput.value}} - {{endDateInput.value}}</h2><br>
-      <label>Malicious Alerts: 0</label><br>
-      <label>Impact: 0</label><br>
-      <label>Initial Access: 0</label><br>
-      <label>Defence Evasion: 0</label><br>
-      <label>Exfiltration: 0</label><br>
-      <label>Collection: 0</label><br>
-      <label>Privilege Escalation: 0</label><br>
-      <label>Persistence: 1412</label><br>
-      <label>Reconnaissance: 0</label><br>
-      <label>Execution: 0</label><br>
-      <label>Resource Development: 0</label><br>
+      <h2 *ngIf="startDateInput.value != '' && endDateInput.value != ''">Alert Report for {{startDateInput.value}} - {{endDateInput.value}}</h2><br>
+      <h2 *ngIf="startDateInput.value == '' && endDateInput.value == ''">All Time Alert Report</h2>
+      <label>Malicious Alerts: {{maliciousAlerts}}</label><br>
+      <label>Impact: {{impactAlerts}}</label><br>
+      <label>Initial Access: {{initialAccessAlerts}}</label><br>
+      <label>Defence Evasion: {{defenceEvasionAlerts}}</label><br>
+      <label>Exfiltration: {{exfiltrationAlerts}}</label><br>
+      <label>Collection: {{collectionAlerts}}</label><br>
+      <label>Privilege Escalation: {{privilegeEscalationAlerts}}</label><br>
+      <label>Persistence: {{persistenceAlerts}}</label><br>
+      <label>Reconnaissance: {{reconnaissanceAlerts}}</label><br>
+      <label>Execution: {{executionAlerts}}</label><br>
+      <label>Resource Development: {{resourceDevelopmentAlerts}}</label><br>
     </div>
 
     <div class="download-container">

@@ -8,7 +8,7 @@ import { BackendConnectionService } from '../backend-connection.service';
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent implements OnInit {
-  totalAlerts: number = 0;
+  //totalAlerts: number = 0;
   impactAlerts: number = 0;
   maliciousAlerts: number = 0;
   initialAccessAlerts: number = 0;
@@ -122,8 +122,8 @@ export class HomeComponent implements OnInit {
     this.backendService.getResourceDevelopmentAlerts().subscribe(resourceDevelopmentCount => {
       this.resourceDevelopmentAlerts = resourceDevelopmentCount.ResourceDevelopment;
     })
-    this.totalAlerts += (this.impactAlerts + this.collectionAlerts + this.defenceEvasionAlerts + this.exfiltrationAlerts + this.initialAccessAlerts + this.persistenceAlerts + this.privilegeEscalationAlerts + this.reconnaissanceAlerts + this.executionAlerts + this.resourceDevelopmentAlerts);
-    this.maliciousAlerts = this.totalAlerts;
+    //this.totalAlerts += (this.impactAlerts + this.collectionAlerts + this.defenceEvasionAlerts + this.exfiltrationAlerts + this.initialAccessAlerts + this.persistenceAlerts + this.privilegeEscalationAlerts + this.reconnaissanceAlerts + this.executionAlerts + this.resourceDevelopmentAlerts);
+    //this.maliciousAlerts = this.totalAlerts;
 
   }
 
