@@ -39,12 +39,12 @@
         <div class="date-input">
           <label for="start_date">Start Date:</label>
           <input type="date" class="date-selector" id="start_date" name="start_date" min="2024-01-01"
-                 (change)="minEndDate(startDateInput, endDateInput)" #startDateInput>
+            (change)="minEndDate(startDateInput, endDateInput)" #startDateInput>
         </div>
         <div class="date-input">
           <label for="end_date">End Date:</label>
           <input type="date" class="date-selector" id="end_date" name="end_date" min="2024-01-01"
-                 (change)="updateAlertCount()" #endDateInput>
+            (change)="updateAlertCount()" #endDateInput>
         </div>
       </div>
     </div>
@@ -56,7 +56,7 @@
       </h2>
     </header>
 
-    <section class="report-table">
+    <div class="report-table">
       <table>
         <tbody>
           <tr>
@@ -84,12 +84,24 @@
             <td>0</td>
           </tr>
           <tr>
-            <td>Escalation</td>
+            <td>Privilege Escalation</td>
             <td>0</td>
           </tr>
           <tr>
             <td>Persistence</td>
             <td>1412</td>
+          </tr>
+          <tr>
+            <td>Execution</td>
+            <td>0</td>
+          </tr>
+          <tr>
+            <td>Resource Development</td>
+            <td>0</td>
+          </tr>
+          <tr>
+            <td>Reconnaissance</td>
+            <td>0</td>
           </tr>
           <tr class="total-row">
             <td>Total Alerts</td>
@@ -97,7 +109,7 @@
           </tr>
         </tbody>
       </table>
-    </section>
+    </div>
 
     <div class="downloaded-report-results">
       <h2>Alert Report for {{startDateInput.value}} - {{endDateInput.value}}</h2><br>
@@ -107,8 +119,11 @@
       <label>Defence Evasion: 0</label><br>
       <label>Exfiltration: 0</label><br>
       <label>Collection: 0</label><br>
-      <label>Escalation: 0</label><br>
+      <label>Privilege Escalation: 0</label><br>
       <label>Persistence: 1412</label><br>
+      <label>Reconnaissance: 0</label><br>
+      <label>Execution: 0</label><br>
+      <label>Resource Development: 0</label><br>
     </div>
 
     <div class="download-container">

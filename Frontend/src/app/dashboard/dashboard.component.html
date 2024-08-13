@@ -98,9 +98,10 @@
                 (click)="clearCategoryFilters(); $event.preventDefault()">Clear All</a></h4>
             <div class="filter-options">
               <label class="checkbox-label"
-                *ngFor="let category of ['Collection', 'Defence Evasion', 'Escalation', 'Exfiltration', 'Impact', 'Initial Access', 'Persistence']">
+                *ngFor="let category of ['Collection', 'Defence Evasion', 'Privilege Escalation', 'Exfiltration', 'Impact', 'Initial Access', 'Persistence', 'Reconnaissance', 'Execution', 'Resource Development']">
                 <input type="checkbox" class="filter-checkbox"
-                  [attr.data-category]="category.toLowerCase().replace(' ', '-')" (change)="filterResults()" [checked]="selectedCategory === category">
+                  [attr.data-category]="category.toLowerCase().replace(' ', '-').replace(' ', '-')"
+                  (change)="filterResults()" [checked]="selectedCategory === category">
                 <span class="checkbox-custom"></span>
                 <span class="checkbox-label-text">{{ category }}</span>
               </label>
@@ -108,3 +109,4 @@
           </div>
         </div>
   </div>
+</div>

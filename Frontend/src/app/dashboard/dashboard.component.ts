@@ -22,13 +22,6 @@ export class DashboardComponent implements OnInit {
   selectedSortOption;
   selectedCategory;
   isFilterCollapsed = true;
-  // originalResults = [
-  //   { category: 'Defence Evasion', method: 'Suspicious File extension', username: 'John Doe', ipAddress: '192.168.1.1', timestamp: '2024/04/15 02:54:12', severity: 'informational' },
-  //   { category: 'Persistence', method: 'Suspicious File share', username: 'James Smith', ipAddress: '196.168.2.1', timestamp: '2024/04/15 03:25:09', severity: 'low' },
-  //   { category: 'Impact', method: 'Process with Elevated Permissions', username: 'Alex Davidson', ipAddress: '127.0.0.1', timestamp: '2024/04/15 03:36:14', severity: 'medium' },
-  //   { category: 'Exfiltration', method: 'FTP File share', username: 'Sam Smith', ipAddress: '187.296.58.7', timestamp: '2024/04/15 09:24:08', severity: 'high' },
-  //   { category: 'Initial Access', method: 'Unusual Login', username: 'Ben Benson', ipAddress: '172.486.24.5', timestamp: '2024/04/15 12:36:18', severity: 'high' }
-  // ];
   originalResults: any[] = [];
   results = [];
   constructor(
@@ -41,10 +34,10 @@ export class DashboardComponent implements OnInit {
   ngOnInit(): void {
     this.backendService.getEventLogs().subscribe(data => {
       this.originalResults = data.Eventlogs;
-      console.log(data.Eventlogs); 
+      console.log(data.Eventlogs);
       console.log(this.originalResults);
     });
-    
+
     this.startEvents();
     this.startInactivityTimer();
     this.route.queryParams.subscribe(params => {

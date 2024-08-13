@@ -86,11 +86,8 @@ export class ReportComponent implements OnInit {
     window.URL.revokeObjectURL(a.href);
   }
 
-  cutHTMLElements(htmlElement: string){
+  cutHTMLElements(htmlElement: string) {
     let text = htmlElement.replace(/<\/?[^>]+>/gi, '\n');
     return text.trim();
   }
-
-
-
 }

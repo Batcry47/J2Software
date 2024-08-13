@@ -8,15 +8,18 @@ import { BackendConnectionService } from '../backend-connection.service';
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent implements OnInit {
-  totalAlerts: number = 1412;
+  totalAlerts: number = 0;
   impactAlerts: number = 0;
   maliciousAlerts: number = 0;
   initialAccessAlerts: number = 0;
   defenceEvasionAlerts: number = 0;
   exfiltrationAlerts: number = 0;
   collectionAlerts: number = 0;
-  escalationAlerts: number = 0;
-  persistenceAlerts: number = 1412;
+  privilegeEscalationAlerts: number = 0;
+  persistenceAlerts: number = 0;
+  reconnaissanceAlerts: number = 0;
+  executionAlerts: number = 0;
+  resourceDevelopmentAlerts: number = 0;
 
   inactivityTimer: any;
   INACTIVITY_TIMEOUT = 30000;
@@ -77,4 +80,83 @@ export class HomeComponent implements OnInit {
       queryParams: { category: category }
     });
   }
+  displayAlertCounts() {
+    this.backendService.getImpactAlerts().subscribe(impactCount => {
+      this.impactAlerts = impactCount.impact;
+    });
+
+    this.backendService.getCollectionAlerts().subscribe(collectionCount => {
+      this.collectionAlerts = collectionCount.collection;
+    });
+
+    this.backendService.getPersistenceAlerts().subscribe(persistenceCount => {
+      this.persistenceAlerts = persistenceCount.persistence;
+    });
+
+    this.backendService.getExfiltrationAlerts().subscribe(exfiltrationCount => {
+      this.exfiltrationAlerts = exfiltrationCount.exfiltration;
+    });
+
+    this.backendService.getEscalationAlerts().subscribe(escalationCount => {
+      this.privilegeEscalationAlerts = escalationCount.privilegeEscalation;
+    });
+
+    this.backendService.getInitalAccessAlerts().subscribe(initialAccessCount => {
+      this.initialAccessAlerts = initialAccessCount.initialAccess;
+    });
+
+    this.backendService.getEvasionAlerts().subscribe(evasionCount => {
+      this.defenceEvasionAlerts = evasionCount.evasion;
+    });
+
+    this.backendService.getReconissanceAlerts().subscribe(reconnissanceCount => {
+      this.reconnaissanceAlerts = reconnissanceCount.reconissance;
+    });
+
+    this.backendService.getExecutionAlerts().subscribe(executionCount => {
+      this.executionAlerts = executionCount.execution;
+    });
+
+    this.backendService.getResourceDevelopmentAlerts().subscribe(resourceDevCount => {
+      this.resourceDevelopmentAlerts = resourceDevCount.resourceDevelopment;
+    });
+
+    this.totalAlerts = (this.impactAlerts + this.collectionAlerts + this.defenceEvasionAlerts +
+      this.exfiltrationAlerts + this.initialAccessAlerts + this.persistenceAlerts + this.privilegeEscalationAlerts
+      + this.reconnaissanceAlerts + this.executionAlerts + this.resourceDevelopmentAlerts);
+    this.maliciousAlerts += this.totalAlerts;
+  }
+
+  /*
+  displayScheduledAlertCounts(){
+    this.backendService.getScheduledImpactAlerts(startDateInput, endDateInput).subscribe(impactCount => {
+      this.impactAlerts = impactCount.impact;
+    });
+
+    this.backendService.getScheduledCollectionAlerts().subscribe(collectionCount => {
+      this.collectionAlerts = collectionCount.collection;
+    });
+
+    this.backendService.getScheduledPersistenceAlerts().subscribe(persistenceCount => {
+      this.collectionAlerts = persistenceCount.persistence;
+    });
+
+    this.backendService.getScheduledExfiltrationAlerts().subscribe(exfiltrationCount => {
+      this.collectionAlerts = exfiltrationCount.exfiltration;
+    });
+
+    this.backendService.getScheduledEscalationAlerts().subscribe(escalationCount => {
+      this.collectionAlerts = escalationCount.escalation;
+    });
+    
+    this.backendService.getScheduledInitalAccessAlerts().subscribe(initialAccessCount => {
+      this.collectionAlerts = initialAccessCount.initialAccess;
+    });
+
+    this.backendService.getScheduledEvasionAlerts().subscribe(evasionCount => {
+      this.collectionAlerts = evasionCount.evasion;
+    });
+  }
+    */
+
 }

@@ -256,10 +256,10 @@
 .report-table {
   display: flex;
   justify-content: center;
-  margin: 20px;
+  align-items: center;
 }
 
-table {
+.report-table table {
   width: 100%;
   max-width: 800px;
   border-collapse: collapse;
@@ -269,22 +269,22 @@ table {
   overflow: hidden;
 }
 
-tbody td {
+.report-table tbody td {
   padding: 12px;
   text-align: left;
   border-bottom: 1px solid #ddd;
   font-size: 1em;
 }
 
-tbody tr:nth-child(even) {
+.report-table tbody tr:nth-child(even) {
   background-color: #f9f9f9;
 }
 
-tbody tr:hover:not(.total-row) {
+.report-table tbody tr:hover:not(.total-row) {
   background-color: #f1f1f1;
 }
 
-.total-row {
+.report-table tbody tr.total-row {
   background-color: #c91931;
   color: #ffffff;
   font-weight: bold;
