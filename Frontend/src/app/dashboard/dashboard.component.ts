@@ -2,7 +2,7 @@ import { AfterViewInit, Component, OnInit, Renderer2 } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { BackendConnectionService } from '../backend-connection.service';
 
-export interface EventDetails{
+export interface EventDetails {
   eventID: number;
   category: string;
   method: string;
@@ -16,7 +16,7 @@ export interface EventDetails{
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.css']
 })
-export class DashboardComponent implements OnInit{
+export class DashboardComponent implements OnInit {
   inactivityTimer: any;
   INACTIVITY_TIMEOUT = 30000;
   selectedSortOption;
@@ -29,7 +29,7 @@ export class DashboardComponent implements OnInit{
   //   { category: 'Exfiltration', method: 'FTP File share', username: 'Sam Smith', ipAddress: '187.296.58.7', timestamp: '2024/04/15 09:24:08', severity: 'high' },
   //   { category: 'Initial Access', method: 'Unusual Login', username: 'Ben Benson', ipAddress: '172.486.24.5', timestamp: '2024/04/15 12:36:18', severity: 'high' }
   // ];
-  originalResults: EventDetails[];
+  originalResults: any[] = [];
   results = [];
   constructor(
     public router: Router,
@@ -40,19 +40,21 @@ export class DashboardComponent implements OnInit{
 
   ngOnInit(): void {
     this.backendService.getEventLogs().subscribe(data => {
-      this.originalResults = data;
+      this.originalResults = data.Eventlogs;
+      console.log(data.Eventlogs); 
+      console.log(this.originalResults);
     });
-    this.results = [...this.originalResults];
+    
     this.startEvents();
     this.startInactivityTimer();
     this.route.queryParams.subscribe(params => {
       const category = params['category'];
       if (category) {
-        setTimeout(() => {this.applyCategoryFilter(category);} , 0)
+        setTimeout(() => { this.applyCategoryFilter(category); }, 0)
       }
     });
   }
-  
+
   startEvents() {
     window.addEventListener("mousemove", this.resetInactivityTimer.bind(this));
     window.addEventListener("keydown", this.resetInactivityTimer.bind(this));
@@ -92,15 +94,15 @@ export class DashboardComponent implements OnInit{
   }
 
   applyCategoryFilter(category: string) {
-    const categoryBox = document.querySelector( `.filter-checkbox[data-category="${category.toLowerCase().replace(' ', '-')}"]`) as HTMLInputElement;
-    if(categoryBox){
+    const categoryBox = document.querySelector(`.filter-checkbox[data-category="${category.toLowerCase().replace(' ', '-')}"]`) as HTMLInputElement;
+    if (categoryBox) {
       this.renderer.setProperty(categoryBox, 'checked', true);
       console.log('Checkbox has been ticked');
     }
     else {
       console.log('Unable to find checkbox for: ' + category)
     }
-    this.results = this.originalResults.filter(result => 
+    this.originalResults.filter(result =>
       result.category.toLowerCase().replace(' ', '-') === category
     );
   }
@@ -111,7 +113,7 @@ export class DashboardComponent implements OnInit{
     const selectedCategories = Array.from(document.querySelectorAll('.filter-checkbox[data-category]:checked'))
       .map((checkbox: HTMLInputElement) => checkbox.getAttribute('data-category'));
 
-    this.results = this.originalResults.filter(result => {
+    this.originalResults.filter(result => {
       const severityMatch = selectedSeverities.length === 0 || selectedSeverities.includes(result.severity.toLowerCase());
       const categoryMatch = selectedCategories.length === 0 || selectedCategories.includes(result.category.toLowerCase().replace(' ', '-'));
       return severityMatch && categoryMatch;
@@ -137,21 +139,21 @@ export class DashboardComponent implements OnInit{
   }
 
   sortResults() {
-    this.results.sort((a, b) => {
+    this.originalResults.sort((a, b) => {
       let sortingOption = 0;
-  
+
       if (this.selectedSortOption === 'category') {
-        sortingOption = a.category.localeCompare(b.category);
+        sortingOption = a.Category.localeCompare(b.Category);
       } else if (this.selectedSortOption === 'method') {
-        sortingOption = a.method.localeCompare(b.method);
+        sortingOption = a.Method.localeCompare(b.Method);
       } else if (this.selectedSortOption === 'username') {
-        sortingOption = a.username.localeCompare(b.username);
+        sortingOption = a.Username.localeCompare(b.Username);
       } else if (this.selectedSortOption === 'ipAddress') {
-        sortingOption = a.ipAddress.localeCompare(b.ipAddress);
+        sortingOption = a.IPAddress.localeCompare(b.IPAddress);
       } else if (this.selectedSortOption === 'timestamp') {
-        sortingOption = new Date(a.timestamp).getTime() - new Date(b.timestamp).getTime();
+        sortingOption = new Date(a.EventTimeStamp).getTime() - new Date(b.TimeStamp).getTime();
       }
-  
+
       return sortingOption;
     });
   }

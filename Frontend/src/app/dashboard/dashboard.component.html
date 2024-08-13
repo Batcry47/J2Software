@@ -36,7 +36,7 @@
     <h1 class="dashboard-title">Dashboard</h1>
     <div class="dashboard-content">
       <div class="result-header">
-        <div class="result-count">{{ results.length }} Results</div>
+        <div class="result-count">{{ originalResults.length }} Results</div>
         <div class="sort-options">
           <span class="sort-label">SORT BY:</span>
           <select class="sort-select" [(ngModel)]="selectedSortOption" (change)="sortResults()">
@@ -61,12 +61,12 @@
             </tr>
           </thead>
           <tbody>
-            <tr *ngFor="let result of results" [ngClass]="result.severity">
-              <td>{{ result.category }}</td>
-              <td>{{ result.method }}</td>
-              <td>{{ result.username }}</td>
-              <td>{{ result.ipAddress }}</td>
-              <td>{{ result.timestamp }}</td>
+            <tr *ngFor="let result of originalResults" [ngClass]="result.Severity">
+              <td>{{ result.Category }}</td>
+              <td>{{ result.Method }}</td>
+              <td>{{ result.Username }}</td>
+              <td>{{ result.IPAddress }}</td>
+              <td>{{ result.EventTimeStamp }}</td>
             </tr>
           </tbody>
         </table>
