@@ -135,3 +135,19 @@ func GetEventLogsSeverityNum(c *gin.Context) {
 		"SeverityCount": severityNum,
 	})
 }
+
+func GetCategoryCount(c *gin.Context) {
+	//get event category
+	Category := c.Param("Category")
+
+	//get eventlog records
+	var eventlogs []models.EventLogs
+
+	//respond with category number
+	initializers.DB.Where("Category <> ?", Category).Find(&eventlogs)
+	categoryCount := len(eventlogs)
+
+	c.JSON(200, gin.H{
+		"CategoryCount": categoryCount,
+	})
+}
