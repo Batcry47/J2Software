@@ -1,5 +1,6 @@
 import { Component, OnInit, ViewChild, ElementRef, Renderer2 } from '@angular/core';
 import { Router } from '@angular/router';
+import { BackendConnectionService } from '../backend-connection.service';
 
 @Component({
   selector: 'app-report',
@@ -9,16 +10,28 @@ import { Router } from '@angular/router';
 export class ReportComponent implements OnInit {
   @ViewChild('startDateInput') startDateInput!: ElementRef<HTMLInputElement>;
   @ViewChild('endDateInput') endDateInput!: ElementRef<HTMLInputElement>;
-
+  totalAlerts: number = 0;
+  impactAlerts: number = 0;
+  maliciousAlerts: number = 0;
+  initialAccessAlerts: number = 0;
+  defenceEvasionAlerts: number = 0;
+  exfiltrationAlerts: number = 0;
+  collectionAlerts: number = 0;
+  privilegeEscalationAlerts: number = 0;
+  persistenceAlerts: number = 0;
+  reconnaissanceAlerts: number = 0;
+  executionAlerts: number = 0;
+  resourceDevelopmentAlerts: number = 0;
   clickedButton = false;
   inactivityTimer: any;
   INACTIVITY_TIMEOUT = 30000;
 
-  constructor(public route: Router, private renderer: Renderer2) { }
+  constructor(public route: Router, private renderer: Renderer2, private backendService: BackendConnectionService) { }
 
   ngOnInit(): void {
     this.startEvents();
     this.startInactivityTimer();
+    this.displayAlertCounts();
   }
 
   startEvents() {
@@ -89,5 +102,52 @@ export class ReportComponent implements OnInit {
   cutHTMLElements(htmlElement: string) {
     let text = htmlElement.replace(/<\/?[^>]+>/gi, '\n');
     return text.trim();
+  }
+  displayAlertCounts() {
+    this.backendService.getImpactAlerts().subscribe(impactCount => {
+      this.impactAlerts = impactCount.Impact;
+    });
+
+    this.backendService.getCollectionAlerts().subscribe(collectionCount => {
+      this.collectionAlerts = collectionCount.Collection;
+    });
+
+    this.backendService.getPersistenceAlerts().subscribe(persistenceCount => {
+      this.persistenceAlerts = persistenceCount.Persistence;
+    });
+
+    this.backendService.getExfiltrationAlerts().subscribe(exfiltrationCount => {
+      this.exfiltrationAlerts = exfiltrationCount.Exfiltration;
+    });
+
+    this.backendService.getEscalationAlerts().subscribe(escalationCount => {
+      this.privilegeEscalationAlerts = escalationCount.Escalation;
+    });
+
+    this.backendService.getInitialAccessAlerts().subscribe(initialAccessCount => {
+      this.initialAccessAlerts = initialAccessCount.InitialAccess;
+    });
+
+    this.backendService.getEvasionAlerts().subscribe(evasionCount => {
+      this.defenceEvasionAlerts = evasionCount.DefenseEvasion;
+    });
+
+    this.backendService.getReconnissanceAlerts().subscribe(reconnaissanceCount => {
+      this.reconnaissanceAlerts = reconnaissanceCount.Reconnaissance;
+    });
+
+    this.backendService.getExecutionAlerts().subscribe(executionCount => {
+      this.executionAlerts = executionCount.Execution;
+    });
+
+    this.backendService.getResourceDevelopmentAlerts().subscribe(resourceDevCount => {
+      this.resourceDevelopmentAlerts = resourceDevCount.ResourceDevelopment;
+    });
+
+    this.totalAlerts = (this.impactAlerts + this.collectionAlerts + this.defenceEvasionAlerts +
+      this.exfiltrationAlerts + this.initialAccessAlerts + this.persistenceAlerts + this.privilegeEscalationAlerts +
+      this.reconnaissanceAlerts + this.executionAlerts + this.resourceDevelopmentAlerts);
+
+    this.maliciousAlerts = this.totalAlerts;
   }
 }

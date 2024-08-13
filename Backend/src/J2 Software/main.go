@@ -44,6 +44,7 @@ func main() {
 	r.DELETE("/Eventlog/:id", controllers.DeleteEventLog)
 	r.GET("/SeverityCount/:Severity", controllers.GetEventLogsSeverityNum)
 	r.GET("/Impact/:Category", controllers.GetImpactAlerts)
+	r.GET("/Collection/:Category", controllers.GetCollectionAlerts)
 	r.GET("/DefenseEvasion/:Category", controllers.GetDefenseEvasionAlerts)
 	r.GET("/Persistence/:Category", controllers.GetPersistenceAlerts)
 	r.GET("/Exfiltration/:Category", controllers.GetExfiltrationAlerts)

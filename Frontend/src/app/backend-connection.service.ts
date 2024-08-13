@@ -35,51 +35,47 @@ export class BackendConnectionService {
     return this.http.get<EventLogCollection>(`${this.api}/Eventlogs`);
   }
 
-  // //Returns the total number of each type of alert (incomplete)
-  // getAlertCount(): Observable<AlertCount[]>{
-  //   return this.http.get<AlertCount[]>(`${this.api}/count-logs`);
-  // }
-
-  getImpactAlerts(): Observable<{impact: number}> {
-    return this.http.get<{impact: number}>(`${this.api}/ImpactAlerts`);
+  getImpactAlerts(): Observable<{Impact: number}> {
+    return this.http.get<{Impact: number}>(`${this.api}/Impact/Impact`);
   }
   
-  getCollectionAlerts(): Observable<{collection: number}> {
-    return this.http.get<{collection: number}>(`${this.api}/CollectionAlerts`);
+  getCollectionAlerts(): Observable<{Collection: number}> {
+    return this.http.get<{Collection: number}>(`${this.api}/Collection/Collection`);
   }
 
-  getExfiltrationAlerts(): Observable<{exfiltration: number}> {
-    return this.http.get<{exfiltration: number}>(`${this.api}/ExfiltrationAlerts`);
+  getExfiltrationAlerts(): Observable<{Exfiltration: number}> {
+    return this.http.get<{Exfiltration: number}>(`${this.api}/Exfiltration/Exfiltration`);
   }
 
-  getEvasionAlerts(): Observable<{evasion: number}> {
-    return this.http.get<{evasion: number}>(`${this.api}/EvasionAlerts`);
+  getEvasionAlerts(): Observable<{DefenseEvasion: number}> {
+    return this.http.get<{DefenseEvasion: number}>(`${this.api}/DefenseEvasion/DefenseEvasion`);
   }
 
-  getPersistenceAlerts(): Observable<{persistence: number}> {
-    return this.http.get<{persistence: number}>(`${this.api}/PersistenceAlerts`);
+  getPersistenceAlerts(): Observable<{Persistence: number}> {
+    return this.http.get<{Persistence: number}>(`${this.api}/Persistence/Persistence`);
   }
 
-  getInitalAccessAlerts(): Observable<{initialAccess: number}> {
-    return this.http.get<{initialAccess: number}>(`${this.api}/InitialAccessAlerts`);
+  getInitialAccessAlerts(): Observable<{InitialAccess: number}> {
+    return this.http.get<{InitialAccess: number}>(`${this.api}/InitialAccess/Initial Access`);
   }
 
-  getEscalationAlerts(): Observable<{privilegeEscalation: number}>{
-    return this.http.get<{privilegeEscalation: number}>(`${this.api}/EscalationAlerts`);
+  getEscalationAlerts(): Observable<{Escalation: number}>{
+    return this.http.get<{Escalation: number}>(`${this.api}/Escalation/Escalation`);
   }
 
-  getReconissanceAlerts(): Observable<{reconissance: number}>{
-    return this.http.get<{reconissance: number}>(`${this.api}/ReconissanceAlerts`);
+  getReconnissanceAlerts(): Observable<{Reconnaissance: number}>{
+    return this.http.get<{Reconnaissance: number}>(`${this.api}/Reconnaissance/Reconnaissance`);
   }
 
-  getExecutionAlerts(): Observable<{execution: number}>{
-    return this.http.get<{execution: number}>(`${this.api}/ExecutionAlerts`);
+  getExecutionAlerts(): Observable<{Execution: number}>{
+    return this.http.get<{Execution: number}>(`${this.api}/Execution/Execution`);
   }
   
-  getResourceDevelopmentAlerts(): Observable<{resourceDevelopment: number}>{
-    return this.http.get<{resourceDevelopment: number}>(`${this.api}/ResourceDevelopmentAlerts`);
+  getResourceDevelopmentAlerts(): Observable<{ResourceDevelopment: number}>{
+    return this.http.get<{ResourceDevelopment: number}>(`${this.api}/ResourceDevelopment/Resource Development`);
   }
   
+  //Scheduled methods
   getScheduledImpactAlerts(startDate: string, endDate: string): Observable<{impact: number}>{
     const params = new HttpParams().set('start_date', startDate).set('end_date', endDate);
     return this.http.get<{impact: number}>(`${this.api}/ScheduledImpactAlerts`, {params});
@@ -119,12 +115,5 @@ export class BackendConnectionService {
     const params = new HttpParams().set('start_date', startDate).set('end_date', endDate);
     return this.http.get<{execution: number}>(`${this.api}/ScheduledExecutionAlerts`, {params});
   }
-  
-
-  //Returns the number of each type of alert based on the start and end date  highlighted by the user
-  getDatedAlertCount(startDate: string, endDate: string): Observable<AlertCount[]>{
-    const params = new HttpParams().set('start_date', startDate).set('end_date', endDate);
-    return this.http.get<AlertCount[]>(`${this.api}/dated-alert-count`, {params});
-  }
- 
+   
 }

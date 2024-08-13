@@ -144,7 +144,7 @@ export class DashboardComponent implements OnInit {
       } else if (this.selectedSortOption === 'ipAddress') {
         sortingOption = a.IPAddress.localeCompare(b.IPAddress);
       } else if (this.selectedSortOption === 'timestamp') {
-        sortingOption = new Date(a.EventTimeStamp).getTime() - new Date(b.TimeStamp).getTime();
+        sortingOption = new Date(a.EventTimeStamp).getTime() - new Date(b.EventTimeStamp).getTime();
       }
 
       return sortingOption;

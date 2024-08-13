@@ -192,6 +192,8 @@ func GetPersistenceAlerts(c *gin.Context) {
 	})
 }
 
+
+
 func GetExfiltrationAlerts(c *gin.Context) {
 	//get eventlog records
 	var eventlogs []models.EventLogs
