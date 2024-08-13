@@ -95,7 +95,7 @@ export class DashboardComponent implements OnInit {
       console.log('Unable to find checkbox for: ' + category)
     }
     this.results = this.originalResults.filter(result =>
-      result.category.toLowerCase().replace(' ', '-') === category
+      result.Category.toLowerCase().replace(' ', '-') === category
     );
   }
 
