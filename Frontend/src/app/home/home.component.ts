@@ -31,6 +31,7 @@ export class HomeComponent implements OnInit {
   ngOnInit(): void {
     this.startInactivityTimer();
     this.displayAlertCounts();
+
   }
 
   startEvents() {
@@ -118,15 +119,12 @@ export class HomeComponent implements OnInit {
       this.executionAlerts = executionCount.Execution;
     });
 
-    this.backendService.getResourceDevelopmentAlerts().subscribe(resourceDevCount => {
-      this.resourceDevelopmentAlerts = resourceDevCount.ResourceDevelopment;
+    this.backendService.getResourceDevelopmentAlerts().subscribe(resourceDevelopmentCount => {
+      this.resourceDevelopmentAlerts = resourceDevelopmentCount.ResourceDevelopment;
     })
-
-    this.totalAlerts = (this.impactAlerts + this.collectionAlerts + this.defenceEvasionAlerts +
-      this.exfiltrationAlerts + this.initialAccessAlerts + this.persistenceAlerts + this.privilegeEscalationAlerts +
-      this.reconnaissanceAlerts + this.executionAlerts + this.resourceDevelopmentAlerts);
-
+    this.totalAlerts += (this.impactAlerts + this.collectionAlerts + this.defenceEvasionAlerts + this.exfiltrationAlerts + this.initialAccessAlerts + this.persistenceAlerts + this.privilegeEscalationAlerts + this.reconnaissanceAlerts + this.executionAlerts + this.resourceDevelopmentAlerts);
     this.maliciousAlerts = this.totalAlerts;
+
   }
 
   /*

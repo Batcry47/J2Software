@@ -49,7 +49,7 @@ func main() {
 	r.GET("/Persistence/:Category", controllers.GetPersistenceAlerts)
 	r.GET("/Exfiltration/:Category", controllers.GetExfiltrationAlerts)
 	r.GET("/InitialAccess/:Category", controllers.GetInitialAccessAlerts)
-	r.GET("/Escalation/:Category", controllers.GetEscalationAlerts)
+	r.GET("/PrivilegeEscalation/:Category", controllers.GetEscalationAlerts)
 	r.GET("/Reconnaissance/:Category", controllers.GetReconnaissanceAlerts)
 	r.GET("/ResourceDevelopment/:Category", controllers.GetResourceDevelopmentAlerts)
 	r.GET("/Execution/:Category", controllers.GetExecutionAlerts)

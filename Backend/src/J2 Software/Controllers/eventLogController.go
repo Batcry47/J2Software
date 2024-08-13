@@ -225,7 +225,7 @@ func GetEscalationAlerts(c *gin.Context) {
 	var eventlogs []models.EventLogs
 
 	//repsond with the number of persistence alerts
-	initializers.DB.Where("Category = ?", "Escalation").Find(&eventlogs)
+	initializers.DB.Where("Category = ?", "Privilege Escalation").Find(&eventlogs)
 	escalationCount := len(eventlogs)
 
 	c.JSON(200, gin.H{
@@ -268,7 +268,7 @@ func GetResourceDevelopmentAlerts(c *gin.Context) {
 	resourceDevelopmentCount := len(eventlogs)
 
 	c.JSON(200, gin.H{
-		"Resource Development": resourceDevelopmentCount,
+		"ResourceDevelopment": resourceDevelopmentCount,
 	})
 }
 

@@ -60,7 +60,7 @@ export class BackendConnectionService {
   }
 
   getEscalationAlerts(): Observable<{Escalation: number}>{
-    return this.http.get<{Escalation: number}>(`${this.api}/Escalation/Escalation`);
+    return this.http.get<{Escalation: number}>(`${this.api}/PrivilegeEscalation/Privilege Escalation`);
   }
 
   getReconnissanceAlerts(): Observable<{Reconnaissance: number}>{
@@ -72,7 +72,7 @@ export class BackendConnectionService {
   }
   
   getResourceDevelopmentAlerts(): Observable<{ResourceDevelopment: number}>{
-    return this.http.get<{ResourceDevelopment: number}>(`${this.api}/ResourceDevelopment/Resource Development`);
+    return this.http.get<{ResourceDevelopment: number}>(`${this.api}/ResourceDevelopment/ResourceDevelopment`);
   }
   
   //Scheduled methods
