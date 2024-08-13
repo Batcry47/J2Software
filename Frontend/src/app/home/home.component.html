@@ -27,15 +27,17 @@
       </button>
     </div>
   </dialog>
+
   <div class="sidebar">
     <h1>J2 Software</h1>
     <ul>
-      <li><a routerLink="/home">Home</a></li>
+      <li><a routerLink="/home" class="active">Home</a></li>
       <li><a routerLink="/dashboard">Dashboard</a></li>
       <li><a routerLink="/report">Report</a></li>
       <li><a (click)="openPrompt()">Logout</a></li>
     </ul>
   </div>
+
   <div class="home-container">
     <div class="date-selection">
       <h2>Select Date</h2>
@@ -47,63 +49,73 @@
         </div>
         <div class="date-input">
           <label for="end_date">End Date:</label>
-          <input type="date" class="date-selector" id="end_date" name="end_date" min="2024-01-01"
-            #endDateInput />
+          <input type="date" class="date-selector" id="end_date" name="end_date" min="2024-01-01" #endDateInput />
         </div>
       </div>
     </div>
+
     <div class="metrics">
       <div class="metric">
         <h2>Malicious Alerts</h2>
         <h1>{{ maliciousAlerts }}</h1>
       </div>
-
       <div class="metric" (click)="navigateToDashboard('impact')">
         <h2>Impact Alerts</h2>
         <p>This measure is destructive attacks against your systems and data.</p>
         <h1>{{ impactAlerts }}</h1>
       </div>
-
-      <div class="metric">
-        <h2>Total Alerts</h2>
-        <h1>{{ totalAlerts }}</h1>
-      </div>
-
       <div class="metric" (click)="navigateToDashboard('defence-evasion')">
         <h2>Defence Evasion Alerts</h2>
         <p>We measure tactics used by attackers to avoid detection.</p>
         <h1>{{ defenceEvasionAlerts }}</h1>
       </div>
+      <div class="metric">
+        <h2>Total Alerts</h2>
+        <h1>{{ totalAlerts }}</h1>
+      </div>
       <div class="metric" (click)="navigateToDashboard('persistence')">
         <h2>Persistence Alerts</h2>
-        <p>Attackers use different tactics to move data in order to remove it
-          from your network.</p>
+        <p>Attackers use different tactics to move data in order to remove it from your network.</p>
         <h1>{{ persistenceAlerts }}</h1>
       </div>
       <div class="metric" (click)="navigateToDashboard('exfiltration')">
         <h2>Exfiltration Alerts</h2>
-        <p>The tactics that are used by attackers to maintain a presence in
-          your network.</p>
+        <p>The tactics that are used by attackers to maintain a presence in your network.</p>
         <h1>{{ exfiltrationAlerts }}</h1>
       </div>
       <div class="metric" (click)="navigateToDashboard('initial-access')">
         <h2>Initial Access Alerts</h2>
-        <p>These are tactics that can be used by attackers to get into your
-          network.</p>
+        <p>These are tactics that can be used by attackers to get into your network.</p>
         <h1>{{ initialAccessAlerts }}</h1>
       </div>
-      <div class="metric" (click)="navigateToDashboard('escalation')">
-        <h2>Escalation Alerts</h2>
-        <p>These are the tactics used by attackers to elevate their
-          privileges on your network.</p>
-        <h1>{{ escalationAlerts }}</h1>
+      <div class="metric" (click)="navigateToDashboard('privilege-escalation')">
+        <h2>Privilege Escalation Alerts</h2>
+        <p>These are the tactics used by attackers to elevate their privileges on your network.</p>
+        <h1>{{ privilegeEscalationAlerts }}</h1>
       </div>
       <div class="metric" (click)="navigateToDashboard('collection')">
         <h2>Collection Alerts</h2>
-        <p>Measuring the activities used by attackers to gather or collect
-          your data.</p>
+        <p>Measuring the activities used by attackers to gather or collect your data.</p>
         <h1>{{ collectionAlerts }}</h1>
       </div>
-
+      <div class="metric" (click)="navigateToDashboard('reconnaissance')">
+        <h2>Reconnaissance Alerts</h2>
+        <p>Reconnaissance consists of techniques that involve adversaries actively or passively gathering information
+          that can be used to support targeting.</p>
+        <h1>{{ reconnaissanceAlerts }}</h1>
+      </div>
+      <div class="metric" (click)="navigateToDashboard('execution')">
+        <h2>Execution Alerts</h2>
+        <p>Execution consists of techniques that result in adversary-controlled code running on a local or remote
+          system.</p>
+        <h1>{{ executionAlerts }}</h1>
+      </div>
+      <div class="metric" (click)="navigateToDashboard('resource-development')">
+        <h2>Resource Development Alerts</h2>
+        <p>Resource Development consists of techniques that involve adversaries creating, purchasing, or
+          compromising/stealing resources that can be used to support targeting.</p>
+        <h1>{{ resourceDevelopmentAlerts }}</h1>
+      </div>
     </div>
   </div>
+</div>

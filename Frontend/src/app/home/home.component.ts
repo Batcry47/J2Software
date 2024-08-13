@@ -15,8 +15,11 @@ export class HomeComponent implements OnInit {
   defenceEvasionAlerts: number = 0;
   exfiltrationAlerts: number = 0;
   collectionAlerts: number = 0;
-  escalationAlerts: number = 0;
+  privilegeEscalationAlerts: number = 0;
   persistenceAlerts: number = 1412;
+  reconnaissanceAlerts: number = 0;
+  executionAlerts: number = 0;
+  resourceDevelopmentAlerts: number = 0;
 
   inactivityTimer: any;
   INACTIVITY_TIMEOUT = 30000;
