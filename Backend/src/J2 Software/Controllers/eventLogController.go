@@ -192,6 +192,8 @@ func GetPersistenceAlerts(c *gin.Context) {
 	})
 }
 
+
+
 func GetExfiltrationAlerts(c *gin.Context) {
 	//get eventlog records
 	var eventlogs []models.EventLogs
@@ -223,7 +225,7 @@ func GetEscalationAlerts(c *gin.Context) {
 	var eventlogs []models.EventLogs
 
 	//repsond with the number of persistence alerts
-	initializers.DB.Where("Category = ?", "Escalation").Find(&eventlogs)
+	initializers.DB.Where("Category = ?", "Privilege Escalation").Find(&eventlogs)
 	escalationCount := len(eventlogs)
 
 	c.JSON(200, gin.H{

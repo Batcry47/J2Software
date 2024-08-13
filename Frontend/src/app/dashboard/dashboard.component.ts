@@ -34,8 +34,7 @@ export class DashboardComponent implements OnInit {
   ngOnInit(): void {
     this.backendService.getEventLogs().subscribe(data => {
       this.originalResults = data.Eventlogs;
-      console.log(data.Eventlogs);
-      console.log(this.originalResults);
+      this.results = this.originalResults;
     });
 
     this.startEvents();
@@ -95,8 +94,8 @@ export class DashboardComponent implements OnInit {
     else {
       console.log('Unable to find checkbox for: ' + category)
     }
-    this.originalResults.filter(result =>
-      result.category.toLowerCase().replace(' ', '-') === category
+    this.results = this.originalResults.filter(result =>
+      result.Category.toLowerCase().replace(' ', '-') === category
     );
   }
 
@@ -106,9 +105,9 @@ export class DashboardComponent implements OnInit {
     const selectedCategories = Array.from(document.querySelectorAll('.filter-checkbox[data-category]:checked'))
       .map((checkbox: HTMLInputElement) => checkbox.getAttribute('data-category'));
 
-    this.originalResults.filter(result => {
-      const severityMatch = selectedSeverities.length === 0 || selectedSeverities.includes(result.severity.toLowerCase());
-      const categoryMatch = selectedCategories.length === 0 || selectedCategories.includes(result.category.toLowerCase().replace(' ', '-'));
+    this.results = this.originalResults.filter(result => {
+      const severityMatch = selectedSeverities.length === 0 || selectedSeverities.includes(result.Severity.toLowerCase());
+      const categoryMatch = selectedCategories.length === 0 || selectedCategories.includes(result.Category.toLowerCase().replace(' ', '-'));
       return severityMatch && categoryMatch;
     });
   }
@@ -132,7 +131,7 @@ export class DashboardComponent implements OnInit {
   }
 
   sortResults() {
-    this.originalResults.sort((a, b) => {
+    this.results.sort((a, b) => {
       let sortingOption = 0;
 
       if (this.selectedSortOption === 'category') {
@@ -144,7 +143,7 @@ export class DashboardComponent implements OnInit {
       } else if (this.selectedSortOption === 'ipAddress') {
         sortingOption = a.IPAddress.localeCompare(b.IPAddress);
       } else if (this.selectedSortOption === 'timestamp') {
-        sortingOption = new Date(a.EventTimeStamp).getTime() - new Date(b.TimeStamp).getTime();
+        sortingOption = new Date(a.EventTimeStamp).getTime() - new Date(b.EventTimeStamp).getTime();
       }
 
       return sortingOption;
