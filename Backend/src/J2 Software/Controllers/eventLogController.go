@@ -171,7 +171,7 @@ func GetDefenseEvasionAlerts(c *gin.Context) {
 	var eventlogs []models.EventLogs
 
 	//repsond with the number of Defense Evasion alerts
-	initializers.DB.Where("Category = ?", "Defense Evasion").Find(&eventlogs)
+	initializers.DB.Where("Category = ?", "Defense_Evasion").Find(&eventlogs)
 	defenseEvasionCount := len(eventlogs)
 
 	c.JSON(200, gin.H{
@@ -210,7 +210,7 @@ func GetInitialAccessAlerts(c *gin.Context) {
 	var eventlogs []models.EventLogs
 
 	//repsond with the number of persistence alerts
-	initializers.DB.Where("Category = ?", "Initial Access").Find(&eventlogs)
+	initializers.DB.Where("Category = ?", "Initial_Access").Find(&eventlogs)
 	initialAccessCount := len(eventlogs)
 
 	c.JSON(200, gin.H{
@@ -262,11 +262,11 @@ func GetResourceDevelopmentAlerts(c *gin.Context) {
 	var eventlogs []models.EventLogs
 
 	//repsond with the number of persistence alerts
-	initializers.DB.Where("Category = ?", "Resource Development").Find(&eventlogs)
+	initializers.DB.Where("Category = ?", "Resource_Development").Find(&eventlogs)
 	resourceDevelopmentCount := len(eventlogs)
 
 	c.JSON(200, gin.H{
-		"Resource Development": resourceDevelopmentCount,
+		"ResourceDevelopment": resourceDevelopmentCount,
 	})
 }
 
@@ -280,5 +280,62 @@ func GetExecutionAlerts(c *gin.Context) {
 
 	c.JSON(200, gin.H{
 		"Execution": executionCount,
+	})
+}
+
+func GetEventTimeStamp(c *gin.Context) {
+	// Parse the start_date and end_date query parameters
+	startDateStr := c.Query("start_date")
+	endDateStr := c.Query("end_date")
+
+	// Define the expected date format, e.g., "2023-08-13"
+	const layout = "2006-01-02"
+
+	// Parse the date strings into time.Time objects
+	startDate, err := time.Parse(layout, startDateStr)
+	if err != nil {
+		c.Status(400)
+		return
+	}
+
+	endDate, err := time.Parse(layout, endDateStr)
+	if err != nil {
+		c.Status(400)
+		return
+	}
+
+	// Ensure endDate includes the entire day by setting the time to the end of the day
+	endDate = endDate.AddDate(0, 0, 1).Add(-time.Nanosecond)
+
+	//get eventlog records
+	var eventlogs []models.EventLogs
+
+	//repsond with the number of persistence alerts
+	result := initializers.DB.Where("EventTimeStamp >= ? AND EventTimeStamp <= ?", startDate, endDate).Find(&eventlogs)
+	if result.Error != nil {
+		c.Status(400)
+		return
+	}
+
+	// Respond with the filtered event logs
+	c.JSON(200, gin.H{
+		"EventLogsBetween": eventlogs,
+	})
+}
+
+func CountAllLogs(c *gin.Context) {
+	//get the alerts and store them in a slice of type models.EventLogs
+	var eventlogs []models.EventLogs
+
+	//respond with those alerts
+	//initializers.DB.First(&user)
+
+	//Getting a log
+	initializers.DB.Find(&eventlogs)
+
+	//respond with those events
+	totalLogsCount := len(eventlogs)
+	c.JSON(200, gin.H{
+		"AllLogs": totalLogsCount,
 	})
 }

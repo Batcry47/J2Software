@@ -49,9 +49,12 @@ func main() {
 	r.GET("/Exfiltration/:Category", controllers.GetExfiltrationAlerts)
 	r.GET("/InitialAccess/:Category", controllers.GetInitialAccessAlerts)
 	r.GET("/Escalation/:Category", controllers.GetEscalationAlerts)
+	r.GET("/Collection/:Category", controllers.GetCollectionAlerts)
 	r.GET("/Reconnaissance/:Category", controllers.GetReconnaissanceAlerts)
 	r.GET("/ResourceDevelopment/:Category", controllers.GetResourceDevelopmentAlerts)
 	r.GET("/Execution/:Category", controllers.GetExecutionAlerts)
+	r.GET("/EventLogsBetween", controllers.GetEventTimeStamp)
+	r.GET("/AllLogs", controllers.CountAllLogs)
 
 	r.Run()
 }
