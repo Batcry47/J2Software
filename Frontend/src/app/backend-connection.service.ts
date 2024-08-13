@@ -41,7 +41,7 @@ export class BackendConnectionService {
   }
 
   //Returns the number of each type of alert based on the start and end date  highlighted by the user
-  getDatedAlertCount(startDate?: string, endDate?: string): Observable<AlertCount[]>{
+  getDatedAlertCount(startDate: string, endDate: string): Observable<AlertCount[]>{
     const params = new HttpParams().set('start_date', startDate).set('end_date', endDate);
     return this.http.get<AlertCount[]>(`${this.api}/dated-alert-count`, {params});
   }

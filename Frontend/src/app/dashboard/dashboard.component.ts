@@ -113,7 +113,7 @@ export class DashboardComponent implements OnInit {
     const selectedCategories = Array.from(document.querySelectorAll('.filter-checkbox[data-category]:checked'))
       .map((checkbox: HTMLInputElement) => checkbox.getAttribute('data-category'));
 
-    this.originalResults = this.originalResults.filter(result => {
+    this.originalResults.filter(result => {
       const severityMatch = selectedSeverities.length === 0 || selectedSeverities.includes(result.severity.toLowerCase());
       const categoryMatch = selectedCategories.length === 0 || selectedCategories.includes(result.category.toLowerCase().replace(' ', '-'));
       return severityMatch && categoryMatch;
