@@ -54,7 +54,7 @@ func GetEventLogs(c *gin.Context) {
 	c.JSON(200, gin.H{
 		"Eventlogs": eventlogs,
 	})
-	
+
 }
 
 // used to get a single event log accroding to it's event id
@@ -129,7 +129,7 @@ func GetEventLogsSeverityNum(c *gin.Context) {
 	var eventlogs []models.EventLogs
 
 	//respond with severity number
-	initializers.DB.Where("Severity <> ?", Severity).Find(&eventlogs)
+	initializers.DB.Where("Severity = ?", Severity).Find(&eventlogs)
 	severityNum := len(eventlogs)
 
 	c.JSON(200, gin.H{
@@ -150,5 +150,135 @@ func GetCategoryCount(c *gin.Context) {
 
 	c.JSON(200, gin.H{
 		"CategoryCount": categoryCount,
+	})
+}
+
+func GetImpactAlerts(c *gin.Context) {
+	//get eventlog records
+	var eventlogs []models.EventLogs
+
+	//repsond with the number of Impact alerts
+	initializers.DB.Where("Category = ?", "Impact").Find(&eventlogs)
+	impactCount := len(eventlogs)
+
+	c.JSON(200, gin.H{
+		"Impact": impactCount,
+	})
+}
+
+func GetDefenseEvasionAlerts(c *gin.Context) {
+	//get eventlog records
+	var eventlogs []models.EventLogs
+
+	//repsond with the number of Defense Evasion alerts
+	initializers.DB.Where("Category = ?", "Defense Evasion").Find(&eventlogs)
+	defenseEvasionCount := len(eventlogs)
+
+	c.JSON(200, gin.H{
+		"DefenseEvasion": defenseEvasionCount,
+	})
+}
+
+func GetPersistenceAlerts(c *gin.Context) {
+	//get eventlog records
+	var eventlogs []models.EventLogs
+
+	//repsond with the number of persistence alerts
+	initializers.DB.Where("Category = ?", "Persistence").Find(&eventlogs)
+	persistenceCount := len(eventlogs)
+
+	c.JSON(200, gin.H{
+		"Persistence": persistenceCount,
+	})
+}
+
+func GetExfiltrationAlerts(c *gin.Context) {
+	//get eventlog records
+	var eventlogs []models.EventLogs
+
+	//repsond with the number of persistence alerts
+	initializers.DB.Where("Category = ?", "Exfiltration").Find(&eventlogs)
+	exfiltrationCount := len(eventlogs)
+
+	c.JSON(200, gin.H{
+		"Exfiltration": exfiltrationCount,
+	})
+}
+
+func GetInitialAccessAlerts(c *gin.Context) {
+	//get eventlog records
+	var eventlogs []models.EventLogs
+
+	//repsond with the number of persistence alerts
+	initializers.DB.Where("Category = ?", "Initial Access").Find(&eventlogs)
+	initialAccessCount := len(eventlogs)
+
+	c.JSON(200, gin.H{
+		"InitialAccess": initialAccessCount,
+	})
+}
+
+func GetEscalationAlerts(c *gin.Context) {
+	//get eventlog records
+	var eventlogs []models.EventLogs
+
+	//repsond with the number of persistence alerts
+	initializers.DB.Where("Category = ?", "Escalation").Find(&eventlogs)
+	escalationCount := len(eventlogs)
+
+	c.JSON(200, gin.H{
+		"Escalation": escalationCount,
+	})
+}
+
+func GetCollectionAlerts(c *gin.Context) {
+	//get eventlog records
+	var eventlogs []models.EventLogs
+
+	//repsond with the number of persistence alerts
+	initializers.DB.Where("Category = ?", "Collection").Find(&eventlogs)
+	collectionCount := len(eventlogs)
+
+	c.JSON(200, gin.H{
+		"Collection": collectionCount,
+	})
+}
+
+func GetReconnaissanceAlerts(c *gin.Context) {
+	//get eventlog records
+	var eventlogs []models.EventLogs
+
+	//repsond with the number of persistence alerts
+	initializers.DB.Where("Category = ?", "Reconnaissance").Find(&eventlogs)
+	reconnaissanceCount := len(eventlogs)
+
+	c.JSON(200, gin.H{
+		"Reconnaissance": reconnaissanceCount,
+	})
+}
+
+func GetResourceDevelopmentAlerts(c *gin.Context) {
+	//get eventlog records
+	var eventlogs []models.EventLogs
+
+	//repsond with the number of persistence alerts
+	initializers.DB.Where("Category = ?", "Resource Development").Find(&eventlogs)
+	resourceDevelopmentCount := len(eventlogs)
+
+	c.JSON(200, gin.H{
+		"Resource Development": resourceDevelopmentCount,
+	})
+}
+
+func GetExecutionAlerts(c *gin.Context) {
+	//get eventlog records
+	var eventlogs []models.EventLogs
+
+	//repsond with the number of persistence alerts
+	initializers.DB.Where("Category = ?", "Execution").Find(&eventlogs)
+	executionCount := len(eventlogs)
+
+	c.JSON(200, gin.H{
+		"Execution": executionCount,
 	})
 }
