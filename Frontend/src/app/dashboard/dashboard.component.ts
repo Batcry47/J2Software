@@ -35,16 +35,17 @@ export class DashboardComponent implements OnInit {
     this.backendService.getEventLogs().subscribe(data => {
       this.originalResults = data.Eventlogs;
       this.results = this.originalResults;
+      this.route.queryParams.subscribe(params => {
+        const category = params['category'];
+        if (category) {
+          this.applyCategoryFilter(category);
+          this.filterResults();
+        }
+      });
     });
 
     this.startEvents();
     this.startInactivityTimer();
-    this.route.queryParams.subscribe(params => {
-      const category = params['category'];
-      if (category) {
-        setTimeout(() => { this.applyCategoryFilter(category); }, 0)
-      }
-    });
   }
 
   startEvents() {
@@ -89,14 +90,8 @@ export class DashboardComponent implements OnInit {
     const categoryBox = document.querySelector(`.filter-checkbox[data-category="${category.toLowerCase().replace(' ', '-')}"]`) as HTMLInputElement;
     if (categoryBox) {
       this.renderer.setProperty(categoryBox, 'checked', true);
-      console.log('Checkbox has been ticked');
+      this.filterResults();
     }
-    else {
-      console.log('Unable to find checkbox for: ' + category)
-    }
-    this.results = this.originalResults.filter(result =>
-      result.Category.toLowerCase().replace(' ', '-') === category
-    );
   }
 
   filterResults() {

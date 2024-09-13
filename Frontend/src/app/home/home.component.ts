@@ -8,7 +8,7 @@ import { BackendConnectionService } from '../backend-connection.service';
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent implements OnInit {
-  //totalAlerts: number = 0;
+  // totalAlerts: number = 0;
   impactAlerts: number = 0;
   maliciousAlerts: number = 0;
   initialAccessAlerts: number = 0;
@@ -78,10 +78,9 @@ export class HomeComponent implements OnInit {
   }
 
   navigateToDashboard(category: string) {
-    this.router.navigate(['/dashboard'], {
-      queryParams: { category: category }
-    });
+    this.router.navigate(['/dashboard'], { queryParams: { category: category } });
   }
+
   displayAlertCounts() {
     this.backendService.getImpactAlerts().subscribe(impactCount => {
       this.impactAlerts = impactCount.Impact;
