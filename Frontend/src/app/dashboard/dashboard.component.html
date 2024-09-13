@@ -61,12 +61,12 @@
             </tr>
           </thead>
           <tbody>
-            <tr *ngFor="let result of results" [ngClass]="result.Severity.toLowerCase">
+            <tr *ngFor="let result of results" [ngClass]="result.Severity.toLowerCase()">
               <td>{{ result.Category }}</td>
               <td>{{ result.Method }}</td>
               <td>{{ result.Username }}</td>
               <td>{{ result.IPAddress }}</td>
-              <td>{{ result.EventTimeStamp.replace('T', ' ')}}</td>
+              <td>{{ result.EventTimeStamp.replace('T', ' ') }}</td>
             </tr>
           </tbody>
         </table>
