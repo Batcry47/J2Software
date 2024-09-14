@@ -427,3 +427,25 @@ tbody tr:hover {
 .popup-button.cancel:hover {
     background-color: #f4f6f8;
 }
+
+.search-bar {
+    display: flex;
+    align-items: center;
+    margin-right: 20px;
+  }
+  
+  .search-bar input {
+    padding: 10px 15px;
+    border: 2px solid #333333;
+    border-radius: 6px;
+    background-color: #fff;
+    font-size: 1em;
+    color: #2c3e50;
+    outline: none;
+    transition: all 0.3s ease;
+  }
+  
+  .search-bar input:focus {
+    border-color: #c91931;
+  }
+  

@@ -24,6 +24,7 @@ export class DashboardComponent implements OnInit {
   isFilterCollapsed = true;
   originalResults: any[] = [];
   results = [];
+  searchQuery: string = ''; 
   constructor(
     public router: Router,
     private route: ActivatedRoute,
@@ -142,6 +143,17 @@ export class DashboardComponent implements OnInit {
       }
 
       return sortingOption;
+    });
+  }
+  
+  onSearchInput() {
+    const query = this.searchQuery.toLowerCase();
+    this.results = this.originalResults.filter(result => {
+      return result.Category.toLowerCase().includes(query) ||
+             result.Method.toLowerCase().includes(query) ||
+             result.Username.toLowerCase().includes(query) ||
+             result.IPAddress.toLowerCase().includes(query) ||
+             result.EventTimeStamp.toLowerCase().includes(query);
     });
   }
 }
