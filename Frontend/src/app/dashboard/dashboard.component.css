@@ -230,24 +230,102 @@ th {
     font-size: 0.9em;
 }
 
+th:first-child {
+    padding-left: 42px;
+}
+
+.results-table td {
+    position: relative;
+}
+
+.results-table td:first-child {
+    padding-left: 42px;
+}
+
+.results-table .checkbox-wrapper {
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    display: none;
+}
+
+.results-table .checkbox-wrapper.visible {
+    display: inline-block;
+}
+
+.results-table tr:hover .checkbox-wrapper {
+    display: inline-block;
+}
+
+.results-table input[type="checkbox"] {
+    cursor: pointer;
+    margin: 0;
+    padding: 0;
+}
+
+.results-table input[type="checkbox"] {
+    appearance: none;
+    width: 17px;
+    height: 17px;
+    border: 2px solid #c91931;
+    border-radius: 3px;
+    position: relative;
+    cursor: pointer;
+    background-color: #fff;
+    outline: none;
+    transition: background-color 0.3s, border-color 0.3s;
+}
+
+.results-table input[type="checkbox"]:checked::before {
+    content: '\2714';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: #c91931;
+    font-size: 13px;
+}
+
+.results-table input[type="checkbox"]:hover {
+    border-color: #a71627;
+    background-color: rgba(255, 205, 210, 0.8);
+}
+
+.results-table .checkbox-wrapper {
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    display: none;
+}
+
 tbody tr:hover {
     background-color: rgba(248, 248, 248, 0.9);
 }
 
-.informational {
+.results-table tr.informational {
     background-color: rgba(227, 242, 253, 0.8);
 }
 
-.low {
+.results-table tr.low {
     background-color: rgba(232, 245, 233, 0.8);
 }
 
-.medium {
+.results-table tr.medium {
     background-color: rgba(255, 243, 224, 0.8);
 }
 
-.high {
+.results-table tr.high {
     background-color: rgba(255, 235, 238, 0.8);
+}
+
+.results-table tr.critical {
+    background-color: rgba(255, 205, 210, 0.8);
+}
+
+.results-table tr:hover {
+    background-color: rgba(248, 248, 248, 0.9);
 }
 
 .filter-panel {
@@ -432,9 +510,9 @@ tbody tr:hover {
     display: flex;
     align-items: center;
     margin-right: 20px;
-  }
-  
-  .search-bar input {
+}
+
+.search-bar input {
     padding: 10px 15px;
     border: 2px solid #333333;
     border-radius: 6px;
@@ -443,9 +521,8 @@ tbody tr:hover {
     color: #2c3e50;
     outline: none;
     transition: all 0.3s ease;
-  }
-  
-  .search-bar input:focus {
+}
+
+.search-bar input:focus {
     border-color: #c91931;
-  }
-  
+}

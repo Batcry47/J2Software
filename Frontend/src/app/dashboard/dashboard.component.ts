@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, OnInit, Renderer2 } from '@angular/core';
+import { Component, OnInit, Renderer2 } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { BackendConnectionService } from '../backend-connection.service';
 
@@ -11,6 +11,7 @@ export interface EventDetails {
   timestamp: Date;
   severity: string;
 }
+
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
@@ -24,7 +25,10 @@ export class DashboardComponent implements OnInit {
   isFilterCollapsed = true;
   originalResults: any[] = [];
   results = [];
-  searchQuery: string = ''; 
+  searchQuery: string = '';
+  selectedRows: any[] = [];
+  hoveredRows: Set<any> = new Set();
+
   constructor(
     public router: Router,
     private route: ActivatedRoute,
@@ -145,15 +149,39 @@ export class DashboardComponent implements OnInit {
       return sortingOption;
     });
   }
-  
+
   onSearchInput() {
     const query = this.searchQuery.toLowerCase();
     this.results = this.originalResults.filter(result => {
       return result.Category.toLowerCase().includes(query) ||
-             result.Method.toLowerCase().includes(query) ||
-             result.Username.toLowerCase().includes(query) ||
-             result.IPAddress.toLowerCase().includes(query) ||
-             result.EventTimeStamp.toLowerCase().includes(query);
+        result.Method.toLowerCase().includes(query) ||
+        result.Username.toLowerCase().includes(query) ||
+        result.IPAddress.toLowerCase().includes(query) ||
+        result.EventTimeStamp.toLowerCase().includes(query);
     });
+  }
+
+  toggleRowSelection(result: any) {
+    if (this.selectedRows.includes(result)) {
+      this.selectedRows = this.selectedRows.filter(row => row !== result);
+    } else {
+      this.selectedRows.push(result);
+    }
+  }
+
+  showCheckbox(result: any) {
+    this.hoveredRows.add(result);
+  }
+
+  hideCheckbox(result: any) {
+    this.hoveredRows.delete(result);
+  }
+
+  isRowHovered(result: any): boolean {
+    return this.hoveredRows.has(result);
+  }
+
+  isRowSelected(result: any): boolean {
+    return this.selectedRows.includes(result);
   }
 }
