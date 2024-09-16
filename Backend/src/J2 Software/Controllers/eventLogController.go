@@ -284,3 +284,59 @@ func GetExecutionAlerts(c *gin.Context) {
 		"Execution": executionCount,
 	})
 }
+
+func GetInformationalAlerts(c *gin.Context) {
+	var eventlogs []models.EventLogs
+
+	//repsond with the number of persistence alerts
+	initializers.DB.Where("Severity = ?", "INFORMATIONAL").Find(&eventlogs)
+	informationalAlertCount := len(eventlogs)
+
+	c.JSON(200, gin.H{
+		"informationalAlerts": informationalAlertCount,
+	})
+}
+
+func GetLowAlerts(c *gin.Context){
+	var eventlogs []models.EventLogs
+	//repsond with the number of persistence alerts
+	initializers.DB.Where("Severity = ?", "LOW").Find(&eventlogs)
+	lowAlertCount := len(eventlogs)
+
+	c.JSON(200, gin.H{
+		"lowAlerts": lowAlertCount,
+	})
+}
+
+func GetMediumAlerts(c *gin.Context){
+	var eventlogs []models.EventLogs
+	//repsond with the number of persistence alerts
+	initializers.DB.Where("Severity = ?", "MEDIUM").Find(&eventlogs)
+	mediumAlertCount := len(eventlogs)
+
+	c.JSON(200, gin.H{
+		"mediumAlerts": mediumAlertCount,
+	})
+}
+
+func GetHighAlerts(c *gin.Context){
+	var eventlogs []models.EventLogs
+	//repsond with the number of persistence alerts
+	initializers.DB.Where("Severity = ?", "HIGH").Find(&eventlogs)
+	highAlertCount := len(eventlogs)
+
+	c.JSON(200, gin.H{
+		"highAlerts": highAlertCount,
+	})
+}
+
+func GetCriticalAlerts(c *gin.Context){
+	var eventlogs []models.EventLogs
+	//repsond with the number of persistence alerts
+	initializers.DB.Where("Severity = ?", "CRITICAL").Find(&eventlogs)
+	criticalAlertCount := len(eventlogs)
+
+	c.JSON(200, gin.H{
+		"criticalAlerts": criticalAlertCount,
+	})
+}

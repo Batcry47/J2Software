@@ -1,12 +1,15 @@
 import { Component, OnInit, Renderer2 } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { BackendConnectionService } from '../backend-connection.service';
+import { Chart, registerables } from 'chart.js';
+import { forkJoin } from 'rxjs';
 
+Chart.register(...registerables)
 export interface EventDetails {
   eventID: number;
   category: string;
   method: string;
-  username: string;
+  emailAddress: string;
   ipAddress: string;
   timestamp: Date;
   severity: string;
@@ -28,7 +31,13 @@ export class DashboardComponent implements OnInit {
   searchQuery: string = '';
   selectedRows: any[] = [];
   hoveredRows: Set<any> = new Set();
-
+  config: any;
+  chart: any;
+  informationalSeverityAlerts;
+  lowSeverityAlerts;
+  mediumSeverityAlerts;
+  highSeverityAlerts;
+  criticalSeverityAlerts;
   constructor(
     public router: Router,
     private route: ActivatedRoute,
@@ -37,6 +46,8 @@ export class DashboardComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.getSeverityLevels();
+    this.createDonutChart();
     this.backendService.getEventLogs().subscribe(data => {
       this.originalResults = data.Eventlogs;
       this.results = this.originalResults;
@@ -48,11 +59,41 @@ export class DashboardComponent implements OnInit {
         }
       });
     });
-
     this.startEvents();
     this.startInactivityTimer();
+    this.chart = new Chart('MyChart', this.config)
   }
 
+  createDonutChart(){
+    this.config = {
+      type: 'doughnut',
+      data: {
+        labels: [
+          'Informational',
+          'Low',
+          'Medium',
+          'High',
+          'Critical'
+        ],
+        datasets: [{
+          label: 'Severity Levels',
+          data: [this.informationalSeverityAlerts,
+          this.lowSeverityAlerts,
+          this.mediumSeverityAlerts,
+          this.highSeverityAlerts,
+          this.criticalSeverityAlerts],
+          backgroundColor: [
+            'rgb(255, 99, 132)',
+            'rgb(54, 162, 235)',
+            'rgb(255, 205, 86)',
+            'rgb(54, 162, 235)',
+            'rgb(255, 205, 86)'
+          ],
+          hoverOffset: 4
+        }]
+      }
+    };
+  }
   startEvents() {
     window.addEventListener("mousemove", this.resetInactivityTimer.bind(this));
     window.addEventListener("keydown", this.resetInactivityTimer.bind(this));
@@ -184,4 +225,43 @@ export class DashboardComponent implements OnInit {
   isRowSelected(result: any): boolean {
     return this.selectedRows.includes(result);
   }
+
+  getSeverityLevels() {
+    this.backendService.getInformationalAlertCount().subscribe(
+      informationalAlerts => {
+        this.informationalSeverityAlerts = informationalAlerts?.Informational;
+        console.log(this.informationalSeverityAlerts);
+      },
+      error => console.error('Error fetching informational alerts:', error)
+    );
+    this.backendService.getLowAlertCount().subscribe(
+      lowAlerts => {
+        this.lowSeverityAlerts = lowAlerts?.Low;
+        console.log(this.lowSeverityAlerts);
+      },
+      error => console.error('Error fetching low alerts:', error)
+    );
+    this.backendService.getMediumAlertCount().subscribe(
+      mediumAlerts => {
+        this.mediumSeverityAlerts = mediumAlerts?.Medium;
+        console.log(this.mediumSeverityAlerts);
+      },
+      error => console.error('Error fetching medium alerts:', error)
+    );
+    this.backendService.getHighAlertCount().subscribe(
+      highAlerts => {
+        this.highSeverityAlerts = highAlerts?.High;
+        console.log(this.highSeverityAlerts);
+      },
+      error => console.error('Error fetching high alerts:', error)
+    );
+    this.backendService.getCriticalAlertCount().subscribe(
+      criticalAlerts => {
+        this.criticalSeverityAlerts = criticalAlerts?.Critical;
+        console.log(this.criticalSeverityAlerts);
+      },
+      error => console.error('Error fetching critical alerts:', error)
+    );
+  }
+
 }

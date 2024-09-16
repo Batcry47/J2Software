@@ -526,3 +526,9 @@ tbody tr:hover {
 .search-bar input:focus {
     border-color: #c91931;
 }
+
+.chart-container{
+    align-items: center;
+    width: 500px;
+    height: 300px;
+}

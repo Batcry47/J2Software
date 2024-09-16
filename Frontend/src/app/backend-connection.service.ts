@@ -28,7 +28,25 @@ export class BackendConnectionService {
   constructor(private http: HttpClient) { }
 
   //Gets the user's id based on the email and password entered if it exists
-  
+  getInformationalAlertCount(): Observable<{Informational: number}>{
+    return this.http.get<{Informational: number}>(`${this.api}/Informational/INFORMATIONAL`);
+  }
+
+  getLowAlertCount(): Observable<{Low: number}>{
+    return this.http.get<{Low: number}>(`${this.api}/Low/LOW`);
+  }
+
+  getMediumAlertCount(): Observable<{Medium: number}>{
+    return this.http.get<{Medium: number}>(`${this.api}/Medium/MEDIUM`);
+  }
+
+  getHighAlertCount(): Observable<{High: number}>{
+    return this.http.get<{High: number}>(`${this.api}/High/HIGH`);
+  }
+
+  getCriticalAlertCount(): Observable<{Critical: number}>{
+    return this.http.get<{Critical: number}>(`${this.api}/Critical/CRITICAL`);
+  }
   //Gets all the events that belong to the user currently logged in
   getEventLogs(): Observable<EventLogCollection>{
    //const params = new HttpParams().set('user_id', this.user_id);

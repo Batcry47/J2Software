@@ -33,8 +33,12 @@
   </div>
 
   <div class="dashboard-container">
+    
     <h1 class="dashboard-title">Dashboard</h1>
     <div class="dashboard-content">
+      <div class="chart-container">
+        <canvas id="MyChart">{{ chart }}</canvas>
+      </div>
       <div class="result-header">
         <div class="result-count">{{ results.length }} Results</div>
         <div class="search-bar">
@@ -59,7 +63,7 @@
             <tr>
               <th>Category</th>
               <th>Method</th>
-              <th>Username</th>
+              <th>Email Address</th>
               <th>IP Address</th>
               <th>Timestamp</th>
             </tr>

@@ -53,6 +53,11 @@ func main() {
 	r.GET("/Reconnaissance/:Category", controllers.GetReconnaissanceAlerts)
 	r.GET("/ResourceDevelopment/:Category", controllers.GetResourceDevelopmentAlerts)
 	r.GET("/Execution/:Category", controllers.GetExecutionAlerts)
+	r.GET("/Informational/:Severity", controllers.GetInformationalAlerts)
+	r.GET("/Low/:Severity", controllers.GetLowAlerts)
+	r.GET("/Medium/:Severity", controllers.GetMediumAlerts)
+	r.GET("/High/:Severity", controllers.GetHighAlerts)
+	r.GET("/Critical/:Severity", controllers.GetCriticalAlerts)
 
 	r.Run()
 }
