@@ -64,36 +64,43 @@ export class DashboardComponent implements OnInit {
     this.chart = new Chart('MyChart', this.config)
   }
 
-  createDonutChart(){
+  createDonutChart() {
+    const severityCounts = this.calculateSeverityCounts();
+  
     this.config = {
       type: 'doughnut',
       data: {
-        labels: [
-          'Informational',
-          'Low',
-          'Medium',
-          'High',
-          'Critical'
-        ],
+        labels: ['Informational', 'Low', 'Medium', 'High', 'Critical'],
         datasets: [{
           label: 'Severity Levels',
-          data: [this.informationalSeverityAlerts,
-          this.lowSeverityAlerts,
-          this.mediumSeverityAlerts,
-          this.highSeverityAlerts,
-          this.criticalSeverityAlerts],
+          data: severityCounts,
           backgroundColor: [
             'rgb(255, 99, 132)',
             'rgb(54, 162, 235)',
             'rgb(255, 205, 86)',
-            'rgb(54, 162, 235)',
-            'rgb(255, 205, 86)'
+            'rgb(255, 159, 64)',
+            'rgb(75, 192, 192)'
           ],
           hoverOffset: 4
         }]
       }
     };
+  
+    if (this.chart) {
+      this.chart.destroy(); // Destroy previous chart before creating a new one
+    }
+  
+    this.chart = new Chart('MyChart', this.config);
   }
+  
+  calculateSeverityCounts() {
+    const severityLevels = ['Informational', 'Low', 'Medium', 'High', 'Critical'];
+    const counts = severityLevels.map(severity => 
+      this.results.filter(result => result.Severity.toLowerCase() === severity.toLowerCase()).length
+    );
+    return counts;
+  }
+  
   startEvents() {
     window.addEventListener("mousemove", this.resetInactivityTimer.bind(this));
     window.addEventListener("keydown", this.resetInactivityTimer.bind(this));
@@ -145,12 +152,15 @@ export class DashboardComponent implements OnInit {
       .map((checkbox: HTMLInputElement) => checkbox.getAttribute('data-severity'));
     const selectedCategories = Array.from(document.querySelectorAll('.filter-checkbox[data-category]:checked'))
       .map((checkbox: HTMLInputElement) => checkbox.getAttribute('data-category'));
-
+  
     this.results = this.originalResults.filter(result => {
       const severityMatch = selectedSeverities.length === 0 || selectedSeverities.includes(result.Severity.toLowerCase());
       const categoryMatch = selectedCategories.length === 0 || selectedCategories.includes(result.Category.toLowerCase().replace(' ', '-'));
       return severityMatch && categoryMatch;
     });
+  
+    // Update the chart after filtering
+    this.createDonutChart();
   }
 
   clearSeverityFilters() {
@@ -174,7 +184,7 @@ export class DashboardComponent implements OnInit {
   sortResults() {
     this.results.sort((a, b) => {
       let sortingOption = 0;
-
+  
       if (this.selectedSortOption === 'category') {
         sortingOption = a.Category.localeCompare(b.Category);
       } else if (this.selectedSortOption === 'method') {
@@ -186,9 +196,11 @@ export class DashboardComponent implements OnInit {
       } else if (this.selectedSortOption === 'timestamp') {
         sortingOption = new Date(a.EventTimeStamp).getTime() - new Date(b.EventTimeStamp).getTime();
       }
-
+  
       return sortingOption;
     });
+
+    this.createDonutChart();
   }
 
   onSearchInput() {
