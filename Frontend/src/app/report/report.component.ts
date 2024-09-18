@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild, ElementRef, Renderer2 } from '@angular/core';
 import { Router } from '@angular/router';
 import { BackendConnectionService } from '../backend-connection.service';
+import { Chart } from 'chart.js';
 
 @Component({
   selector: 'app-report',
@@ -8,8 +9,9 @@ import { BackendConnectionService } from '../backend-connection.service';
   styleUrls: ['./report.component.css']
 })
 export class ReportComponent implements OnInit {
-  @ViewChild('startDateInput') startDateInput!: ElementRef<HTMLInputElement>;
-  @ViewChild('endDateInput') endDateInput!: ElementRef<HTMLInputElement>;
+  @ViewChild('startDateInput') startDateInput: ElementRef<HTMLInputElement>;
+  @ViewChild('endDateInput') endDateInput: ElementRef<HTMLInputElement>;
+  
   totalAlerts: number = 0;
   impactAlerts: number = 0;
   maliciousAlerts: number = 0;
@@ -25,6 +27,8 @@ export class ReportComponent implements OnInit {
   clickedButton = false;
   inactivityTimer: any;
   INACTIVITY_TIMEOUT = 30000;
+  chart: any;
+  numOfAlerts = [];
 
   constructor(public route: Router, private renderer: Renderer2, private backendService: BackendConnectionService) { }
 
@@ -32,6 +36,9 @@ export class ReportComponent implements OnInit {
     this.startEvents();
     this.startInactivityTimer();
     this.displayAlertCounts();
+    this.numOfAlerts = [this.impactAlerts, this.initialAccessAlerts, this.defenceEvasionAlerts, this.exfiltrationAlerts,  
+      this.collectionAlerts, this.privilegeEscalationAlerts, this.persistenceAlerts, this.reconnaissanceAlerts,
+      this.executionAlerts, this.resourceDevelopmentAlerts];
   }
 
   startEvents() {
@@ -43,6 +50,7 @@ export class ReportComponent implements OnInit {
   minEndDate(startDate: HTMLInputElement, endDate: HTMLInputElement) {
     if (startDate.value !== "") {
       endDate.min = startDate.value;
+      this.updateAlertCount()
       if (endDate.value < startDate.value) {
         endDate.value = startDate.value;
       }
@@ -60,7 +68,7 @@ export class ReportComponent implements OnInit {
   }
 
   updateAlertCount() {
-
+    this.displayAlertCounts(this.startDateInput.nativeElement, this.endDateInput.nativeElement);
   }
 
   startInactivityTimer() {
@@ -103,44 +111,44 @@ export class ReportComponent implements OnInit {
     let text = htmlElement.replace(/<\/?[^>]+>/gi, '\n');
     return text.trim();
   }
-  displayAlertCounts() {
-    this.backendService.getImpactAlerts().subscribe(impactCount => {
+  displayAlertCounts(startDate?: HTMLInputElement, endDate?: HTMLInputElement) {
+    this.backendService.getImpactAlerts(startDate, endDate).subscribe(impactCount => {
       this.impactAlerts = impactCount.Impact;
     });
 
-    this.backendService.getCollectionAlerts().subscribe(collectionCount => {
+    this.backendService.getCollectionAlerts(startDate, endDate).subscribe(collectionCount => {
       this.collectionAlerts = collectionCount.Collection;
     });
 
-    this.backendService.getPersistenceAlerts().subscribe(persistenceCount => {
+    this.backendService.getPersistenceAlerts(startDate, endDate).subscribe(persistenceCount => {
       this.persistenceAlerts = persistenceCount.Persistence;
     });
 
-    this.backendService.getExfiltrationAlerts().subscribe(exfiltrationCount => {
+    this.backendService.getExfiltrationAlerts(startDate, endDate).subscribe(exfiltrationCount => {
       this.exfiltrationAlerts = exfiltrationCount.Exfiltration;
     });
 
-    this.backendService.getEscalationAlerts().subscribe(escalationCount => {
+    this.backendService.getEscalationAlerts(startDate, endDate).subscribe(escalationCount => {
       this.privilegeEscalationAlerts = escalationCount.Escalation;
     });
 
-    this.backendService.getInitialAccessAlerts().subscribe(initialAccessCount => {
+    this.backendService.getInitialAccessAlerts(startDate, endDate).subscribe(initialAccessCount => {
       this.initialAccessAlerts = initialAccessCount.InitialAccess;
     });
 
-    this.backendService.getEvasionAlerts().subscribe(evasionCount => {
+    this.backendService.getEvasionAlerts(startDate, endDate).subscribe(evasionCount => {
       this.defenceEvasionAlerts = evasionCount.DefenseEvasion;
     });
 
-    this.backendService.getReconnissanceAlerts().subscribe(reconnaissanceCount => {
+    this.backendService.getReconnissanceAlerts(startDate, endDate).subscribe(reconnaissanceCount => {
       this.reconnaissanceAlerts = reconnaissanceCount.Reconnaissance;
     });
 
-    this.backendService.getExecutionAlerts().subscribe(executionCount => {
+    this.backendService.getExecutionAlerts(startDate, endDate).subscribe(executionCount => {
       this.executionAlerts = executionCount.Execution;
     });
 
-    this.backendService.getResourceDevelopmentAlerts().subscribe(resourceDevCount => {
+    this.backendService.getResourceDevelopmentAlerts(startDate, endDate).subscribe(resourceDevCount => {
       this.resourceDevelopmentAlerts = resourceDevCount.ResourceDevelopment;
     });
 
@@ -150,4 +158,7 @@ export class ReportComponent implements OnInit {
 
     this.maliciousAlerts = this.totalAlerts;
   }
+
+  
+
 }
