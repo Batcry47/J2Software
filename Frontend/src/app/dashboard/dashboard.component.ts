@@ -94,7 +94,7 @@ export class DashboardComponent implements OnInit {
       medium: this.backendService.getMediumAlertCount(),
       high: this.backendService.getHighAlertCount(),
       critical: this.backendService.getCriticalAlertCount(),
-      eventLogs: this.backendService.getEventLogs()
+      eventLogs: this.showArchive ? this.backendService.getArchivedEventLogs() : this.backendService.getEventLogs()
     }).subscribe(
       (results) => {
         this.informationalSeverityAlerts = results.informational.Informational;
@@ -111,8 +111,12 @@ export class DashboardComponent implements OnInit {
           this.criticalSeverityAlerts
         ]);
 
-        this.originalResults = results.eventLogs.Eventlogs;
-        this.results = this.originalResults;
+        if (this.showArchive) {
+          this.archivedResults = results.eventLogs.ArchivedEventLogs;
+        } else {
+          this.originalResults = results.eventLogs.Eventlogs;
+          this.results = this.originalResults;
+        }
 
         this.route.queryParams.subscribe(params => {
           const category = params['category'];
@@ -122,7 +126,7 @@ export class DashboardComponent implements OnInit {
             this.filterResults();
           }
         });
-      },
+      }
     );
   }
 
@@ -278,23 +282,40 @@ export class DashboardComponent implements OnInit {
     );
   }
 
-  toggleView() {
-    this.showArchive = !this.showArchive;
-    this.updateChartData(this.calculateSeverityCounts());
-  }
-
   archiveSelectedRows() {
-    this.archivedResults = [...this.archivedResults, ...this.selectedRows];
-    this.results = this.results.filter(result => !this.selectedRows.includes(result));
-    this.selectedRows = [];
-    this.updateChartData(this.calculateSeverityCounts());
+    const archivePromises = this.selectedRows.map(row =>
+      this.backendService.archiveEventLog(row.EventID).toPromise()
+    );
+
+    Promise.all(archivePromises)
+      .then(() => {
+        console.log('Archiving completed');
+        this.fetchData();
+        this.selectedRows = [];
+      })
+      .catch(error => {
+        console.error('Error archiving rows:', error);
+      });
   }
 
   unarchiveSelectedRows() {
-    const selectedArchivedRows = this.selectedRows.filter(row => this.archivedResults.includes(row));
-    this.results = [...this.results, ...selectedArchivedRows];
-    this.archivedResults = this.archivedResults.filter(result => !selectedArchivedRows.includes(result));
-    this.selectedRows = [];
-    this.updateChartData(this.calculateSeverityCounts());
+    const unarchivePromises = this.selectedRows.map(row =>
+      this.backendService.unarchiveEventLog(row.EventID).toPromise()
+    );
+
+    Promise.all(unarchivePromises)
+      .then(() => {
+        console.log('Unarchiving completed');
+        this.fetchData();
+        this.selectedRows = [];
+      })
+      .catch(error => {
+        console.error('Error unarchiving rows:', error);
+      });
+  }
+
+  toggleView() {
+    this.showArchive = !this.showArchive;
+    this.fetchData();
   }
 }

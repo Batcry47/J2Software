@@ -158,4 +158,16 @@ export class BackendConnectionService {
     return this.http.post(`${this.api}/login`, { username, password });
   }
 
+  getArchivedEventLogs(): Observable<any> {
+    return this.http.get(`${this.api}/archived-eventlogs`);
+  }
+
+  archiveEventLog(eventId: number): Observable<any> {
+    return this.http.post(`${this.api}/archive/${eventId}`, {});
+  }
+
+  unarchiveEventLog(eventId: number): Observable<any> {
+    return this.http.post(`${this.api}/unarchive/${eventId}`, {});
+  }
+
 }

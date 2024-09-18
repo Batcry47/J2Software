@@ -545,3 +545,88 @@ func GetCriticalAlerts(c *gin.Context){
 		"criticalAlerts": criticalAlertCount,
 	})
 }
+
+func ArchiveEventLog(c *gin.Context) {
+	EventID := c.Param("id")
+
+	var eventLog models.EventLogs
+	if err := initializers.DB.First(&eventLog, EventID).Error; err != nil {
+		c.JSON(404, gin.H{"error": "Event log not found"})
+		return
+	}
+
+	archivedEventLog := models.ArchivedEventLogs{
+		EventID:        eventLog.EventID,
+		Category:       eventLog.Category,
+		Method:         eventLog.Method,
+		Username:       eventLog.Username,
+		IPAddress:      eventLog.IPAddress,
+		EventTimeStamp: eventLog.EventTimeStamp,
+		Severity:       eventLog.Severity,
+	}
+
+	tx := initializers.DB.Begin()
+
+	if err := tx.Create(&archivedEventLog).Error; err != nil {
+		tx.Rollback()
+		c.JSON(500, gin.H{"error": "Failed to archive event log"})
+		return
+	}
+
+	if err := tx.Delete(&eventLog).Error; err != nil {
+		tx.Rollback()
+		c.JSON(500, gin.H{"error": "Failed to remove event log from active table"})
+		return
+	}
+
+	tx.Commit()
+
+	c.JSON(200, gin.H{"message": "Event log archived successfully"})
+}
+
+func UnarchiveEventLog(c *gin.Context) {
+	EventID := c.Param("id")
+
+	var archivedEventLog models.ArchivedEventLogs
+	if err := initializers.DB.First(&archivedEventLog, EventID).Error; err != nil {
+		c.JSON(404, gin.H{"error": "Archived event log not found"})
+		return
+	}
+
+	eventLog := models.EventLogs{
+		EventID:        archivedEventLog.EventID,
+		Category:       archivedEventLog.Category,
+		Method:         archivedEventLog.Method,
+		Username:       archivedEventLog.Username,
+		IPAddress:      archivedEventLog.IPAddress,
+		EventTimeStamp: archivedEventLog.EventTimeStamp,
+		Severity:       archivedEventLog.Severity,
+	}
+
+	tx := initializers.DB.Begin()
+
+	if err := tx.Create(&eventLog).Error; err != nil {
+		tx.Rollback()
+		c.JSON(500, gin.H{"error": "Failed to unarchive event log"})
+		return
+	}
+
+	if err := tx.Delete(&archivedEventLog).Error; err != nil {
+		tx.Rollback()
+		c.JSON(500, gin.H{"error": "Failed to remove event log from archive table"})
+		return
+	}
+
+	tx.Commit()
+
+	c.JSON(200, gin.H{"message": "Event log unarchived successfully"})
+}
+
+func GetArchivedEventLogs(c *gin.Context) {
+	var archivedEventLogs []models.ArchivedEventLogs
+	initializers.DB.Find(&archivedEventLogs)
+
+	c.JSON(200, gin.H{
+		"ArchivedEventLogs": archivedEventLogs,
+	})
+}

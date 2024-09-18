@@ -59,6 +59,9 @@ func main() {
 	r.GET("/High/:Severity", controllers.GetHighAlerts)
 	r.GET("/Critical/:Severity", controllers.GetCriticalAlerts)
 	r.POST("/login", controllers.Login)
+	r.POST("/archive/:id", controllers.ArchiveEventLog)
+	r.POST("/unarchive/:id", controllers.UnarchiveEventLog)
+	r.GET("/archived-eventlogs", controllers.GetArchivedEventLogs)
 
 	r.Run()
 }
