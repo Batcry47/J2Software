@@ -217,9 +217,11 @@ export class DashboardComponent implements OnInit {
   }
 
   sortResults() {
-    this.results.sort((a, b) => {
+    const dataToSort = this.showArchive ? this.archivedResults : this.results;
+  
+    dataToSort.sort((a, b) => {
       let sortingOption = 0;
-
+  
       if (this.selectedSortOption === 'category') {
         sortingOption = a.Category.localeCompare(b.Category);
       } else if (this.selectedSortOption === 'method') {
@@ -231,10 +233,11 @@ export class DashboardComponent implements OnInit {
       } else if (this.selectedSortOption === 'timestamp') {
         sortingOption = new Date(a.EventTimeStamp).getTime() - new Date(b.EventTimeStamp).getTime();
       }
-
+  
       return sortingOption;
     });
-
+  
+    this.results = dataToSort;
     this.updateChartData(this.calculateSeverityCounts());
   }
 
