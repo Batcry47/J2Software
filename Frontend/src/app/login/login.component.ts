@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { BackendConnectionService } from '../backend-connection.service';
+import * as CryptoJS from 'crypto-js';
 
 @Component({
   selector: 'app-login',
