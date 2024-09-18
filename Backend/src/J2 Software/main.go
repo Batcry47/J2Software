@@ -58,6 +58,7 @@ func main() {
 	r.GET("/Medium/:Severity", controllers.GetMediumAlerts)
 	r.GET("/High/:Severity", controllers.GetHighAlerts)
 	r.GET("/Critical/:Severity", controllers.GetCriticalAlerts)
+	r.POST("/login", controllers.Login)
 
 	r.Run()
 }

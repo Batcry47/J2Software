@@ -133,5 +133,9 @@ export class BackendConnectionService {
     const params = new HttpParams().set('start_date', startDate).set('end_date', endDate);
     return this.http.get<{execution: number}>(`${this.api}/ScheduledExecutionAlerts`, {params});
   }
+
+  login(username: string, password: string): Observable<any> {
+    return this.http.post(`${this.api}/login`, { username, password });
+  }
    
 }

@@ -8,10 +8,7 @@ import { BackendConnectionService } from '../backend-connection.service';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent {
-  private username = "Thato456";
-  private password = "123456";
-
-  constructor(private router: Router, private backendService: BackendConnectionService) {}
+  constructor(private router: Router, private backendService: BackendConnectionService) { }
 
   checkInput() {
     const enteredUsername = (document.getElementById('username') as HTMLInputElement).value;
@@ -19,7 +16,6 @@ export class LoginComponent {
     const userMessage = document.getElementById('user-message') as HTMLParagraphElement;
     const passMessage = document.getElementById('pass-message') as HTMLParagraphElement;
 
-    
     if (enteredUsername === "" && enteredPassword !== "") {
       userMessage.textContent = "Please enter your username!";
       passMessage.textContent = "";
@@ -32,20 +28,20 @@ export class LoginComponent {
     } else {
       userMessage.textContent = "";
       passMessage.textContent = "";
-      this.validateData();
+      this.validateData(enteredUsername, enteredPassword);
     }
   }
 
-  validateData() {
-    const enteredUsername = (document.getElementById('username') as HTMLInputElement).value;
-    const enteredPassword = (document.getElementById('pass') as HTMLInputElement).value;
-    const popup = document.getElementById('popup-box') as HTMLDialogElement;
-
-    if (enteredUsername !== this.username || enteredPassword !== this.password) {
-      popup.showModal();
-    } else {
-      this.router.navigate(['factor']);
-    }
+  validateData(username: string, password: string) {
+    this.backendService.login(username, password).subscribe(
+      (response) => {
+        this.router.navigate(['factor']);
+      },
+      (error) => {
+        const popup = document.getElementById('popup-box') as HTMLDialogElement;
+        popup.showModal();
+      }
+    );
   }
 
   closePopup() {
