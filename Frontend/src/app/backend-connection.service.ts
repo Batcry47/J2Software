@@ -2,7 +2,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
-export interface Eventlogs{
+export interface Eventlogs {
   eventID: number;
   category: string;
   method: string;
@@ -11,10 +11,10 @@ export interface Eventlogs{
   timestamp: Date;
   severity: string;
 }
-interface EventLogCollection{
+interface EventLogCollection {
   Eventlogs: Eventlogs[]
 }
-export interface AlertCount{
+export interface AlertCount {
   alertType: string;
   alertCount: string;
 }
@@ -28,114 +28,146 @@ export class BackendConnectionService {
   constructor(private http: HttpClient) { }
 
   //Gets the user's id based on the email and password entered if it exists
-  getInformationalAlertCount(): Observable<{Informational: number}>{
-    return this.http.get<{Informational: number}>(`${this.api}/Informational/INFORMATIONAL`);
+  getInformationalAlertCount(): Observable<{ Informational: number }> {
+    return this.http.get<{ Informational: number }>(`${this.api}/Informational/INFORMATIONAL`);
   }
 
-  getLowAlertCount(): Observable<{Low: number}>{
-    return this.http.get<{Low: number}>(`${this.api}/Low/LOW`);
+  getLowAlertCount(): Observable<{ Low: number }> {
+    return this.http.get<{ Low: number }>(`${this.api}/Low/LOW`);
   }
 
-  getMediumAlertCount(): Observable<{Medium: number}>{
-    return this.http.get<{Medium: number}>(`${this.api}/Medium/MEDIUM`);
+  getMediumAlertCount(): Observable<{ Medium: number }> {
+    return this.http.get<{ Medium: number }>(`${this.api}/Medium/MEDIUM`);
   }
 
-  getHighAlertCount(): Observable<{High: number}>{
-    return this.http.get<{High: number}>(`${this.api}/High/HIGH`);
+  getHighAlertCount(): Observable<{ High: number }> {
+    return this.http.get<{ High: number }>(`${this.api}/High/HIGH`);
   }
 
-  getCriticalAlertCount(): Observable<{Critical: number}>{
-    return this.http.get<{Critical: number}>(`${this.api}/Critical/CRITICAL`);
+  getCriticalAlertCount(): Observable<{ Critical: number }> {
+    return this.http.get<{ Critical: number }>(`${this.api}/Critical/CRITICAL`);
   }
   //Gets all the events that belong to the user currently logged in
-  getEventLogs(): Observable<EventLogCollection>{
-   //const params = new HttpParams().set('user_id', this.user_id);
+  getEventLogs(): Observable<EventLogCollection> {
+    //const params = new HttpParams().set('user_id', this.user_id);
     return this.http.get<EventLogCollection>(`${this.api}/Eventlogs`);
   }
 
-  getImpactAlerts(): Observable<{Impact: number}> {
-    return this.http.get<{Impact: number}>(`${this.api}/Impact/Impact`);
-  }
-  
-  getCollectionAlerts(): Observable<{Collection: number}> {
-    return this.http.get<{Collection: number}>(`${this.api}/Collection/Collection`);
-  }
-
-  getExfiltrationAlerts(): Observable<{Exfiltration: number}> {
-    return this.http.get<{Exfiltration: number}>(`${this.api}/Exfiltration/Exfiltration`);
+  getImpactAlerts(startDate?: HTMLInputElement, endDate?: HTMLInputElement): Observable<{ Impact: number }> {
+    if (startDate?.value && endDate?.value) {
+      const params = new HttpParams().set('start_date', startDate.value + " 00:00:00").set('end_date', endDate.value + " 00:00:00");
+      return this.http.get<{ Impact: number }>(`${this.api}/Impact/Impact`, { params });
+    }
+    else {
+      return this.http.get<{ Impact: number }>(`${this.api}/Impact/Impact`);
+    }
   }
 
-  getEvasionAlerts(): Observable<{DefenseEvasion: number}> {
-    return this.http.get<{DefenseEvasion: number}>(`${this.api}/DefenseEvasion/DefenseEvasion`);
+  getCollectionAlerts(startDate?: HTMLInputElement, endDate?: HTMLInputElement): Observable<{ Collection: number }> {
+    if (startDate?.value && endDate?.value) {
+      const params = new HttpParams().set('start_date', startDate.value + " 00:00:00").set('end_date', endDate.value + " 00:00:00");
+      return this.http.get<{ Collection: number }>(`${this.api}/Collection/Collection`, { params });
+    }
+    else {
+      return this.http.get<{ Collection: number }>(`${this.api}/Collection/Collection`);
+    }
   }
 
-  getPersistenceAlerts(): Observable<{Persistence: number}> {
-    return this.http.get<{Persistence: number}>(`${this.api}/Persistence/Persistence`);
+  getExfiltrationAlerts(startDate?: HTMLInputElement, endDate?: HTMLInputElement): Observable<{ Exfiltration: number }> {
+    if (startDate?.value && endDate?.value) {
+      const params = new HttpParams().set('start_date', startDate.value + " 00:00:00").set('end_date', endDate.value + " 00:00:00");
+      return this.http.get<{ Exfiltration: number }>(`${this.api}/Exfiltration/Exfiltration`, { params });
+    }
+    else {
+      return this.http.get<{ Exfiltration: number }>(`${this.api}/Exfiltration/Exfiltration`);
+    }
   }
 
-  getInitialAccessAlerts(): Observable<{InitialAccess: number}> {
-    return this.http.get<{InitialAccess: number}>(`${this.api}/InitialAccess/Initial Access`);
+  getEvasionAlerts(startDate?: HTMLInputElement, endDate?: HTMLInputElement): Observable<{ DefenseEvasion: number }> {
+    if (startDate?.value && endDate?.value) {
+      const params = new HttpParams().set('start_date', startDate.value + " 00:00:00").set('end_date', endDate.value + " 00:00:00");
+      return this.http.get<{ DefenseEvasion: number }>(`${this.api}/DefenseEvasion/DefenseEvasion`, { params });
+    }
+    else {
+      return this.http.get<{ DefenseEvasion: number }>(`${this.api}/DefenseEvasion/DefenseEvasion`);
+    }
   }
 
-  getEscalationAlerts(): Observable<{Escalation: number}>{
-    return this.http.get<{Escalation: number}>(`${this.api}/PrivilegeEscalation/Privilege Escalation`);
+  getPersistenceAlerts(startDate?: HTMLInputElement, endDate?: HTMLInputElement): Observable<{ Persistence: number }> {
+    if (startDate?.value && endDate?.value) {
+      const params = new HttpParams().set('start_date', startDate.value + " 00:00:00").set('end_date', endDate.value + " 00:00:00");
+      return this.http.get<{ Persistence: number }>(`${this.api}/Persistence/Persistence`, { params });
+    }
+    else {
+      return this.http.get<{ Persistence: number }>(`${this.api}/Persistence/Persistence`);
+    }
   }
 
-  getReconnissanceAlerts(): Observable<{Reconnaissance: number}>{
-    return this.http.get<{Reconnaissance: number}>(`${this.api}/Reconnaissance/Reconnaissance`);
+  getInitialAccessAlerts(startDate?: HTMLInputElement, endDate?: HTMLInputElement): Observable<{ InitialAccess: number }> {
+    if (startDate?.value && endDate?.value) {
+      const params = new HttpParams().set('start_date', startDate.value + " 00:00:00").set('end_date', endDate.value + " 00:00:00");
+      return this.http.get<{ InitialAccess: number }>(`${this.api}/InitialAccess/Initial Access`, { params });
+    }
+    else {
+      return this.http.get<{ InitialAccess: number }>(`${this.api}/InitialAccess/Initial Access`);
+    }
+
   }
 
-  getExecutionAlerts(): Observable<{Execution: number}>{
-    return this.http.get<{Execution: number}>(`${this.api}/Execution/Execution`);
-  }
-  
-  getResourceDevelopmentAlerts(): Observable<{ResourceDevelopment: number}>{
-    return this.http.get<{ResourceDevelopment: number}>(`${this.api}/ResourceDevelopment/ResourceDevelopment`);
-  }
-  
-  //Scheduled methods
-  getScheduledImpactAlerts(startDate: string, endDate: string): Observable<{impact: number}>{
-    const params = new HttpParams().set('start_date', startDate).set('end_date', endDate);
-    return this.http.get<{impact: number}>(`${this.api}/ScheduledImpactAlerts`, {params});
+  getEscalationAlerts(startDate?: HTMLInputElement, endDate?: HTMLInputElement): Observable<{ Escalation: number }> {
+    if (startDate?.value && endDate?.value) {
+      const params = new HttpParams().set('start_date', startDate.value + " 00:00:00").set('end_date', endDate.value + " 00:00:00");
+      return this.http.get<{ Escalation: number }>(`${this.api}/PrivilegeEscalation/Privilege Escalation`, { params });
+    }
+    else {
+      return this.http.get<{ Escalation: number }>(`${this.api}/PrivilegeEscalation/Privilege Escalation`);
+    }
   }
 
-  getScheduledCollectionAlerts(startDate: string, endDate: string): Observable<{collection: number}>{
-    const params = new HttpParams().set('start_date', startDate).set('end_date', endDate);
-    return this.http.get<{collection: number}>(`${this.api}/ScheduledCollectionAlerts`, {params});
+  getReconnissanceAlerts(startDate?: HTMLInputElement, endDate?: HTMLInputElement): Observable<{ Reconnaissance: number }> {
+    if (startDate?.value && endDate?.value) {
+      const params = new HttpParams().set('start_date', startDate.value + " 00:00:00").set('end_date', endDate.value + " 00:00:00");
+      return this.http.get<{ Reconnaissance: number }>(`${this.api}/Reconnaissance/Reconnaissance`, { params });
+    }
+    else {
+      return this.http.get<{ Reconnaissance: number }>(`${this.api}/Reconnaissance/Reconnaissance`);
+    }
   }
 
-  getScheduledPersistenceAlerts(startDate: string, endDate: string): Observable<{persistence: number}>{
-    const params = new HttpParams().set('start_date', startDate).set('end_date', endDate);
-    return this.http.get<{persistence: number}>(`${this.api}/ScheduledPersistenceAlerts`, {params});
+  getExecutionAlerts(startDate?: HTMLInputElement, endDate?: HTMLInputElement): Observable<{ Execution: number }> {
+    if (startDate?.value && endDate?.value) {
+      const params = new HttpParams().set('start_date', startDate.value + " 00:00:00").set('end_date', endDate.value + " 00:00:00");
+      return this.http.get<{ Execution: number }>(`${this.api}/Execution/Execution`, { params });
+    }
+    else {
+      return this.http.get<{ Execution: number }>(`${this.api}/Execution/Execution`);
+    }
   }
 
-  getScheduledInitialAccessAlerts(startDate: string, endDate: string): Observable<{initialAccess: number}>{
-    const params = new HttpParams().set('start_date', startDate).set('end_date', endDate);
-    return this.http.get<{initialAccess: number}>(`${this.api}/ScheduledInitialAlerts`, {params});
-  }
-
-  getScheduledEvasionAlerts(startDate: string, endDate: string): Observable<{initialAccess: number}>{
-    const params = new HttpParams().set('start_date', startDate).set('end_date', endDate);
-    return this.http.get<{initialAccess: number}>(`${this.api}/ScheduledEvasionAlerts`, {params});
-  }
-
-  getScheduledEscalationAlerts(startDate: string, endDate: string): Observable<{privilegeEscalation: number}>{
-    const params = new HttpParams().set('start_date', startDate).set('end_date', endDate);
-    return this.http.get<{privilegeEscalation: number}>(`${this.api}/ScheduledEscalationAlerts`, {params});
-  }
-
-  getScheduledReconissanceAlerts(startDate: string, endDate: string): Observable<{reconnissance: number}>{
-    const params = new HttpParams().set('start_date', startDate).set('end_date', endDate);
-    return this.http.get<{reconnissance: number}>(`${this.api}/SecheduledReconnissanceAlerts`, {params});
-  }
-
-  getScheduledExecutionAlerts(startDate: string, endDate: string): Observable<{execution: number}>{
-    const params = new HttpParams().set('start_date', startDate).set('end_date', endDate);
-    return this.http.get<{execution: number}>(`${this.api}/ScheduledExecutionAlerts`, {params});
+  getResourceDevelopmentAlerts(startDate?: HTMLInputElement, endDate?: HTMLInputElement): Observable<{ ResourceDevelopment: number }> {
+    if (startDate?.value && endDate?.value) {
+      const params = new HttpParams().set('start_date', startDate.value + " 00:00:00").set('end_date', endDate.value + " 00:00:00");
+      return this.http.get<{ ResourceDevelopment: number }>(`${this.api}/ResourceDevelopment/ResourceDevelopment`, { params });
+    }
+    else {
+      return this.http.get<{ ResourceDevelopment: number }>(`${this.api}/ResourceDevelopment/ResourceDevelopment`);
+    }
   }
 
   login(username: string, password: string): Observable<any> {
     return this.http.post(`${this.api}/login`, { username, password });
   }
-   
+
+  getArchivedEventLogs(): Observable<any> {
+    return this.http.get(`${this.api}/archived-eventlogs`);
+  }
+
+  archiveEventLog(eventId: number): Observable<any> {
+    return this.http.post(`${this.api}/archive/${eventId}`, {});
+  }
+
+  unarchiveEventLog(eventId: number): Observable<any> {
+    return this.http.post(`${this.api}/unarchive/${eventId}`, {});
+  }
+
 }

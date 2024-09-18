@@ -374,3 +374,25 @@
 .downloaded-report-results {
   display: none;
 }
+
+.chart-card {
+  width: 100%;
+  max-width: 600px;
+  margin-bottom: 30px;
+  background-color: rgba(255, 255, 255, 0.9);
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+.chart-title {
+  color: #2c3e50;
+  font-size: 1.5em;
+  margin-bottom: 15px;
+  text-align: center;
+}
+
+.chart-content {
+  height: 300px;
+}
