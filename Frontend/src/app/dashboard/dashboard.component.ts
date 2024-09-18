@@ -4,7 +4,8 @@ import { BackendConnectionService } from '../backend-connection.service';
 import { Chart, registerables } from 'chart.js';
 import { forkJoin } from 'rxjs';
 
-Chart.register(...registerables)
+Chart.register(...registerables);
+
 export interface EventDetails {
   eventID: number;
   category: string;
@@ -23,21 +24,21 @@ export interface EventDetails {
 export class DashboardComponent implements OnInit {
   inactivityTimer: any;
   INACTIVITY_TIMEOUT = 30000;
-  selectedSortOption;
-  selectedCategory;
+  selectedSortOption: string;
+  selectedCategory: string;
   isFilterCollapsed = true;
   originalResults: any[] = [];
   results = [];
   searchQuery: string = '';
   selectedRows: any[] = [];
   hoveredRows: Set<any> = new Set();
-  config: any;
   chart: any;
-  informationalSeverityAlerts;
-  lowSeverityAlerts;
-  mediumSeverityAlerts;
-  highSeverityAlerts;
-  criticalSeverityAlerts;
+  informationalSeverityAlerts: number;
+  lowSeverityAlerts: number;
+  mediumSeverityAlerts: number;
+  highSeverityAlerts: number;
+  criticalSeverityAlerts: number;
+
   constructor(
     public router: Router,
     private route: ActivatedRoute,
@@ -46,61 +47,90 @@ export class DashboardComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.getSeverityLevels();
     this.createDonutChart();
-    this.backendService.getEventLogs().subscribe(data => {
-      this.originalResults = data.Eventlogs;
-      this.results = this.originalResults;
-      this.route.queryParams.subscribe(params => {
-        const category = params['category'];
-        if (category) {
-          this.applyCategoryFilter(category);
-          this.filterResults();
-        }
-      });
-    });
+    this.fetchData();
     this.startEvents();
     this.startInactivityTimer();
-    this.chart = new Chart('MyChart', this.config)
   }
 
   createDonutChart() {
-    const severityCounts = this.calculateSeverityCounts();
-  
-    this.config = {
+    const ctx = document.getElementById('severityChart') as HTMLCanvasElement;
+    this.chart = new Chart(ctx, {
       type: 'doughnut',
       data: {
         labels: ['Informational', 'Low', 'Medium', 'High', 'Critical'],
         datasets: [{
-          label: 'Severity Levels',
-          data: severityCounts,
+          data: [0, 0, 0, 0, 0],
           backgroundColor: [
-            'rgb(255, 99, 132)',
-            'rgb(54, 162, 235)',
-            'rgb(255, 205, 86)',
-            'rgb(255, 159, 64)',
-            'rgb(75, 192, 192)'
+            'rgba(3, 169, 244, 0.8)',
+            'rgba(76, 175, 80, 0.8)',
+            'rgba(255, 152, 0, 0.8)',
+            'rgba(244, 67, 54, 0.8)',
+            'rgba(183, 28, 28, 0.8)'
           ],
-          hoverOffset: 4
+          borderColor: [
+            'rgba(3, 169, 244, 1)',
+            'rgba(76, 175, 80, 1)',
+            'rgba(255, 152, 0, 1)',
+            'rgba(244, 67, 54, 1)',
+            'rgba(183, 28, 28, 1)'
+          ],
+          borderWidth: 1
         }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false
       }
-    };
-  
-    if (this.chart) {
-      this.chart.destroy(); // Destroy previous chart before creating a new one
-    }
-  
-    this.chart = new Chart('MyChart', this.config);
+    });
   }
-  
-  calculateSeverityCounts() {
-    const severityLevels = ['Informational', 'Low', 'Medium', 'High', 'Critical'];
-    const counts = severityLevels.map(severity => 
-      this.results.filter(result => result.Severity.toLowerCase() === severity.toLowerCase()).length
+
+  fetchData() {
+    forkJoin({
+      informational: this.backendService.getInformationalAlertCount(),
+      low: this.backendService.getLowAlertCount(),
+      medium: this.backendService.getMediumAlertCount(),
+      high: this.backendService.getHighAlertCount(),
+      critical: this.backendService.getCriticalAlertCount(),
+      eventLogs: this.backendService.getEventLogs()
+    }).subscribe(
+      (results) => {
+        this.informationalSeverityAlerts = results.informational.Informational;
+        this.lowSeverityAlerts = results.low.Low;
+        this.mediumSeverityAlerts = results.medium.Medium;
+        this.highSeverityAlerts = results.high.High;
+        this.criticalSeverityAlerts = results.critical.Critical;
+
+        this.updateChartData([
+          this.informationalSeverityAlerts,
+          this.lowSeverityAlerts,
+          this.mediumSeverityAlerts,
+          this.highSeverityAlerts,
+          this.criticalSeverityAlerts
+        ]);
+
+        this.originalResults = results.eventLogs.Eventlogs;
+        this.results = this.originalResults;
+
+        this.route.queryParams.subscribe(params => {
+          const category = params['category'];
+          if (category) {
+            this.applyCategoryFilter(category);
+          } else {
+            this.filterResults();
+          }
+        });
+      },
     );
-    return counts;
   }
-  
+
+  updateChartData(newData: number[]) {
+    if (this.chart && this.chart.data && this.chart.data.datasets) {
+      this.chart.data.datasets[0].data = newData;
+      this.chart.update();
+    }
+  }
+
   startEvents() {
     window.addEventListener("mousemove", this.resetInactivityTimer.bind(this));
     window.addEventListener("keydown", this.resetInactivityTimer.bind(this));
@@ -152,15 +182,14 @@ export class DashboardComponent implements OnInit {
       .map((checkbox: HTMLInputElement) => checkbox.getAttribute('data-severity'));
     const selectedCategories = Array.from(document.querySelectorAll('.filter-checkbox[data-category]:checked'))
       .map((checkbox: HTMLInputElement) => checkbox.getAttribute('data-category'));
-  
+
     this.results = this.originalResults.filter(result => {
       const severityMatch = selectedSeverities.length === 0 || selectedSeverities.includes(result.Severity.toLowerCase());
       const categoryMatch = selectedCategories.length === 0 || selectedCategories.includes(result.Category.toLowerCase().replace(' ', '-'));
       return severityMatch && categoryMatch;
     });
-  
-    // Update the chart after filtering
-    this.createDonutChart();
+
+    this.updateChartData(this.calculateSeverityCounts());
   }
 
   clearSeverityFilters() {
@@ -184,7 +213,7 @@ export class DashboardComponent implements OnInit {
   sortResults() {
     this.results.sort((a, b) => {
       let sortingOption = 0;
-  
+
       if (this.selectedSortOption === 'category') {
         sortingOption = a.Category.localeCompare(b.Category);
       } else if (this.selectedSortOption === 'method') {
@@ -196,11 +225,11 @@ export class DashboardComponent implements OnInit {
       } else if (this.selectedSortOption === 'timestamp') {
         sortingOption = new Date(a.EventTimeStamp).getTime() - new Date(b.EventTimeStamp).getTime();
       }
-  
+
       return sortingOption;
     });
 
-    this.createDonutChart();
+    this.updateChartData(this.calculateSeverityCounts());
   }
 
   onSearchInput() {
@@ -212,6 +241,7 @@ export class DashboardComponent implements OnInit {
         result.IPAddress.toLowerCase().includes(query) ||
         result.EventTimeStamp.toLowerCase().includes(query);
     });
+    this.updateChartData(this.calculateSeverityCounts());
   }
 
   toggleRowSelection(result: any) {
@@ -238,42 +268,10 @@ export class DashboardComponent implements OnInit {
     return this.selectedRows.includes(result);
   }
 
-  getSeverityLevels() {
-    this.backendService.getInformationalAlertCount().subscribe(
-      informationalAlerts => {
-        this.informationalSeverityAlerts = informationalAlerts?.Informational;
-        console.log(this.informationalSeverityAlerts);
-      },
-      error => console.error('Error fetching informational alerts:', error)
-    );
-    this.backendService.getLowAlertCount().subscribe(
-      lowAlerts => {
-        this.lowSeverityAlerts = lowAlerts?.Low;
-        console.log(this.lowSeverityAlerts);
-      },
-      error => console.error('Error fetching low alerts:', error)
-    );
-    this.backendService.getMediumAlertCount().subscribe(
-      mediumAlerts => {
-        this.mediumSeverityAlerts = mediumAlerts?.Medium;
-        console.log(this.mediumSeverityAlerts);
-      },
-      error => console.error('Error fetching medium alerts:', error)
-    );
-    this.backendService.getHighAlertCount().subscribe(
-      highAlerts => {
-        this.highSeverityAlerts = highAlerts?.High;
-        console.log(this.highSeverityAlerts);
-      },
-      error => console.error('Error fetching high alerts:', error)
-    );
-    this.backendService.getCriticalAlertCount().subscribe(
-      criticalAlerts => {
-        this.criticalSeverityAlerts = criticalAlerts?.Critical;
-        console.log(this.criticalSeverityAlerts);
-      },
-      error => console.error('Error fetching critical alerts:', error)
+  calculateSeverityCounts(): number[] {
+    const severityLevels = ['Informational', 'Low', 'Medium', 'High', 'Critical'];
+    return severityLevels.map(severity =>
+      this.results.filter(result => result.Severity.toLowerCase() === severity.toLowerCase()).length
     );
   }
-
 }
