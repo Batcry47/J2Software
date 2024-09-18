@@ -28,7 +28,7 @@ export class DashboardComponent implements OnInit {
   selectedCategory: string;
   isFilterCollapsed = true;
   originalResults: any[] = [];
-  results = [];
+  filteredResults: any[] = [];
   archivedResults: any[] = [];
   searchQuery: string = '';
   selectedRows: any[] = [];
@@ -113,17 +113,17 @@ export class DashboardComponent implements OnInit {
 
         if (this.showArchive) {
           this.archivedResults = results.eventLogs.ArchivedEventLogs;
+          this.originalResults = this.archivedResults;
         } else {
           this.originalResults = results.eventLogs.Eventlogs;
-          this.results = this.originalResults;
         }
+
+        this.applyFiltersAndSort();
 
         this.route.queryParams.subscribe(params => {
           const category = params['category'];
           if (category) {
             this.applyCategoryFilter(category);
-          } else {
-            this.filterResults();
           }
         });
       }
@@ -179,8 +179,16 @@ export class DashboardComponent implements OnInit {
     const categoryBox = document.querySelector(`.filter-checkbox[data-category="${category.toLowerCase().replace(' ', '-')}"]`) as HTMLInputElement;
     if (categoryBox) {
       this.renderer.setProperty(categoryBox, 'checked', true);
-      this.filterResults();
+      this.applyFiltersAndSort();
     }
+  }
+
+  applyFiltersAndSort() {
+    this.filteredResults = this.originalResults.slice();
+    this.filterResults();
+    this.sortResults();
+    this.searchResults();
+    this.updateChartData(this.calculateSeverityCounts());
   }
 
   filterResults() {
@@ -189,13 +197,11 @@ export class DashboardComponent implements OnInit {
     const selectedCategories = Array.from(document.querySelectorAll('.filter-checkbox[data-category]:checked'))
       .map((checkbox: HTMLInputElement) => checkbox.getAttribute('data-category'));
 
-    this.results = this.originalResults.filter(result => {
+    this.filteredResults = this.filteredResults.filter(result => {
       const severityMatch = selectedSeverities.length === 0 || selectedSeverities.includes(result.Severity.toLowerCase());
       const categoryMatch = selectedCategories.length === 0 || selectedCategories.includes(result.Category.toLowerCase().replace(' ', '-'));
       return severityMatch && categoryMatch;
     });
-
-    this.updateChartData(this.calculateSeverityCounts());
   }
 
   clearSeverityFilters() {
@@ -204,7 +210,7 @@ export class DashboardComponent implements OnInit {
       checkbox.checked = false;
     });
 
-    this.filterResults();
+    this.applyFiltersAndSort();
   }
 
   clearCategoryFilters() {
@@ -213,44 +219,51 @@ export class DashboardComponent implements OnInit {
       checkbox.checked = false;
     });
 
-    this.filterResults();
+    this.applyFiltersAndSort();
   }
 
   sortResults() {
-    const dataToSort = this.showArchive ? this.archivedResults : this.results;
-  
-    dataToSort.sort((a, b) => {
-      let sortingOption = 0;
-  
-      if (this.selectedSortOption === 'category') {
-        sortingOption = a.Category.localeCompare(b.Category);
-      } else if (this.selectedSortOption === 'method') {
-        sortingOption = a.Method.localeCompare(b.Method);
-      } else if (this.selectedSortOption === 'username') {
-        sortingOption = a.Username.localeCompare(b.Username);
-      } else if (this.selectedSortOption === 'ipAddress') {
-        sortingOption = a.IPAddress.localeCompare(b.IPAddress);
-      } else if (this.selectedSortOption === 'timestamp') {
-        sortingOption = new Date(a.EventTimeStamp).getTime() - new Date(b.EventTimeStamp).getTime();
+    this.filteredResults.sort((a, b) => {
+      switch (this.selectedSortOption) {
+        case 'category':
+          return a.Category.localeCompare(b.Category);
+        case 'method':
+          return a.Method.localeCompare(b.Method);
+        case 'username':
+          return a.Username.localeCompare(b.Username);
+        case 'ipAddress':
+          return a.IPAddress.localeCompare(b.IPAddress);
+        case 'timestamp':
+          return new Date(a.EventTimeStamp).getTime() - new Date(b.EventTimeStamp).getTime();
+        default:
+          return 0;
       }
-  
-      return sortingOption;
     });
-  
-    this.results = dataToSort;
-    this.updateChartData(this.calculateSeverityCounts());
   }
 
-  onSearchInput() {
-    const query = this.searchQuery.toLowerCase();
-    this.results = this.originalResults.filter(result => {
-      return result.Category.toLowerCase().includes(query) ||
+  searchResults() {
+    if (this.searchQuery) {
+      const query = this.searchQuery.toLowerCase();
+      this.filteredResults = this.filteredResults.filter(result =>
+        result.Category.toLowerCase().includes(query) ||
         result.Method.toLowerCase().includes(query) ||
         result.Username.toLowerCase().includes(query) ||
         result.IPAddress.toLowerCase().includes(query) ||
-        result.EventTimeStamp.toLowerCase().includes(query);
-    });
-    this.updateChartData(this.calculateSeverityCounts());
+        result.EventTimeStamp.toLowerCase().includes(query)
+      );
+    }
+  }
+
+  onFilterChange() {
+    this.applyFiltersAndSort();
+  }
+
+  onSortChange() {
+    this.applyFiltersAndSort();
+  }
+
+  onSearchInput() {
+    this.applyFiltersAndSort();
   }
 
   toggleRowSelection(result: any) {
@@ -279,9 +292,8 @@ export class DashboardComponent implements OnInit {
 
   calculateSeverityCounts(): number[] {
     const severityLevels = ['Informational', 'Low', 'Medium', 'High', 'Critical'];
-    const resultsToCount = this.showArchive ? this.archivedResults : this.results;
     return severityLevels.map(severity =>
-      resultsToCount.filter(result => result.Severity.toLowerCase() === severity.toLowerCase()).length
+      this.filteredResults.filter(result => result.Severity.toLowerCase() === severity.toLowerCase()).length
     );
   }
 
