@@ -239,7 +239,6 @@ export class DashboardComponent implements OnInit {
   
     this.results = dataToSort;
     this.updateChartData(this.calculateSeverityCounts());
-    
   }
 
   onSearchInput() {
