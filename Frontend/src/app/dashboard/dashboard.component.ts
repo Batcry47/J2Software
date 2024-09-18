@@ -29,6 +29,7 @@ export class DashboardComponent implements OnInit {
   isFilterCollapsed = true;
   originalResults: any[] = [];
   results = [];
+  archivedResults: any[] = [];
   searchQuery: string = '';
   selectedRows: any[] = [];
   hoveredRows: Set<any> = new Set();
@@ -38,6 +39,7 @@ export class DashboardComponent implements OnInit {
   mediumSeverityAlerts: number;
   highSeverityAlerts: number;
   criticalSeverityAlerts: number;
+  showArchive: boolean = false;
 
   constructor(
     public router: Router,
@@ -270,8 +272,29 @@ export class DashboardComponent implements OnInit {
 
   calculateSeverityCounts(): number[] {
     const severityLevels = ['Informational', 'Low', 'Medium', 'High', 'Critical'];
+    const resultsToCount = this.showArchive ? this.archivedResults : this.results;
     return severityLevels.map(severity =>
-      this.results.filter(result => result.Severity.toLowerCase() === severity.toLowerCase()).length
+      resultsToCount.filter(result => result.Severity.toLowerCase() === severity.toLowerCase()).length
     );
+  }
+
+  toggleView() {
+    this.showArchive = !this.showArchive;
+    this.updateChartData(this.calculateSeverityCounts());
+  }
+
+  archiveSelectedRows() {
+    this.archivedResults = [...this.archivedResults, ...this.selectedRows];
+    this.results = this.results.filter(result => !this.selectedRows.includes(result));
+    this.selectedRows = [];
+    this.updateChartData(this.calculateSeverityCounts());
+  }
+
+  unarchiveSelectedRows() {
+    const selectedArchivedRows = this.selectedRows.filter(row => this.archivedResults.includes(row));
+    this.results = [...this.results, ...selectedArchivedRows];
+    this.archivedResults = this.archivedResults.filter(result => !selectedArchivedRows.includes(result));
+    this.selectedRows = [];
+    this.updateChartData(this.calculateSeverityCounts());
   }
 }
