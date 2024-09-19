@@ -15,6 +15,9 @@ func init() {
 }
 
 func main() {
+
+	go controllers.FetchAndInsertFromSplunk()
+
 	r := gin.Default()
 
 	// Middleware to set CORS headers
@@ -63,5 +66,5 @@ func main() {
 	r.POST("/unarchive/:id", controllers.UnarchiveEventLog)
 	r.GET("/archived-eventlogs", controllers.GetArchivedEventLogs)
 
-	r.Run()
+	r.Run(":3000")
 }

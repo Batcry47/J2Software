@@ -1,11 +1,11 @@
 package Controllers
 
 import (
+	"crypto/tls"
 	"database/sql"
 	"encoding/base64"
 	"encoding/json"
 	"fmt"
-	"io"
 	"log"
 	"net/http"
 	"strings"
@@ -14,19 +14,19 @@ import (
 	_ "github.com/go-sql-driver/mysql"
 )
 
-// EventLog represents the structure of event logs fetched from Splunk
-type EventLog struct {
-	Category       string    `json:"Category"`
-	Method         string    `json:"Method"`
-	Username       string    `json:"Username"`
-	IPAddress      string    `json:"IPAddress"`
-	EventTimeStamp time.Time `json:"EventTimeStamp"`
-	Severity       string    `json:"Severity"`
+// SplunkResult represents the structure of event logs fetched from Splunk
+type SplunkResult struct {
+	Category       string `json:"Category"`
+	Method         string `json:"Method"`
+	Username       string `json:"Username"`
+	IPAddress      string `json:"IPAddress"`
+	EventTimeStamp string `json:"EventTimeStamp"` // Changed to string to directly map from Splunk's JSON
+	Severity       string `json:"Severity"`
 }
 
 // SplunkResponse represents the data structure returned by the Splunk API
 type SplunkResponse struct {
-	Results []EventLog `json:"results"`
+	Results []SplunkResult `json:"results"`
 }
 
 // FetchAndInsertFromSplunk is the function that fetches data from Splunk and stores it into MySQL periodically
@@ -53,53 +53,83 @@ func FetchAndInsertFromSplunk() {
 	}
 }
 
+func getHttpClient() *http.Client {
+	// Create a custom HTTP client that ignores SSL certificate validation
+	tr := &http.Transport{
+		TLSClientConfig: &tls.Config{InsecureSkipVerify: true}, // Skip certificate validation
+	}
+	client := &http.Client{Transport: tr}
+	return client
+}
+
 // getDataFromSplunk fetches event data from Splunk via the Splunk REST API using basic authentication
-func getDataFromSplunk() (*SplunkResponse, error) {
-	// Set up Splunk API endpoint and your credentials
-	url := "https://192.168.226.128/services/search/jobs/export"
+func getDataFromSplunk() ([]SplunkResult, error) {
+	url := "https://192.168.226.128:8089/services/search/jobs/export"
 	method := "POST"
-	username := "<Admin>"
-	password := "<Password123>"
+	username := "Admin"
+	password := "Password123"
 
-	payload := strings.NewReader(`search=search index=<index_name> earliest=-15m | table Category, Method, Username, IPAddress, EventTimeStamp, Severity`)
+	payload := strings.NewReader(`search=search index=* earliest=-6mon | table Category, Method, Username, IPAddress, EventTimeStamp, Severity&output_mode=json`)
 
-	// Create the HTTP client and request
-	client := &http.Client{}
+	client := getHttpClient()
+
 	req, err := http.NewRequest(method, url, payload)
 	if err != nil {
 		return nil, err
 	}
 
-	// Set the Basic Authentication header
 	auth := base64.StdEncoding.EncodeToString([]byte(username + ":" + password))
 	req.Header.Add("Authorization", "Basic "+auth)
 	req.Header.Add("Content-Type", "application/x-www-form-urlencoded")
 
-	// Execute the request
+	// Make the request
 	res, err := client.Do(req)
 	if err != nil {
 		return nil, err
 	}
 	defer res.Body.Close()
 
-	// Read the response body
-	body, err := io.ReadAll(res.Body) // Use io.ReadAll instead of ioutil.ReadAll
-	if err != nil {
-		return nil, err
+	var results []SplunkResult
+	decoder := json.NewDecoder(res.Body)
+
+	for decoder.More() {
+		var response map[string]interface{}
+
+		err := decoder.Decode(&response)
+		if err != nil {
+			return nil, fmt.Errorf("error decoding JSON: %v", err)
+		}
+
+		// Check if there is a "result" field
+		if resultData, ok := response["result"].(map[string]interface{}); ok {
+			// Safely extract each field, providing a default if missing
+			result := SplunkResult{
+				Category:       getString(resultData, "Category"),
+				Method:         getString(resultData, "Method"),
+				Username:       getString(resultData, "Username"),
+				IPAddress:      getString(resultData, "IPAddress"),
+				EventTimeStamp: getString(resultData, "EventTimeStamp"),
+				Severity:       getString(resultData, "Severity"),
+			}
+			results = append(results, result)
+		}
 	}
 
-	// Parse the JSON response
-	var response SplunkResponse
-	err = json.Unmarshal(body, &response)
-	if err != nil {
-		return nil, err
-	}
+	return results, nil
+}
 
-	return &response, nil
+// getString safely extracts a string from a map, providing a default value if the field is missing or not a string
+func getString(data map[string]interface{}, key string) string {
+	if value, exists := data[key]; exists {
+		if str, ok := value.(string); ok {
+			return str
+		}
+	}
+	return "" // Default value if the field is missing
 }
 
 // insertIntoMySQL inserts the fetched Splunk event logs into the MySQL database
-func insertIntoMySQL(data *SplunkResponse) error {
+func insertIntoMySQL(data []SplunkResult) error {
 	// Set up the connection to MySQL
 	dsn := "admin:GameOver#74@tcp(127.0.0.1:3306)/AthenaDB?charset=utf8mb4&parseTime=True&loc=Local"
 	db, err := sql.Open("mysql", dsn)
@@ -109,10 +139,12 @@ func insertIntoMySQL(data *SplunkResponse) error {
 	defer db.Close()
 
 	// Insert each event log into the MySQL database
-	for _, event := range data.Results {
+	for _, event := range data {
 		query := `INSERT INTO EventLogs (Category, Method, Username, IPAddress, EventTimeStamp, Severity) 
 		          VALUES (?, ?, ?, ?, ?, ?)`
-		_, err := db.Exec(query, event.Category, event.Method, event.Username, event.IPAddress, event.EventTimeStamp.Format("2006-01-02 15:04:05"), event.Severity)
+		_, err := db.Exec(query, event.Category, event.Method, event.Username, event.IPAddress, event.EventTimeStamp, event.Severity)
+		log.Printf("Inserted record into MySQL: %+v", event)
+
 		if err != nil {
 			log.Printf("Error inserting record into MySQL: %v", err)
 			continue // Log the error and continue to the next record
