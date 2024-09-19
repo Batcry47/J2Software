@@ -11,6 +11,6 @@ export class AppComponent {
   constructor(private route: Router) { }
 
   ngOnInit(): void {
-    this.route.navigate(['/report']);
+    this.route.navigate(['/login']);
   }
 }
