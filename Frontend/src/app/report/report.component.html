@@ -117,7 +117,9 @@
     <div class="downloaded-report-results">
       <h2 *ngIf="startDateInput.value != '' && endDateInput.value != ''">Alert Report for {{startDateInput.value}} - {{endDateInput.value}}</h2><br>
       <h2 *ngIf="startDateInput.value == '' && endDateInput.value == ''">All Time Alert Report</h2>
-      <label>Malicious Alerts: {{maliciousAlerts}}</label><br>
+      <label>Malicious Alerts: {{impactAlerts + initialAccessAlerts + defenceEvasionAlerts + exfiltrationAlerts 
+        + collectionAlerts + privilegeEscalationAlerts + persistenceAlerts + reconnaissanceAlerts + 
+        executionAlerts + resourceDevelopmentAlerts}}</label><br>
       <label>Impact: {{impactAlerts}}</label><br>
       <label>Initial Access: {{initialAccessAlerts}}</label><br>
       <label>Defence Evasion: {{defenceEvasionAlerts}}</label><br>
