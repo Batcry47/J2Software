@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { BackendConnectionService } from '../backend-connection.service';
-import * as CryptoJS from 'crypto-js';
 
 @Component({
   selector: 'app-login',
@@ -35,7 +34,9 @@ export class LoginComponent {
 
   validateData(username: string, password: string) {
     this.backendService.login(username, password).subscribe(
-      (response) => {
+      (response: any) => {
+        this.backendService.setAuthCode(response.authCode);
+        this.backendService.setUserId(response.userId);
         this.router.navigate(['factor']);
       },
       (error) => {

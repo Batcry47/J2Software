@@ -25,6 +25,8 @@ export interface AlertCount {
 export class BackendConnectionService {
   user_id: number;
   api = "http://localhost:3000";
+  private authCode: string = '';
+  private userId: number = 0;
   constructor(private http: HttpClient) { }
 
   //Gets the user's id based on the email and password entered if it exists
@@ -158,6 +160,30 @@ export class BackendConnectionService {
     return this.http.post(`${this.api}/login`, { username, password });
   }
 
+  verifyAuthCode(userId: number, authCode: string): Observable<any> {
+    return this.http.post(`${this.api}/verify-auth`, { userId, authCode });
+  }
+
+  setAuthCode(code: string) {
+    this.authCode = code;
+  }
+
+  getAuthCode(): string {
+    return this.authCode;
+  }
+
+  setUserId(id: number) {
+    this.userId = id;
+  }
+
+  getUserId(): number {
+    return this.userId;
+  }
+
+  resendCode(userId: number): Observable<any> {
+    return this.http.post(`${this.api}/resend-code`, { userId });
+  }
+
   getArchivedEventLogs(): Observable<any> {
     return this.http.get(`${this.api}/archived-eventlogs`);
   }
@@ -169,5 +195,5 @@ export class BackendConnectionService {
   unarchiveEventLog(eventId: number): Observable<any> {
     return this.http.post(`${this.api}/unarchive/${eventId}`, {});
   }
-
+  
 }

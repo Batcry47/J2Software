@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { BackendConnectionService } from '../backend-connection.service';
 
 @Component({
   selector: 'app-factor-authentication',
@@ -7,16 +8,17 @@ import { Router } from '@angular/router';
   styleUrls: ['./factor-authentication.component.css']
 })
 export class FactorAuthenticationComponent implements OnInit {
-  authCode = "123456";
+  authCode: string = '';
   newCode = "";
   codeTimer = 30;
   timer: any;
   popup: HTMLDialogElement | null = null;
 
-  constructor(private route: Router) {}
+  constructor(private router: Router, private backendService: BackendConnectionService) {}
 
   ngOnInit(): void {
     this.popup = document.getElementById("popup-box") as HTMLDialogElement;
+    this.authCode = this.backendService.getAuthCode();
     this.startTimer();
   }
 
@@ -33,36 +35,45 @@ export class FactorAuthenticationComponent implements OnInit {
     } else {
         this.validateData(enteredCode);
     }
-}
+  }
 
   validateData(enteredCode: string): void {
-    const popupMessage = document.getElementById("popup-message") as HTMLElement;
-
-    if (this.newCode === "") {
-      if (enteredCode !== this.authCode) {
-        popupMessage.textContent = "The code entered is either invalid or has expired, please enter the correct code to proceed";
-        this.popup.showModal();
-      } else {
-        clearInterval(this.timer);
-        this.route.navigate(['home']);
-      }
+    if (enteredCode === this.authCode) {
+      this.backendService.verifyAuthCode(this.backendService.getUserId(), enteredCode).subscribe(
+        (response: any) => {
+          clearInterval(this.timer);
+          this.router.navigate(['home']);
+        },
+        (error) => {
+          const popupMessage = document.getElementById("popup-message") as HTMLElement;
+          popupMessage.textContent = "The code entered is invalid. Please try again.";
+          this.popup?.showModal();
+        }
+      );
     } else {
-      if (enteredCode !== this.newCode) {
-        popupMessage.textContent = "The code entered is either invalid or it has expired, please enter the correct code to proceed";
-        this.popup.showModal();
-      } else {
-        clearInterval(this.timer);
-        this.route.navigate(['home']);
-      }
+      const userMessage = document.getElementById("user-message") as HTMLElement;
+      userMessage.textContent = "Invalid authentication code. Please check and try again.";
+      userMessage.classList.add("visible");
     }
   }
 
   resendCode(): void {
-    this.refreshTimer();
-    const popupMessage = document.getElementById("popup-message") as HTMLElement;
-    popupMessage.textContent = "Code has been resent, please check your email";
-    this.popup.showModal();
-    this.newCode = "456789";
+    this.backendService.resendCode(this.backendService.getUserId()).subscribe(
+      (response: any) => {
+        this.refreshTimer();
+
+        const popupMessage = document.getElementById("popup-message") as HTMLElement;
+        popupMessage.textContent = "Code has been resent, please check your email";
+        this.popup?.showModal();
+
+        this.authCode = response.newAuthCode;
+      },
+      (error) => {
+        const popupMessage = document.getElementById("popup-message") as HTMLElement;
+        popupMessage.textContent = "Failed to resend code. Please try again.";
+        this.popup?.showModal();
+      }
+    );
   }
 
   refreshTimer(): void {
@@ -78,7 +89,6 @@ export class FactorAuthenticationComponent implements OnInit {
 
       if (this.codeTimer === 0) {
         clearInterval(this.timer);
-        this.newCode = "1";
         document.getElementById("expiry-message")!.textContent = "The code has expired, please request a new one";
         document.getElementById("code-time")!.textContent = "";
       } else {
