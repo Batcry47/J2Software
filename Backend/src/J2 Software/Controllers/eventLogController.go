@@ -157,8 +157,8 @@ func GetImpactAlerts(c *gin.Context) {
 	var eventlogs []models.EventLogs
 	var startDate, endDate time.Time
 	var formatError error
-	startDateString := c.Query("start_date");
-	endDateString := c.Query("end_date");
+	startDateString := c.Query("start_date")
+	endDateString := c.Query("end_date")
 	dateFormat := "2006-01-02 15:04:05"
 	//get eventlog records
 	if startDateString != "" {
@@ -167,8 +167,8 @@ func GetImpactAlerts(c *gin.Context) {
 			c.JSON(400, gin.H{"error": "Invalid Start Date"})
 		}
 	}
-	
-	if endDateString != ""{
+
+	if endDateString != "" {
 		endDate, formatError = time.Parse(dateFormat, endDateString)
 		if formatError != nil {
 			c.JSON(400, gin.H{"error": "Invalid End Date"})
@@ -178,15 +178,15 @@ func GetImpactAlerts(c *gin.Context) {
 	if startDate.IsZero() && endDate.IsZero() {
 		//repsond with the number of Impact alerts
 		initializers.DB.Where("Category = ?", "Impact").Find(&eventlogs)
-	}else{
+	} else {
 		initializers.DB.Where("EventTimeStamp BETWEEN ? AND ? AND Category = ?", startDate, endDate, "Impact").Find(&eventlogs)
-		
+
 	}
 	impactCount := len(eventlogs)
 	c.JSON(200, gin.H{
 		"Impact": impactCount,
 	})
-	
+
 }
 
 func GetDefenseEvasionAlerts(c *gin.Context) {
@@ -194,8 +194,8 @@ func GetDefenseEvasionAlerts(c *gin.Context) {
 	var eventlogs []models.EventLogs
 	var startDate, endDate time.Time
 	var formatError error
-	startDateString := c.Query("start_date");
-	endDateString := c.Query("end_date");
+	startDateString := c.Query("start_date")
+	endDateString := c.Query("end_date")
 	dateFormat := "2006-01-02 15:04:05"
 	if startDateString != "" {
 		startDate, formatError = time.Parse(dateFormat, startDateString)
@@ -203,8 +203,8 @@ func GetDefenseEvasionAlerts(c *gin.Context) {
 			c.JSON(400, gin.H{"error": "Invalid Start Date"})
 		}
 	}
-	
-	if endDateString != ""{
+
+	if endDateString != "" {
 		endDate, formatError = time.Parse(dateFormat, endDateString)
 		if formatError != nil {
 			c.JSON(400, gin.H{"error": "Invalid End Date"})
@@ -212,13 +212,13 @@ func GetDefenseEvasionAlerts(c *gin.Context) {
 	}
 	//get eventlog records
 	if startDate.IsZero() && endDate.IsZero() {
-	//repsond with the number of Defense Evasion alerts
+		//repsond with the number of Defense Evasion alerts
 		initializers.DB.Where("Category = ?", "Defense Evasion").Find(&eventlogs)
 		defenseEvasionCount := len(eventlogs)
 		c.JSON(200, gin.H{
 			"DefenseEvasion": defenseEvasionCount,
 		})
-	}else{
+	} else {
 		initializers.DB.Where("EventTimeStamp BETWEEN ? AND ? AND Category = ?", startDate, endDate, "Defense Evasion").Find(&eventlogs)
 		defenseEvasionCount := len(eventlogs)
 		c.JSON(200, gin.H{
@@ -232,8 +232,8 @@ func GetPersistenceAlerts(c *gin.Context) {
 	var eventlogs []models.EventLogs
 	var startDate, endDate time.Time
 	var formatError error
-	startDateString := c.Query("start_date");
-	endDateString := c.Query("end_date");
+	startDateString := c.Query("start_date")
+	endDateString := c.Query("end_date")
 	dateFormat := "2006-01-02 15:04:05"
 	if startDateString != "" {
 		startDate, formatError = time.Parse(dateFormat, startDateString)
@@ -241,8 +241,8 @@ func GetPersistenceAlerts(c *gin.Context) {
 			c.JSON(400, gin.H{"error": "Invalid Start Date"})
 		}
 	}
-	
-	if endDateString != ""{
+
+	if endDateString != "" {
 		endDate, formatError = time.Parse(dateFormat, endDateString)
 		if formatError != nil {
 			c.JSON(400, gin.H{"error": "Invalid End Date"})
@@ -250,7 +250,7 @@ func GetPersistenceAlerts(c *gin.Context) {
 	}
 	if startDate.IsZero() && endDate.IsZero() {
 		initializers.DB.Where("Category = ?", "Persistence").Find(&eventlogs)
-	}else{
+	} else {
 		initializers.DB.Where("EventTimeStamp BETWEEN ? AND ? AND Category = ?", startDate, endDate, "Persistence").Find(&eventlogs)
 	}
 	//repsond with the number of persistence alerts
@@ -260,14 +260,12 @@ func GetPersistenceAlerts(c *gin.Context) {
 	})
 }
 
-
-
 func GetExfiltrationAlerts(c *gin.Context) {
 	var eventlogs []models.EventLogs
 	var startDate, endDate time.Time
 	var formatError error
-	startDateString := c.Query("start_date");
-	endDateString := c.Query("end_date");
+	startDateString := c.Query("start_date")
+	endDateString := c.Query("end_date")
 	dateFormat := "2006-01-02 15:04:05"
 	if startDateString != "" {
 		startDate, formatError = time.Parse(dateFormat, startDateString)
@@ -275,8 +273,8 @@ func GetExfiltrationAlerts(c *gin.Context) {
 			c.JSON(400, gin.H{"error": "Invalid Start Date"})
 		}
 	}
-	
-	if endDateString != ""{
+
+	if endDateString != "" {
 		endDate, formatError = time.Parse(dateFormat, endDateString)
 		if formatError != nil {
 			c.JSON(400, gin.H{"error": "Invalid End Date"})
@@ -284,10 +282,10 @@ func GetExfiltrationAlerts(c *gin.Context) {
 	}
 	if startDate.IsZero() && endDate.IsZero() {
 		initializers.DB.Where("Category = ?", "Exfiltration").Find(&eventlogs)
-	}else {
+	} else {
 		initializers.DB.Where("EventTimeStamp BETWEEN ? AND ? AND Category = ?", startDate, endDate, "Exfiltration").Find(&eventlogs)
 	}
-	
+
 	exfiltrationCount := len(eventlogs)
 	c.JSON(200, gin.H{
 		"Exfiltration": exfiltrationCount,
@@ -298,8 +296,8 @@ func GetInitialAccessAlerts(c *gin.Context) {
 	var eventlogs []models.EventLogs
 	var startDate, endDate time.Time
 	var formatError error
-	startDateString := c.Query("start_date");
-	endDateString := c.Query("end_date");
+	startDateString := c.Query("start_date")
+	endDateString := c.Query("end_date")
 	dateFormat := "2006-01-02 15:04:05"
 	if startDateString != "" {
 		startDate, formatError = time.Parse(dateFormat, startDateString)
@@ -307,8 +305,8 @@ func GetInitialAccessAlerts(c *gin.Context) {
 			c.JSON(400, gin.H{"error": "Invalid Start Date"})
 		}
 	}
-	
-	if endDateString != ""{
+
+	if endDateString != "" {
 		endDate, formatError = time.Parse(dateFormat, endDateString)
 		if formatError != nil {
 			c.JSON(400, gin.H{"error": "Invalid End Date"})
@@ -316,7 +314,7 @@ func GetInitialAccessAlerts(c *gin.Context) {
 	}
 	if startDate.IsZero() && endDate.IsZero() {
 		initializers.DB.Where("Category = ?", "Initial Access").Find(&eventlogs)
-	}else {
+	} else {
 		initializers.DB.Where("EventTimeStamp BETWEEN ? AND ? AND Category = ?", startDate, endDate, "Initial Access").Find(&eventlogs)
 	}
 	initialAccessCount := len(eventlogs)
@@ -329,8 +327,8 @@ func GetEscalationAlerts(c *gin.Context) {
 	var eventlogs []models.EventLogs
 	var startDate, endDate time.Time
 	var formatError error
-	startDateString := c.Query("start_date");
-	endDateString := c.Query("end_date");
+	startDateString := c.Query("start_date")
+	endDateString := c.Query("end_date")
 	dateFormat := "2006-01-02 15:04:05"
 	if startDateString != "" {
 		startDate, formatError = time.Parse(dateFormat, startDateString)
@@ -338,8 +336,8 @@ func GetEscalationAlerts(c *gin.Context) {
 			c.JSON(400, gin.H{"error": "Invalid Start Date"})
 		}
 	}
-	
-	if endDateString != ""{
+
+	if endDateString != "" {
 		endDate, formatError = time.Parse(dateFormat, endDateString)
 		if formatError != nil {
 			c.JSON(400, gin.H{"error": "Invalid End Date"})
@@ -347,7 +345,7 @@ func GetEscalationAlerts(c *gin.Context) {
 	}
 	if startDate.IsZero() && endDate.IsZero() {
 		initializers.DB.Where("Category = ?", "Privilege Escalation").Find(&eventlogs)
-	}else {
+	} else {
 		initializers.DB.Where("EventTimeStamp BETWEEN ? AND ? AND Category = ?", startDate, endDate, "Privilege Escalation").Find(&eventlogs)
 	}
 	escalationCount := len(eventlogs)
@@ -361,8 +359,8 @@ func GetCollectionAlerts(c *gin.Context) {
 	var eventlogs []models.EventLogs
 	var startDate, endDate time.Time
 	var formatError error
-	startDateString := c.Query("start_date");
-	endDateString := c.Query("end_date");
+	startDateString := c.Query("start_date")
+	endDateString := c.Query("end_date")
 	dateFormat := "2006-01-02 15:04:05"
 	if startDateString != "" {
 		startDate, formatError = time.Parse(dateFormat, startDateString)
@@ -370,20 +368,20 @@ func GetCollectionAlerts(c *gin.Context) {
 			c.JSON(400, gin.H{"error": "Invalid Start Date"})
 		}
 	}
-	
-	if endDateString != ""{
+
+	if endDateString != "" {
 		endDate, formatError = time.Parse(dateFormat, endDateString)
 		if formatError != nil {
 			c.JSON(400, gin.H{"error": "Invalid End Date"})
 		}
 	}
-	
+
 	if startDate.IsZero() && endDate.IsZero() {
 		initializers.DB.Where("Category = ?", "Collection").Find(&eventlogs)
-	}else {
+	} else {
 		initializers.DB.Where("EventTimeStamp BETWEEN ? AND ? AND Category = ?", startDate, endDate, "Collection").Find(&eventlogs)
 	}
-	
+
 	collectionCount := len(eventlogs)
 
 	c.JSON(200, gin.H{
@@ -395,8 +393,8 @@ func GetReconnaissanceAlerts(c *gin.Context) {
 	var eventlogs []models.EventLogs
 	var startDate, endDate time.Time
 	var formatError error
-	startDateString := c.Query("start_date");
-	endDateString := c.Query("end_date");
+	startDateString := c.Query("start_date")
+	endDateString := c.Query("end_date")
 	dateFormat := "2006-01-02 15:04:05"
 	if startDateString != "" {
 		startDate, formatError = time.Parse(dateFormat, startDateString)
@@ -404,8 +402,8 @@ func GetReconnaissanceAlerts(c *gin.Context) {
 			c.JSON(400, gin.H{"error": "Invalid Start Date"})
 		}
 	}
-	
-	if endDateString != ""{
+
+	if endDateString != "" {
 		endDate, formatError = time.Parse(dateFormat, endDateString)
 		if formatError != nil {
 			c.JSON(400, gin.H{"error": "Invalid End Date"})
@@ -413,7 +411,7 @@ func GetReconnaissanceAlerts(c *gin.Context) {
 	}
 	if startDate.IsZero() && endDate.IsZero() {
 		initializers.DB.Where("Category = ?", "Reconnaissance").Find(&eventlogs)
-	}else {
+	} else {
 		initializers.DB.Where("EventTimeStamp BETWEEN ? AND ? AND Category = ?", startDate, endDate, "Reconnaissance").Find(&eventlogs)
 	}
 	reconnaissanceCount := len(eventlogs)
@@ -427,8 +425,8 @@ func GetResourceDevelopmentAlerts(c *gin.Context) {
 	var eventlogs []models.EventLogs
 	var startDate, endDate time.Time
 	var formatError error
-	startDateString := c.Query("start_date");
-	endDateString := c.Query("end_date");
+	startDateString := c.Query("start_date")
+	endDateString := c.Query("end_date")
 	dateFormat := "2006-01-02 15:04:05"
 
 	if startDateString != "" {
@@ -437,8 +435,8 @@ func GetResourceDevelopmentAlerts(c *gin.Context) {
 			c.JSON(400, gin.H{"error": "Invalid Start Date"})
 		}
 	}
-	
-	if endDateString != ""{
+
+	if endDateString != "" {
 		endDate, formatError = time.Parse(dateFormat, endDateString)
 		if formatError != nil {
 			c.JSON(400, gin.H{"error": "Invalid End Date"})
@@ -446,10 +444,10 @@ func GetResourceDevelopmentAlerts(c *gin.Context) {
 	}
 	if startDate.IsZero() && endDate.IsZero() {
 		initializers.DB.Where("Category = ?", "Resource Development").Find(&eventlogs)
-	}else {
+	} else {
 		initializers.DB.Where("EventTimeStamp BETWEEN ? AND ? AND Category = ?", startDate, endDate, "Resource Development").Find(&eventlogs)
 	}
-	
+
 	resourceDevelopmentCount := len(eventlogs)
 
 	c.JSON(200, gin.H{
@@ -461,8 +459,8 @@ func GetExecutionAlerts(c *gin.Context) {
 	var eventlogs []models.EventLogs
 	var startDate, endDate time.Time
 	var formatError error
-	startDateString := c.Query("start_date");
-	endDateString := c.Query("end_date");
+	startDateString := c.Query("start_date")
+	endDateString := c.Query("end_date")
 	dateFormat := "2006-01-02 15:04:05"
 	if startDateString != "" {
 		startDate, formatError = time.Parse(dateFormat, startDateString)
@@ -470,8 +468,8 @@ func GetExecutionAlerts(c *gin.Context) {
 			c.JSON(400, gin.H{"error": "Invalid Start Date"})
 		}
 	}
-	
-	if endDateString != ""{
+
+	if endDateString != "" {
 		endDate, formatError = time.Parse(dateFormat, endDateString)
 		if formatError != nil {
 			c.JSON(400, gin.H{"error": "Invalid End Date"})
@@ -479,10 +477,10 @@ func GetExecutionAlerts(c *gin.Context) {
 	}
 	if startDate.IsZero() && endDate.IsZero() {
 		initializers.DB.Where("Category = ?", "Execution").Find(&eventlogs)
-	}else {
+	} else {
 		initializers.DB.Where("EventTimeStamp BETWEEN ? AND ? AND Category = ?", startDate, endDate, "Execution").Find(&eventlogs)
 	}
-	
+
 	executionCount := len(eventlogs)
 
 	c.JSON(200, gin.H{
@@ -502,7 +500,7 @@ func GetInformationalAlerts(c *gin.Context) {
 	})
 }
 
-func GetLowAlerts(c *gin.Context){
+func GetLowAlerts(c *gin.Context) {
 	var eventlogs []models.EventLogs
 	//repsond with the number of persistence alerts
 	initializers.DB.Where("Severity = ?", "LOW").Find(&eventlogs)
@@ -513,7 +511,7 @@ func GetLowAlerts(c *gin.Context){
 	})
 }
 
-func GetMediumAlerts(c *gin.Context){
+func GetMediumAlerts(c *gin.Context) {
 	var eventlogs []models.EventLogs
 	//repsond with the number of persistence alerts
 	initializers.DB.Where("Severity = ?", "MEDIUM").Find(&eventlogs)
@@ -524,7 +522,7 @@ func GetMediumAlerts(c *gin.Context){
 	})
 }
 
-func GetHighAlerts(c *gin.Context){
+func GetHighAlerts(c *gin.Context) {
 	var eventlogs []models.EventLogs
 	//repsond with the number of persistence alerts
 	initializers.DB.Where("Severity = ?", "HIGH").Find(&eventlogs)
@@ -535,7 +533,7 @@ func GetHighAlerts(c *gin.Context){
 	})
 }
 
-func GetCriticalAlerts(c *gin.Context){
+func GetCriticalAlerts(c *gin.Context) {
 	var eventlogs []models.EventLogs
 	//repsond with the number of persistence alerts
 	initializers.DB.Where("Severity = ?", "CRITICAL").Find(&eventlogs)
