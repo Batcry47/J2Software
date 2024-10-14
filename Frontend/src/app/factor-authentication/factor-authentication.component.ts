@@ -38,7 +38,7 @@ export class FactorAuthenticationComponent implements OnInit {
   }
 
   validateData(enteredCode: string): void {
-    if (enteredCode === this.authCode) {
+    if (enteredCode === this.authCode && this.codeTimer !== 0) {
       this.backendService.verifyAuthCode(this.backendService.getUserId(), enteredCode).subscribe(
         (response: any) => {
           clearInterval(this.timer);
@@ -52,7 +52,7 @@ export class FactorAuthenticationComponent implements OnInit {
       );
     } else {
       const userMessage = document.getElementById("user-message") as HTMLElement;
-      userMessage.textContent = "Invalid authentication code. Please check and try again.";
+      userMessage.textContent = "Invalid or expired authentication code. Please check and try again.";
       userMessage.classList.add("visible");
     }
   }

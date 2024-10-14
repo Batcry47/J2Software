@@ -195,5 +195,4 @@ export class BackendConnectionService {
   unarchiveEventLog(eventId: number): Observable<any> {
     return this.http.post(`${this.api}/unarchive/${eventId}`, {});
   }
-  
 }
