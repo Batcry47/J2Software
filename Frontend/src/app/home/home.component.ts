@@ -1,6 +1,7 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { BackendConnectionService } from '../backend-connection.service';
+import { StylingService } from '../styling.service';
 
 @Component({
   selector: 'app-home',
@@ -22,11 +23,10 @@ export class HomeComponent implements OnInit {
   reconnaissanceAlerts: number = 0;
   executionAlerts: number = 0;
   resourceDevelopmentAlerts: number = 0;
-
   inactivityTimer: any;
   INACTIVITY_TIMEOUT = 30000;
   user_id = 0;
-  constructor(public router: Router, private route: ActivatedRoute, private backendService: BackendConnectionService) {
+  constructor(public router: Router, private route: ActivatedRoute, private backendService: BackendConnectionService, private styleService: StylingService) {
     this.startEvents();
   }
 
@@ -133,6 +133,14 @@ export class HomeComponent implements OnInit {
     //   this.reconnaissanceAlerts + this.executionAlerts + this.resourceDevelopmentAlerts);
 
     // this.maliciousAlerts = this.totalAlerts;
+  }
+  
+  toggleDarkTheme(){
+    this.styleService.toggleDarkMode();
+  }
+
+  isDarkThemeToggled(){
+    return this.styleService.isDarkModeEnabled();
   }
 
 }

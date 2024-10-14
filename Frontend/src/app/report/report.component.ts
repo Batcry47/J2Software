@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild, ElementRef, Renderer2 } from '@angular/co
 import { Router } from '@angular/router';
 import { BackendConnectionService } from '../backend-connection.service';
 import { Chart } from 'chart.js';
+import { StylingService } from '../styling.service';
 
 @Component({
   selector: 'app-report',
@@ -30,7 +31,7 @@ export class ReportComponent implements OnInit {
   chart: any;
   numOfAlerts = [];
 
-  constructor(public route: Router, private renderer: Renderer2, private backendService: BackendConnectionService) { }
+  constructor(public route: Router, private renderer: Renderer2, private backendService: BackendConnectionService, private styleService: StylingService) { }
 
   ngOnInit(): void {
     this.startEvents();
@@ -157,6 +158,14 @@ export class ReportComponent implements OnInit {
       this.reconnaissanceAlerts + this.executionAlerts + this.resourceDevelopmentAlerts);
 
     this.maliciousAlerts = this.totalAlerts;
+  }
+
+  toggleDarkTheme(){
+    this.styleService.toggleDarkMode();
+  }
+
+  isDarkThemeToggled(){
+    return this.styleService.isDarkModeEnabled();
   }
 
   

@@ -66,7 +66,6 @@
 
 .sidebar a:hover,
 .sidebar a.active {
-  background-color: #f8f8f8;
   color: #c91931;
 }
 
@@ -123,7 +122,6 @@
 }
 
 .logout-btn:hover {
-  background-color: #f8f8f8;
   color: #c91931;
   transform: none;
 }

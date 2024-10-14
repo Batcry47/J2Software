@@ -3,6 +3,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { BackendConnectionService } from '../backend-connection.service';
 import { Chart, registerables } from 'chart.js';
 import { forkJoin } from 'rxjs';
+import { StylingService } from '../styling.service';
 
 Chart.register(...registerables);
 
@@ -45,7 +46,8 @@ export class DashboardComponent implements OnInit {
     public router: Router,
     private route: ActivatedRoute,
     private renderer: Renderer2,
-    private backendService: BackendConnectionService
+    private backendService: BackendConnectionService,
+    private styleService: StylingService
   ) { }
 
   ngOnInit(): void {
@@ -332,5 +334,13 @@ export class DashboardComponent implements OnInit {
   toggleView() {
     this.showArchive = !this.showArchive;
     this.fetchData();
+  }
+
+  toggleDarkTheme(){
+    this.styleService.toggleDarkMode();
+  }
+
+  isDarkThemeToggled(){
+    return this.styleService.isDarkModeEnabled();
   }
 }
