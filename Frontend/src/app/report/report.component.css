@@ -422,3 +422,35 @@
   border-color: #333333;
   outline: none;
 }
+
+.bigger-text {
+  font-size: 1.2em;
+}
+
+.bigger-text .sidebar a {
+  font-size: 1.3em;
+}
+
+.bigger-text .date-selection h2 {
+  font-size: 2.4em;
+}
+
+.bigger-text .date-input label {
+  font-size: 1.3em;
+}
+
+.bigger-text .date-selector {
+  font-size: 1.2em;
+}
+
+.bigger-text .metric h2 {
+  font-size: 1.3em;
+}
+
+.bigger-text .metric h1 {
+  font-size: 2.6em;
+}
+
+.bigger-text .metric p {
+  font-size: 1em;
+}

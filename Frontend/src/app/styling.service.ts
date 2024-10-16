@@ -4,14 +4,23 @@ import { Injectable } from "@angular/core";
     providedIn: 'root'
 })
 
-export class StylingService{
+export class StylingService {
     darkModeToggled = false;
+    biggerText = false;
     setLanguage: string;
-    toggleDarkMode(){
+    toggleDarkMode() {
         this.darkModeToggled = !this.darkModeToggled;
     }
 
-    isDarkModeEnabled(){
+    isDarkModeEnabled() {
         return this.darkModeToggled;
+    }
+
+    toggleBiggerText() {
+        this.biggerText = !this.biggerText;
+    }
+
+    isBiggerTextEnabled() {
+        return this.biggerText;
     }
 }

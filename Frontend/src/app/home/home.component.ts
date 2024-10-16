@@ -142,6 +142,14 @@ export class HomeComponent implements OnInit {
     return this.styleService.isDarkModeEnabled();
   }
 
+  toggleBiggerText() {
+    this.styleService.toggleBiggerText();
+  }
+
+  isBiggerTextToggled() {
+    return this.styleService.isBiggerTextEnabled();
+  }
+
   changeLanguage(language: string) {
     this.translate.use(language);
     this.styleService.setLanguage = language;

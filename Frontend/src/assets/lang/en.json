@@ -11,7 +11,8 @@
         "Dashboard": "Dashboard",
         "Report": "Report",
         "Logout": "Logout",
-        "Theme": "Change Theme"
+        "Theme": "Change Theme",
+        "TextSize": "Toggle Text Size"
     },
     "DATE-TITLE": "Select Date",
     "START-TITLE": "Start Date:",

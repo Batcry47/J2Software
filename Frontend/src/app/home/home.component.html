@@ -1,4 +1,4 @@
-<div class="container">
+<div class="container" [ngClass]="{'bigger-text': isBiggerTextToggled()}">
   <dialog class="logout-prompt" id="logout" [ngStyle]="{'background-color' : isDarkThemeToggled() ? 'black' : 'white'}">
     <div class="popup-header">
       <div class="red-bar"></div>
@@ -36,10 +36,11 @@
       <li><a routerLink="/report">{{'SIDEBAR.Report' | translate}}</a></li>
       <li><a (click)="openPrompt()">{{'SIDEBAR.Logout' | translate}}</a></li>
       <li><a (click)="toggleDarkTheme()">{{'SIDEBAR.Theme' | translate}}</a></li>
+      <li><a (click)="toggleBiggerText()">{{'SIDEBAR.TextSize' | translate}}</a></li>
       <li>
         <div class="sort-options">
           <span class="sort-label">Select Language:</span>
-          <select class="sort-select" [(ngModel)] = "selectedLanguage" (change)="changeLanguage(selectedLanguage)">
+          <select class="sort-select" [(ngModel)]="selectedLanguage" (change)="changeLanguage(selectedLanguage)">
             <option value="en">English</option>
             <option value="afr">Afrikaans</option>
           </select>

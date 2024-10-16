@@ -11,7 +11,8 @@
         "Dashboard": "Beheer paneel",
         "Report": "Verslag",
         "Logout": "Teken uit",
-        "Theme": "Verander Tema"
+        "Theme": "Verander Tema",
+        "TextSize": "Wissel teksgrootte"
     },
     "DATE-TITLE": "Kies Datum",
     "START-TITLE": "Begin Datum:",
@@ -192,7 +193,6 @@
         "execution-count": "Uitvoering:",
         "resource-development-count": "Hulpbronontwikkeling:"
     },
-
     "FILTER-CATEGORIES": {
         "Impact": "Impak",
         "Defence Evasion": "Verdedigingsontduiking",

@@ -1,4 +1,4 @@
-<div class="container">
+<div class="container" [ngClass]="{'bigger-text': isBiggerTextToggled()}">
   <dialog class="logout-prompt" id="logout" [ngStyle]="{'background-color' : isDarkThemeToggled() ? 'black' : 'white'}">
     <div class="popup-header">
       <div class="red-bar"></div>
@@ -12,7 +12,8 @@
     </div>
   </dialog>
 
-  <dialog class="logout-prompt" id="logoutPrompt" [ngStyle]="{'background-color' : isDarkThemeToggled() ? 'black' : 'white'}">
+  <dialog class="logout-prompt" id="logoutPrompt"
+    [ngStyle]="{'background-color' : isDarkThemeToggled() ? 'black' : 'white'}">
     <div class="popup-header">
       <div class="red-bar"></div>
       <h2>{{'INACTIVE-TITLE' | translate}}</h2>
@@ -36,10 +37,11 @@
       <li><a routerLink="/report">{{'SIDEBAR.Report' | translate}}</a></li>
       <li><a (click)="openPrompt()">{{'SIDEBAR.Logout' | translate}}</a></li>
       <li><a (click)="toggleDarkTheme()">{{'SIDEBAR.Theme' | translate}}</a></li>
+      <li><a (click)="toggleBiggerText()">{{'SIDEBAR.TextSize' | translate}}</a></li>
       <li>
         <div class="sort-options">
           <span class="sort-label">Select Language:</span>
-          <select class="sort-select" [(ngModel)] = "selectedLanguage" (change)="changeLanguage(selectedLanguage)">
+          <select class="sort-select" [(ngModel)]="selectedLanguage" (change)="changeLanguage(selectedLanguage)">
             <option value="en">English</option>
             <option value="afr">Afrikaans</option>
           </select>
@@ -48,17 +50,20 @@
     </ul>
   </div>
 
-  <div class="dashboard-container" [ngStyle]="{'background-color' : isDarkThemeToggled() ? 'black' : 'white', 'background-image': isDarkThemeToggled() ? 'url(assets/images/background_image_dark.jpg)' : 'url(assets/images/background_image.png)'}">
-    <h1 class="dashboard-title" [ngStyle]="{'color' : isDarkThemeToggled() ? 'white' : ''}">{{'SIDEBAR.Dashboard' | translate}}</h1>
+  <div class="dashboard-container"
+    [ngStyle]="{'background-color' : isDarkThemeToggled() ? 'black' : 'white', 'background-image': isDarkThemeToggled() ? 'url(assets/images/background_image_dark.jpg)' : 'url(assets/images/background_image.png)'}">
+    <h1 class="dashboard-title" [ngStyle]="{'color' : isDarkThemeToggled() ? 'white' : ''}">{{'SIDEBAR.Dashboard' |
+      translate}}</h1>
     <div class="chart-card" [ngStyle]="{'background-color' : isDarkThemeToggled() ? 'black' : 'white'}">
-      <h2 class="chart-title" [ngStyle]="{'color' : isDarkThemeToggled() ? 'white' : ''}">{{ "GRAPH-TITLE" | translate}}</h2>
+      <h2 class="chart-title" [ngStyle]="{'color' : isDarkThemeToggled() ? 'white' : ''}">{{ "GRAPH-TITLE" | translate}}
+      </h2>
       <div class="chart-content">
-        <canvas id="severityChart" ></canvas>
+        <canvas id="severityChart"></canvas>
       </div>
     </div>
 
     <div class="dashboard-content">
-      
+
       <div class="result-header">
         <div class="result-count">{{ filteredResults.length }} {{'RESULT-TITLE' | translate}}</div>
         <button class="toggle-view-btn" (click)="toggleView()">
@@ -89,7 +94,7 @@
         </button>
       </div>
 
-      <div class="results-table" >
+      <div class="results-table">
         <table>
           <thead>
             <tr>
@@ -107,9 +112,9 @@
                 <div class="checkbox-wrapper" [class.visible]="isRowSelected(result) || isRowHovered(result)">
                   <input type="checkbox" [checked]="isRowSelected(result)" (change)="toggleRowSelection(result)" />
                 </div>
-                {{  'Category.' + result.Category | translate }}
+                {{ 'Category.' + result.Category | translate }}
               </td>
-              <td>{{ 'Method.' + result.Method | translate  }}</td>
+              <td>{{ 'Method.' + result.Method | translate }}</td>
               <td>{{ result.Username }}</td>
               <td>{{ result.IPAddress }}</td>
               <td>{{ result.EventTimeStamp.replace('T', ' ') }}</td>
@@ -120,39 +125,41 @@
     </div>
   </div>
 
-  <div class="filter-panel" [class.collapsed]="isFilterCollapsed" [ngStyle]="{'background-color' : isDarkThemeToggled() ? 'black' : 'white'}">
+  <div class="filter-panel" [class.collapsed]="isFilterCollapsed"
+    [ngStyle]="{'background-color' : isDarkThemeToggled() ? 'black' : 'white'}">
     <button class="filter-toggle" (click)="toggleFilter()">
       <i class="fas" [ngClass]="isFilterCollapsed ? 'fa-chevron-left' : 'fa-chevron-right'"></i>
-      {{ isFilterCollapsed ? '<<' : '>>' }}
-    </button>
-    <div class="filter-content" [class.hidden]="isFilterCollapsed" [ngStyle]="{'color' : isDarkThemeToggled() ? 'white' : 'black'}">
-      <h3>{{ 'FILTER-TITLE' | translate}}</h3>
-      <div class="filter-section">
-        <h4>{{ 'SEVERITY-TITLE' | translate}} <a href="#" class="clear-filter"
-            (click)="clearSeverityFilters(); $event.preventDefault()">{{ 'CLEAR' | translate}}</a></h4>
-        <div class="filter-options">
-          <label class="checkbox-label" *ngFor="let severity of ['Informational', 'Low', 'Medium', 'High', 'Critical']">
-            <input type="checkbox" class="filter-checkbox" [attr.data-severity]="severity.toLowerCase()"
-              (change)="onFilterChange()">
-            <span class="checkbox-custom"></span>
-            <span class="checkbox-label-text">{{ 'SEVERITY-LEVEL.' + severity | translate}}</span>
-          </label>
+      {{ isFilterCollapsed ? '<<' : '>>' }} </button>
+        <div class="filter-content" [class.hidden]="isFilterCollapsed"
+          [ngStyle]="{'color' : isDarkThemeToggled() ? 'white' : 'black'}">
+          <h3>{{ 'FILTER-TITLE' | translate}}</h3>
+          <div class="filter-section">
+            <h4>{{ 'SEVERITY-TITLE' | translate}} <a href="#" class="clear-filter"
+                (click)="clearSeverityFilters(); $event.preventDefault()">{{ 'CLEAR' | translate}}</a></h4>
+            <div class="filter-options">
+              <label class="checkbox-label"
+                *ngFor="let severity of ['Informational', 'Low', 'Medium', 'High', 'Critical']">
+                <input type="checkbox" class="filter-checkbox" [attr.data-severity]="severity.toLowerCase()"
+                  (change)="onFilterChange()">
+                <span class="checkbox-custom"></span>
+                <span class="checkbox-label-text">{{ 'SEVERITY-LEVEL.' + severity | translate}}</span>
+              </label>
+            </div>
+          </div>
+          <div class="filter-section">
+            <h4>{{ 'CATEGORY-TITLE' | translate}}<a href="#" class="clear-filter"
+                (click)="clearCategoryFilters(); $event.preventDefault()">{{ 'CLEAR' | translate}}</a></h4>
+            <div class="filter-options">
+              <label class="checkbox-label"
+                *ngFor="let category of ['Collection', 'Defence Evasion', 'Privilege Escalation', 'Exfiltration', 'Impact', 'Initial Access', 'Persistence', 'Reconnaissance', 'Execution', 'Resource Development']">
+                <input type="checkbox" class="filter-checkbox"
+                  [attr.data-category]="category.toLowerCase().replace(' ', '-').replace(' ', '-')"
+                  (change)="onFilterChange()" [checked]="selectedCategory === category">
+                <span class="checkbox-custom"></span>
+                <span class="checkbox-label-text">{{ 'FILTER-CATEGORIES.' + category | translate }}</span>
+              </label>
+            </div>
+          </div>
         </div>
-      </div>
-      <div class="filter-section">
-        <h4>{{ 'CATEGORY-TITLE' | translate}}<a href="#" class="clear-filter"
-            (click)="clearCategoryFilters(); $event.preventDefault()">{{ 'CLEAR' | translate}}</a></h4>
-        <div class="filter-options">
-          <label class="checkbox-label"
-            *ngFor="let category of ['Collection', 'Defence Evasion', 'Privilege Escalation', 'Exfiltration', 'Impact', 'Initial Access', 'Persistence', 'Reconnaissance', 'Execution', 'Resource Development']">
-            <input type="checkbox" class="filter-checkbox"
-              [attr.data-category]="category.toLowerCase().replace(' ', '-').replace(' ', '-')"
-              (change)="onFilterChange()" [checked]="selectedCategory === category">
-            <span class="checkbox-custom"></span>
-            <span class="checkbox-label-text">{{ 'FILTER-CATEGORIES.' + category | translate }}</span>
-          </label>
-        </div>
-      </div>
-    </div>
   </div>
 </div>

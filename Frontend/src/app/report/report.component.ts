@@ -13,7 +13,7 @@ import { TranslateService } from '@ngx-translate/core';
 export class ReportComponent implements OnInit {
   @ViewChild('startDateInput') startDateInput: ElementRef<HTMLInputElement>;
   @ViewChild('endDateInput') endDateInput: ElementRef<HTMLInputElement>;
-  
+
   totalAlerts: number = 0;
   impactAlerts: number = 0;
   maliciousAlerts: number = 0;
@@ -33,9 +33,9 @@ export class ReportComponent implements OnInit {
   chart: any;
   numOfAlerts = [];
 
-  constructor(public router: Router, 
-    private renderer: Renderer2, 
-    private backendService: BackendConnectionService, 
+  constructor(public router: Router,
+    private renderer: Renderer2,
+    private backendService: BackendConnectionService,
     private styleService: StylingService,
     private translate: TranslateService) { }
 
@@ -43,9 +43,9 @@ export class ReportComponent implements OnInit {
     this.startEvents();
     this.startInactivityTimer();
     this.displayAlertCounts();
-    this.numOfAlerts = [this.impactAlerts, this.initialAccessAlerts, this.defenceEvasionAlerts, this.exfiltrationAlerts,  
-      this.collectionAlerts, this.privilegeEscalationAlerts, this.persistenceAlerts, this.reconnaissanceAlerts,
-      this.executionAlerts, this.resourceDevelopmentAlerts];
+    this.numOfAlerts = [this.impactAlerts, this.initialAccessAlerts, this.defenceEvasionAlerts, this.exfiltrationAlerts,
+    this.collectionAlerts, this.privilegeEscalationAlerts, this.persistenceAlerts, this.reconnaissanceAlerts,
+    this.executionAlerts, this.resourceDevelopmentAlerts];
   }
 
   startEvents() {
@@ -166,16 +166,24 @@ export class ReportComponent implements OnInit {
     this.maliciousAlerts = this.totalAlerts;
   }
 
-  toggleDarkTheme(){
+  toggleDarkTheme() {
     this.styleService.toggleDarkMode();
   }
 
-  isDarkThemeToggled(){
+  isDarkThemeToggled() {
     return this.styleService.isDarkModeEnabled();
   }
+
+  toggleBiggerText() {
+    this.styleService.toggleBiggerText();
+  }
+
+  isBiggerTextToggled() {
+    return this.styleService.isBiggerTextEnabled();
+  }
+
   changeLanguage(language: string) {
     this.translate.use(language);
     this.styleService.setLanguage = language;
   }
 }
- 
