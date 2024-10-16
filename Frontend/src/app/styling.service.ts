@@ -6,7 +6,7 @@ import { Injectable } from "@angular/core";
 
 export class StylingService{
     darkModeToggled = false;
-    
+    setLanguage: string;
     toggleDarkMode(){
         this.darkModeToggled = !this.darkModeToggled;
     }

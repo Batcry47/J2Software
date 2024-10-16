@@ -2,6 +2,7 @@ import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { BackendConnectionService } from '../backend-connection.service';
 import { StylingService } from '../styling.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-home',
@@ -24,16 +25,20 @@ export class HomeComponent implements OnInit {
   executionAlerts: number = 0;
   resourceDevelopmentAlerts: number = 0;
   inactivityTimer: any;
+  selectedLanguage: string;
   INACTIVITY_TIMEOUT = 30000;
   user_id = 0;
-  constructor(public router: Router, private route: ActivatedRoute, private backendService: BackendConnectionService, private styleService: StylingService) {
+  constructor(public router: Router,
+    private route: ActivatedRoute,
+    private backendService: BackendConnectionService,
+    private styleService: StylingService,
+    private translate: TranslateService) {
     this.startEvents();
   }
 
   ngOnInit(): void {
     this.startInactivityTimer();
     this.displayAlertCounts();
-
   }
 
   startEvents() {
@@ -51,7 +56,7 @@ export class HomeComponent implements OnInit {
     }
   }
 
-  updateAlertCount(){
+  updateAlertCount() {
     this.displayAlertCounts(this.startDateInput.nativeElement, this.endDateInput.nativeElement)
   }
   openPrompt() {
@@ -127,20 +132,18 @@ export class HomeComponent implements OnInit {
     this.backendService.getResourceDevelopmentAlerts(startDate, endDate).subscribe(resourceDevCount => {
       this.resourceDevelopmentAlerts = resourceDevCount.ResourceDevelopment;
     });
-
-    // this.totalAlerts = (this.impactAlerts + this.collectionAlerts + this.defenceEvasionAlerts +
-    //   this.exfiltrationAlerts + this.initialAccessAlerts + this.persistenceAlerts + this.privilegeEscalationAlerts +
-    //   this.reconnaissanceAlerts + this.executionAlerts + this.resourceDevelopmentAlerts);
-
-    // this.maliciousAlerts = this.totalAlerts;
   }
-  
-  toggleDarkTheme(){
+
+  toggleDarkTheme() {
     this.styleService.toggleDarkMode();
   }
 
-  isDarkThemeToggled(){
+  isDarkThemeToggled() {
     return this.styleService.isDarkModeEnabled();
   }
 
+  changeLanguage(language: string) {
+    this.translate.use(language);
+    this.styleService.setLanguage = language;
+  }
 }

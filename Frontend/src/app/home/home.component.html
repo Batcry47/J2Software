@@ -2,28 +2,28 @@
   <dialog class="logout-prompt" id="logout" [ngStyle]="{'background-color' : isDarkThemeToggled() ? 'black' : 'white'}">
     <div class="popup-header">
       <div class="red-bar"></div>
-      <h2 [ngStyle]="{'color' : isDarkThemeToggled() ? 'white' : 'black'}">Are you sure you would like to log out?</h2>
+      <h2 [ngStyle]="{'color' : isDarkThemeToggled() ? 'white' : 'black'}">{{'LOGOUT-MESSAGE' | translate}}</h2>
     </div>
     <div class="popup-buttons">
       <button class="popup-button confirm" (click)="this.router.navigate(['/login'])">
-        Yes
+        {{'YES' | translate}}
       </button>
-      <button class="popup-button cancel" (click)="closePrompt()">No</button>
+      <button class="popup-button cancel" (click)="closePrompt()">{{'NO' | translate}}</button>
     </div>
   </dialog>
 
   <dialog class="logout-prompt" id="logoutPrompt" [ngStyle]="{'background-color' : isDarkThemeToggled() ? 'black' : 'white'}">
     <div class="popup-header">
       <div class="red-bar"></div>
-      <h2>Are you still there?</h2>
+      <h2>{{'INACTIVE-TITLE' | translate}}</h2>
     </div>
-    <p>You've been inactive for a while. Would you like to continue?</p>
+    <p>{{'INACTIVE-MESSAGE' | translate}}</p>
     <div class="popup-buttons">
       <button class="popup-button confirm" (click)="resetInactivityTimer(); closeLogoutPrompt()">
-        Yes, I'm here
+        {{'ACTIVE-CONFIRM' | translate}}
       </button>
       <button class="popup-button cancel" (click)="this.router.navigate(['/login'])">
-        Logout
+        {{'INACTIVE-LOGOUT' | translate}}
       </button>
     </div>
   </dialog>
@@ -31,25 +31,34 @@
   <div class="sidebar" [ngStyle]="{'background-color' : isDarkThemeToggled() ? 'black' : 'white' }">
     <h1>J2 Software</h1>
     <ul [ngStyle]="{'color' : isDarkThemeToggled() ? 'gray' : 'white' }">
-      <li><a routerLink="/home" class="active">Home</a></li>
-      <li><a routerLink="/dashboard">Dashboard</a></li>
-      <li><a routerLink="/report">Report</a></li>
-      <li><a (click)="openPrompt()">Logout</a></li>
-      <li><a (click)="toggleDarkTheme()">Change Theme</a></li>
+      <li><a routerLink="/home" class="active">{{'SIDEBAR.Home' | translate}}</a></li>
+      <li><a routerLink="/dashboard">{{'SIDEBAR.Dashboard' | translate}}</a></li>
+      <li><a routerLink="/report">{{'SIDEBAR.Report' | translate}}</a></li>
+      <li><a (click)="openPrompt()">{{'SIDEBAR.Logout' | translate}}</a></li>
+      <li><a (click)="toggleDarkTheme()">{{'SIDEBAR.Theme' | translate}}</a></li>
+      <li>
+        <div class="sort-options">
+          <span class="sort-label">Select Language:</span>
+          <select class="sort-select" [(ngModel)] = "selectedLanguage" (change)="changeLanguage(selectedLanguage)">
+            <option value="en">English</option>
+            <option value="afr">Afrikaans</option>
+          </select>
+        </div>
+      </li>
     </ul>
   </div>
 
   <div class="home-container" [ngStyle]="{'background-color' : isDarkThemeToggled() ? 'black' : 'white', 'background-image': isDarkThemeToggled() ? 'url(assets/images/background_image_dark.jpg)' : 'url(assets/images/background_image.png)'}">
     <div class="date-selection" [ngStyle]="{'background-color' : isDarkThemeToggled() ? 'black' : 'white'}">
-      <h2 [ngStyle]="{'color' : isDarkThemeToggled() ? 'white' : '#2c3e50'}">Select Date</h2>
+      <h2 [ngStyle]="{'color' : isDarkThemeToggled() ? 'white' : '#2c3e50'}">{{'DATE-TITLE' | translate}}</h2>
       <div class="date-inputs">
         <div class="date-input">
-          <label for="start_date" [ngStyle]="{'color' : isDarkThemeToggled() ? 'white' : 'gray'}">Start Date:</label>
+          <label for="start_date" [ngStyle]="{'color' : isDarkThemeToggled() ? 'white' : 'gray'}">{{'START-TITLE' | translate}}</label>
           <input type="date" class="date-selector" id="start_date" name="start_date" min="2024-01-01"
             (change)="minEndDate(startDateInput, endDateInput)" #startDateInput />
         </div>
         <div class="date-input">
-          <label for="end_date" [ngStyle]="{'color' : isDarkThemeToggled() ? 'white' : 'gray'}">End Date:</label>
+          <label for="end_date" [ngStyle]="{'color' : isDarkThemeToggled() ? 'white' : 'gray'}">{{'END-TITLE' | translate}}</label>
           <input type="date" class="date-selector" id="end_date" name="end_date" min="2024-01-01" (change)="updateAlertCount()" #endDateInput />
         </div>
       </div>
@@ -57,68 +66,65 @@
 
     <div class="metrics">
       <div class="metric" [ngStyle]="{'background-color' : isDarkThemeToggled() ? 'black' : 'white'}">
-        <h2>Malicious Alerts</h2>
+        <h2>{{'ALERT-TITLES.malicious-alerts' | translate}}</h2>
         <h1>{{impactAlerts + initialAccessAlerts + defenceEvasionAlerts + exfiltrationAlerts 
           + collectionAlerts + privilegeEscalationAlerts + persistenceAlerts + reconnaissanceAlerts + 
           executionAlerts + resourceDevelopmentAlerts}}</h1>
       </div>
       <div class="metric" (click)="navigateToDashboard('impact')" [ngStyle]="{'background-color' : isDarkThemeToggled() ? 'black' : 'white'}">
-        <h2>Impact Alerts</h2>
-        <p [ngStyle]="{'color' : isDarkThemeToggled() ? 'white' : 'gray'}">This measure is destructive attacks against your systems and data.</p>
+        <h2>{{'ALERT-TITLES.impact-alerts' | translate}}</h2>
+        <p [ngStyle]="{'color' : isDarkThemeToggled() ? 'white' : 'gray'}">{{'ALERT-DESCRIPTIONS.Impact-DESC' | translate}}</p>
         <h1>{{ impactAlerts }}</h1>
       </div>
       <div class="metric" (click)="navigateToDashboard('defense-evasion')" [ngStyle]="{'background-color' : isDarkThemeToggled() ? 'black' : 'white'}">
-        <h2>Defence Evasion Alerts</h2>
-        <p [ngStyle]="{'color' : isDarkThemeToggled() ? 'white' : 'gray'}">We measure tactics used by attackers to avoid detection.</p>
+        <h2> {{'ALERT-TITLES.defence-evasion-alerts' | translate}}</h2>
+        <p [ngStyle]="{'color' : isDarkThemeToggled() ? 'white' : 'gray'}">{{'ALERT-DESCRIPTIONS.Defence-Evasion-DESC' | translate}}</p>
         <h1>{{ defenceEvasionAlerts }}</h1>
       </div>
       <div class="metric" [ngStyle]="{'background-color' : isDarkThemeToggled() ? 'black' : 'white'}">
-        <h2>Total Alerts</h2>
+        <h2>{{'ALERT-TITLES.total-alerts' | translate}}</h2>
         <h1>{{impactAlerts + initialAccessAlerts + defenceEvasionAlerts + exfiltrationAlerts 
           + collectionAlerts + privilegeEscalationAlerts + persistenceAlerts + reconnaissanceAlerts + 
           executionAlerts + resourceDevelopmentAlerts}}</h1>
       </div>
       <div class="metric" (click)="navigateToDashboard('persistence')" [ngStyle]="{'background-color' : isDarkThemeToggled() ? 'black' : 'white'}">
-        <h2>Persistence Alerts</h2>
-        <p [ngStyle]="{'color' : isDarkThemeToggled() ? 'white' : 'gray'}">Attackers use different tactics to move data in order to remove it from your network.</p>
+        <h2> {{'ALERT-TITLES.persistence-alerts' | translate}}</h2>
+        <p [ngStyle]="{'color' : isDarkThemeToggled() ? 'white' : 'gray'}">{{'ALERT-DESCRIPTIONS.Persistence-DESC' | translate}}</p>
         <h1>{{ persistenceAlerts }}</h1>
       </div>
       <div class="metric" (click)="navigateToDashboard('exfiltration')" [ngStyle]="{'background-color' : isDarkThemeToggled() ? 'black' : 'white'}">
-        <h2>Exfiltration Alerts</h2>
-        <p [ngStyle]="{'color' : isDarkThemeToggled() ? 'white' : 'gray'}">The tactics that are used by attackers to maintain a presence in your network.</p>
+        <h2>{{'ALERT-TITLES.exfiltration-alerts' | translate}}</h2>
+        <p [ngStyle]="{'color' : isDarkThemeToggled() ? 'white' : 'gray'}">{{'ALERT-DESCRIPTIONS.Exfiltration-DESC' | translate}}</p>
         <h1>{{ exfiltrationAlerts }}</h1>
       </div>
       <div class="metric" (click)="navigateToDashboard('initial-access')" [ngStyle]="{'background-color' : isDarkThemeToggled() ? 'black' : 'white'}">
-        <h2>Initial Access Alerts</h2>
-        <p [ngStyle]="{'color' : isDarkThemeToggled() ? 'white' : 'gray'}">These are tactics that can be used by attackers to get into your network.</p>
+        <h2>{{'ALERT-TITLES.initial-access-alerts' | translate}}</h2>
+        <p [ngStyle]="{'color' : isDarkThemeToggled() ? 'white' : 'gray'}">{{'ALERT-DESCRIPTIONS.Initial-Access-DESC' | translate}}</p>
         <h1>{{ initialAccessAlerts }}</h1>
       </div>
       <div class="metric" (click)="navigateToDashboard('privilege-escalation')" [ngStyle]="{'background-color' : isDarkThemeToggled() ? 'black' : 'white'}">
-        <h2>Privilege Escalation Alerts</h2>
-        <p [ngStyle]="{'color' : isDarkThemeToggled() ? 'white' : 'gray'}">These are the tactics used by attackers to elevate their privileges on your network.</p>
+        <h2>{{'ALERT-TITLES.privilege-escalation-alerts' | translate}}</h2>
+        <p [ngStyle]="{'color' : isDarkThemeToggled() ? 'white' : 'gray'}">{{'ALERT-DESCRIPTIONS.Privilege-Escalation-DESC' | translate}}</p>
         <h1>{{ privilegeEscalationAlerts }}</h1>
       </div>
       <div class="metric" (click)="navigateToDashboard('collection')"[ngStyle]="{'background-color' : isDarkThemeToggled() ? 'black' : 'white'}">
-        <h2>Collection Alerts</h2>
-        <p [ngStyle]="{'color' : isDarkThemeToggled() ? 'white' : 'gray'}">Measuring the activities used by attackers to gather or collect your data.</p>
+        <h2>{{'ALERT-TITLES.collection-alerts' | translate}}</h2>
+        <p [ngStyle]="{'color' : isDarkThemeToggled() ? 'white' : 'gray'}">{{'ALERT-DESCRIPTIONS.Collection-DESC' | translate}}</p>
         <h1>{{ collectionAlerts }}</h1>
       </div>
       <div class="metric" (click)="navigateToDashboard('reconnaissance')" [ngStyle]="{'background-color' : isDarkThemeToggled() ? 'black' : 'white', 'color' : isDarkThemeToggled() ? 'black' : 'white'}">
-        <h2>Reconnaissance Alerts</h2>
-        <p [ngStyle]="{'color' : isDarkThemeToggled() ? 'white' : 'gray'}">Reconnaissance consists of techniques that involve adversaries actively or passively gathering information
-          that can be used to support targeting.</p>
+        <h2>{{'ALERT-TITLES.reconnaissance-alerts' | translate}}</h2>
+        <p [ngStyle]="{'color' : isDarkThemeToggled() ? 'white' : 'gray'}">{{'ALERT-DESCRIPTIONS.Reconnaissance-DESC' | translate}}</p>
         <h1>{{ reconnaissanceAlerts }}</h1>
       </div>
       <div class="metric" (click)="navigateToDashboard('execution')" [ngStyle]="{'background-color' : isDarkThemeToggled() ? 'black' : 'white', 'color' : isDarkThemeToggled() ? 'black' : 'white'}">
-        <h2>Execution Alerts</h2>
-        <p [ngStyle]="{'color' : isDarkThemeToggled() ? 'white' : 'gray'}">Execution consists of techniques that result in adversary-controlled code running on a local or remote
-          system.</p>
+        <h2>{{'ALERT-TITLES.execution-alerts' | translate}}</h2>
+        <p [ngStyle]="{'color' : isDarkThemeToggled() ? 'white' : 'gray'}">{{'ALERT-DESCRIPTIONS.Execution-DESC' | translate}}</p>
         <h1>{{ executionAlerts }}</h1>
       </div>
       <div class="metric" (click)="navigateToDashboard('resource-development')" [ngStyle]="{'background-color' : isDarkThemeToggled() ? 'black' : 'white'}">
-        <h2>Resource Development Alerts</h2>
-        <p [ngStyle]="{'color' : isDarkThemeToggled() ? 'white' : 'gray'}">Resource Development consists of techniques that involve adversaries creating, purchasing, or
-          compromising/stealing resources that can be used to support targeting.</p>
+        <h2>{{'ALERT-TITLES.resource-development-alerts' | translate}}</h2>
+        <p [ngStyle]="{'color' : isDarkThemeToggled() ? 'white' : 'gray'}">{{'ALERT-DESCRIPTIONS.Resource-Development-DESC' | translate}}</p>
         <h1>{{ resourceDevelopmentAlerts }}</h1>
       </div>
     </div>

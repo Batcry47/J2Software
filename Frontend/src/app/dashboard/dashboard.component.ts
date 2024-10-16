@@ -4,6 +4,7 @@ import { BackendConnectionService } from '../backend-connection.service';
 import { Chart, registerables } from 'chart.js';
 import { forkJoin } from 'rxjs';
 import { StylingService } from '../styling.service';
+import { TranslateService } from '@ngx-translate/core';
 
 Chart.register(...registerables);
 
@@ -35,19 +36,27 @@ export class DashboardComponent implements OnInit {
   selectedRows: any[] = [];
   hoveredRows: Set<any> = new Set();
   chart: any;
+  selectedLanguage: string;
   informationalSeverityAlerts: number;
   lowSeverityAlerts: number;
   mediumSeverityAlerts: number;
   highSeverityAlerts: number;
   criticalSeverityAlerts: number;
   showArchive: boolean = false;
-
+  severityLevelArr = {
+    info: "Informational",
+    low: 'Low',
+    med: 'Medium',
+    high: 'High',
+    critical: 'Critical'
+  }
   constructor(
     public router: Router,
     private route: ActivatedRoute,
     private renderer: Renderer2,
     private backendService: BackendConnectionService,
-    private styleService: StylingService
+    private styleService: StylingService,
+    private translate: TranslateService
   ) { }
 
   ngOnInit(): void {
@@ -58,11 +67,20 @@ export class DashboardComponent implements OnInit {
   }
 
   createDonutChart() {
+    const severityLevelArr = {
+      info: "Informational",
+      low: 'Low',
+      med: 'Medium',
+      high: 'High',
+      critical: 'Critical'
+    }
     const ctx = document.getElementById('severityChart') as HTMLCanvasElement;
+    this.changeGraphLanguage(this.severityLevelArr);
+    console.log(severityLevelArr)
     this.chart = new Chart(ctx, {
       type: 'doughnut',
       data: {
-        labels: ['Informational', 'Low', 'Medium', 'High', 'Critical'],
+        labels: [severityLevelArr.info, severityLevelArr.low, severityLevelArr.med, severityLevelArr.high, severityLevelArr.critical],
         datasets: [{
           data: [0, 0, 0, 0, 0],
           backgroundColor: [
@@ -87,6 +105,26 @@ export class DashboardComponent implements OnInit {
         maintainAspectRatio: false
       }
     });
+
+  }
+
+  changeGraphLanguage(severityArray: { info: string, low: string, med: string, high: string, critical: string }) {
+    forkJoin({
+      info: this.translate.get('SEVERITY-LEVEL.Informational'),
+      low: this.translate.get('SEVERITY-LEVEL.Low'),
+      med: this.translate.get('SEVERITY-LEVEL.Medium'),
+      high: this.translate.get('SEVERITY-LEVEL.High'),
+      critical: this.translate.get('SEVERITY-LEVEL.Critical')
+    }).subscribe(severity => {
+      severityArray.info = severity.info
+      severityArray.low = severity.low
+      severityArray.med = severity.med
+      severityArray.high = severity.high
+      severityArray.critical = severity.critical
+    })
+
+    console.log(severityArray);
+
   }
 
   fetchData() {
@@ -336,11 +374,17 @@ export class DashboardComponent implements OnInit {
     this.fetchData();
   }
 
-  toggleDarkTheme(){
+  toggleDarkTheme() {
     this.styleService.toggleDarkMode();
   }
 
-  isDarkThemeToggled(){
+  isDarkThemeToggled() {
     return this.styleService.isDarkModeEnabled();
   }
+
+  changeLanguage(language: string) {
+    this.translate.use(language);
+    this.styleService.setLanguage = language;
+  }
+
 }

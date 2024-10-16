@@ -2,48 +2,57 @@
   <dialog class="logout-prompt" id="logout" [ngStyle]="{'background-color' : isDarkThemeToggled() ? 'black' : 'white'}">
     <div class="popup-header">
       <div class="red-bar"></div>
-      <h2 [ngStyle]="{'color' : isDarkThemeToggled() ? 'white' : ''}">Are you sure you would like to log out?</h2>
+      <h2 [ngStyle]="{'color' : isDarkThemeToggled() ? 'white' : ''}">{{'LOGOUT-MESSAGE' | translate}}</h2>
     </div>
     <div class="popup-buttons">
-      <button class="popup-button confirm" (click)="this.route.navigate(['/login'])">Yes</button>
-      <button class="popup-button cancel" (click)="closePrompt()">No</button>
+      <button class="popup-button confirm" (click)="this.router.navigate(['/login'])">{{'YES' | translate}}</button>
+      <button class="popup-button cancel" (click)="closePrompt()">{{'NO' | translate}}</button>
     </div>
   </dialog>
 
   <dialog class="logout-prompt" id="logoutPrompt" [ngStyle]="{'background-color' : isDarkThemeToggled() ? 'black' : 'white'}">
     <div class="popup-header">
       <div class="red-bar"></div>
-      <h2>Are you still there?</h2>
+      <h2>{{'INACTIVE-TITLE' | translate}}</h2>
     </div>
-    <p [ngStyle]="{'color' : isDarkThemeToggled() ? 'white' : ''}">You've been inactive for a while. Would you like to continue?</p>
+    <p [ngStyle]="{'color' : isDarkThemeToggled() ? 'white' : ''}">{{'INACTIVE-MESSAGE' | translate}}</p>
     <div class="popup-buttons">
-      <button class="popup-button confirm" (click)="resetInactivityTimer(); closeLogoutPrompt()">Yes, I'm here</button>
-      <button class="popup-button cancel" (click)="this.route.navigate(['/login'])">Logout</button>
+      <button class="popup-button confirm" (click)="resetInactivityTimer(); closeLogoutPrompt()">{{'ACTIVE-CONFIRM' | translate}}</button>
+      <button class="popup-button cancel" (click)="this.router.navigate(['/login'])">{{'INACTIVE-LOGOUT' | translate}}</button>
     </div>
   </dialog>
 
   <div class="sidebar" [ngStyle]="{'background-color' : isDarkThemeToggled() ? 'black' : 'white'}">
     <h1>J2 Software</h1>
-    <ul>
-      <li><a routerLink="/home">Home</a></li>
-      <li><a routerLink="/dashboard">Dashboard</a></li>
-      <li><a routerLink="/report" class="active">Report</a></li>
-      <li><a (click)="openPrompt()">Logout</a></li>
-      <li><a (click)="toggleDarkTheme()">Change Theme</a></li>
+    <ul [ngStyle]="{'color' : isDarkThemeToggled() ? 'gray' : 'white' }">
+      <li><a routerLink="/home">{{'SIDEBAR.Home' | translate}}</a></li>
+      <li><a routerLink="/dashboard">{{'SIDEBAR.Dashboard' | translate}}</a></li>
+      <li><a routerLink="/report" class="active">{{'SIDEBAR.Report' | translate}}</a></li>
+      <li><a (click)="openPrompt()">{{'SIDEBAR.Logout' | translate}}</a></li>
+      <li><a (click)="toggleDarkTheme()">{{'SIDEBAR.Theme' | translate}}</a></li>
+      <li>
+        <div class="sort-options">
+          <span class="sort-label">Select Language:</span>
+          <select class="sort-select" [(ngModel)] = "selectedLanguage" (change)="changeLanguage(selectedLanguage)">
+            <option value="en">English</option>
+            <option value="afr">Afrikaans</option>
+          </select>
+        </div>
+      </li>
     </ul>
   </div>
 
   <div class="report-container" [ngStyle]="{'background-color' : isDarkThemeToggled() ? 'black' : 'white', 'background-image': isDarkThemeToggled() ? 'url(assets/images/background_image_dark.jpg)' : 'url(assets/images/background_image.png)'}">
     <div class="date-selection" [ngStyle]="{'background-color' : isDarkThemeToggled() ? 'black' : 'white', 'color' : isDarkThemeToggled() ? 'white' : ''}">
-      <h2 [ngStyle]="{'color' : isDarkThemeToggled() ? 'white' : ''}">Select Date</h2>
+      <h2 [ngStyle]="{'color' : isDarkThemeToggled() ? 'white' : ''}">{{"DATE-TITLE" | translate}}</h2>
       <div class="date-inputs">
         <div class="date-input">
-          <label for="start_date" [ngStyle]="{'color' : isDarkThemeToggled() ? 'white' : ''}">Start Date:</label>
+          <label for="start_date" [ngStyle]="{'color' : isDarkThemeToggled() ? 'white' : ''}">{{"START-TITLE" | translate}}</label>
           <input type="date" class="date-selector" id="start_date" name="start_date" min="2024-01-01"
             (change)="minEndDate(startDateInput, endDateInput)" #startDateInput>
         </div>
         <div class="date-input">
-          <label for="end_date" [ngStyle]="{'color' : isDarkThemeToggled() ? 'white' : ''}">End Date:</label>
+          <label for="end_date" [ngStyle]="{'color' : isDarkThemeToggled() ? 'white' : ''}">{{"END-TITLE" | translate}}</label>
           <input type="date" class="date-selector" id="end_date" name="end_date" min="2024-01-01"
             (change)="updateAlertCount()" #endDateInput>
         </div>
@@ -51,7 +60,7 @@
     </div>
 
     <header class="report-header" [ngStyle]="{'color' : isDarkThemeToggled() ? 'white' : ''}">
-      <h1 [ngStyle]="{'color' : isDarkThemeToggled() ? 'white' : ''}">Alert Report</h1>
+      <h1 [ngStyle]="{'color' : isDarkThemeToggled() ? 'white' : ''}">{{'ALERT-HEADING' | translate}}</h1>
       <h2 *ngIf="startDateInput.value != '' && endDateInput.value != ''">
         {{ startDateInput.value }} - {{ endDateInput.value }}
       </h2>
@@ -61,53 +70,53 @@
       <table>
         <tbody>
           <tr [ngStyle]="{'background-color' : isDarkThemeToggled() ? 'black' : 'white', 'color' : isDarkThemeToggled() ? 'white' : 'black'}">
-            <td>Malicious Alerts</td>
+            <td>{{'ALERT-TITLES.malicious-alerts' | translate}}</td>
             <td>{{impactAlerts + initialAccessAlerts + defenceEvasionAlerts + exfiltrationAlerts 
               + collectionAlerts + privilegeEscalationAlerts + persistenceAlerts + reconnaissanceAlerts + 
               executionAlerts + resourceDevelopmentAlerts}}</td>
           </tr>
           <tr [ngStyle]="{'background-color' : isDarkThemeToggled() ? 'black' : 'white', 'color' : isDarkThemeToggled() ? 'white' : ''}">
-            <td>Impact</td>
+            <td>{{'ALERT-TITLES.impact-alerts' | translate}}</td>
             <td>{{impactAlerts}}</td>
           </tr>
           <tr [ngStyle]="{'background-color' : isDarkThemeToggled() ? 'black' : 'white', 'color' : isDarkThemeToggled() ? 'white' : ''}">
-            <td>Initial Access</td>
+            <td>{{'ALERT-TITLES.initial-access-alerts' | translate}}</td>
             <td>{{initialAccessAlerts}}</td>
           </tr>
           <tr [ngStyle]="{'background-color' : isDarkThemeToggled() ? 'black' : 'white', 'color' : isDarkThemeToggled() ? 'white' : ''}">
-            <td>Defence Evasion</td>
+            <td>{{'ALERT-TITLES.defence-evasion-alerts' | translate}}</td>
             <td>{{defenceEvasionAlerts}}</td>
           </tr>
           <tr [ngStyle]="{'background-color' : isDarkThemeToggled() ? 'black' : 'white', 'color' : isDarkThemeToggled() ? 'white' : ''}">
-            <td>Exfiltration</td>
+            <td>{{'ALERT-TITLES.exfiltration-alerts' | translate}}</td>
             <td>{{exfiltrationAlerts}}</td>
           </tr>
           <tr [ngStyle]="{'background-color' : isDarkThemeToggled() ? 'black' : 'white', 'color' : isDarkThemeToggled() ? 'white' : ''}">
-            <td>Collection</td>
+            <td>{{'ALERT-TITLES.collection-alerts' | translate}}</td>
             <td>{{collectionAlerts}}</td>
           </tr >
           <tr [ngStyle]="{'background-color' : isDarkThemeToggled() ? 'black' : 'white', 'color' : isDarkThemeToggled() ? 'white' : ''}">
-            <td>Privilege Escalation</td>
+            <td>{{'ALERT-TITLES.privilege-escalation-alerts' | translate}}</td>
             <td>{{privilegeEscalationAlerts}}</td>
           </tr>
           <tr [ngStyle]="{'background-color' : isDarkThemeToggled() ? 'black' : 'white', 'color' : isDarkThemeToggled() ? 'white' : ''}">
-            <td>Persistence</td>
+            <td>{{'ALERT-TITLES.persistence-alerts' | translate}}</td>
             <td>{{persistenceAlerts}}</td>
           </tr>
           <tr [ngStyle]="{'background-color' : isDarkThemeToggled() ? 'black' : 'white', 'color' : isDarkThemeToggled() ? 'white' : ''}">
-            <td>Execution</td>
+            <td>{{'ALERT-TITLES.execution-alerts' | translate}}</td>
             <td>{{executionAlerts}}</td>
           </tr>
           <tr [ngStyle]="{'background-color' : isDarkThemeToggled() ? 'black' : 'white', 'color' : isDarkThemeToggled() ? 'white' : ''}">
-            <td>Resource Development</td>
+            <td>{{'ALERT-TITLES.resource-development-alerts' | translate}}</td>
             <td>{{resourceDevelopmentAlerts}}</td>
           </tr>
           <tr [ngStyle]="{'background-color' : isDarkThemeToggled() ? 'black' : 'white', 'color' : isDarkThemeToggled() ? 'white' : ''}">
-            <td>Reconnaissance</td>
+            <td>{{'ALERT-TITLES.reconnaissance-alerts' | translate}}</td>
             <td>{{reconnaissanceAlerts}}</td>
           </tr>
           <tr class="total-row">
-            <td>Total Alerts</td>
+            <td>{{'ALERT-TITLES.total-alerts' | translate}}</td>
             <td>{{impactAlerts + initialAccessAlerts + defenceEvasionAlerts + exfiltrationAlerts 
             + collectionAlerts + privilegeEscalationAlerts + persistenceAlerts + reconnaissanceAlerts + 
             executionAlerts + resourceDevelopmentAlerts}}</td>
@@ -116,25 +125,25 @@
       </table>
     </div>
     <div class="downloaded-report-results">
-      <h2 *ngIf="startDateInput.value != '' && endDateInput.value != ''">Alert Report for {{startDateInput.value}} - {{endDateInput.value}}</h2><br>
-      <h2 *ngIf="startDateInput.value == '' && endDateInput.value == ''">All Time Alert Report</h2>
-      <label>Malicious Alerts: {{impactAlerts + initialAccessAlerts + defenceEvasionAlerts + exfiltrationAlerts 
+      <h2 *ngIf="startDateInput.value != '' && endDateInput.value != ''">{{'FILE-MESSAGE' | translate}} {{startDateInput.value}} - {{endDateInput.value}}</h2><br>
+      <h2 *ngIf="startDateInput.value == '' && endDateInput.value == ''">{{ 'ALL-TIME-MESSAGE' | translate}}</h2>
+      <label>{{ 'DOWNLOADED-CATEGORIES.malicious-count' | translate}} {{impactAlerts + initialAccessAlerts + defenceEvasionAlerts + exfiltrationAlerts 
         + collectionAlerts + privilegeEscalationAlerts + persistenceAlerts + reconnaissanceAlerts + 
         executionAlerts + resourceDevelopmentAlerts}}</label><br>
-      <label>Impact: {{impactAlerts}}</label><br>
-      <label>Initial Access: {{initialAccessAlerts}}</label><br>
-      <label>Defence Evasion: {{defenceEvasionAlerts}}</label><br>
-      <label>Exfiltration: {{exfiltrationAlerts}}</label><br>
-      <label>Collection: {{collectionAlerts}}</label><br>
-      <label>Privilege Escalation: {{privilegeEscalationAlerts}}</label><br>
-      <label>Persistence: {{persistenceAlerts}}</label><br>
-      <label>Reconnaissance: {{reconnaissanceAlerts}}</label><br>
-      <label>Execution: {{executionAlerts}}</label><br>
-      <label>Resource Development: {{resourceDevelopmentAlerts}}</label><br>
+      <label>{{ 'DOWNLOADED-CATEGORIES.impact-count' | translate}} {{impactAlerts}}</label><br>
+      <label>{{ 'DOWNLOADED-CATEGORIES.initial-access-count' | translate}} {{initialAccessAlerts}}</label><br>
+      <label>{{ 'DOWNLOADED-CATEGORIES.defence-evasion-count' | translate}} {{defenceEvasionAlerts}}</label><br>
+      <label>{{ 'DOWNLOADED-CATEGORIES.exfiltration-count' | translate}}  {{exfiltrationAlerts}}</label><br>
+      <label>{{ 'DOWNLOADED-CATEGORIES.collection-count' | translate}}  {{collectionAlerts}}</label><br>
+      <label>{{ 'DOWNLOADED-CATEGORIES.privilege-escalation-count' | translate}}  {{privilegeEscalationAlerts}}</label><br>
+      <label>{{ 'DOWNLOADED-CATEGORIES.persistence-count' | translate}}  {{persistenceAlerts}}</label><br>
+      <label>{{ 'DOWNLOADED-CATEGORIES.reconnaissance-count' | translate}}  {{reconnaissanceAlerts}}</label><br>
+      <label>{{ 'DOWNLOADED-CATEGORIES.execution-count' | translate}}  {{executionAlerts}}</label><br>
+      <label>{{ 'DOWNLOADED-CATEGORIES.resource-development-count' | translate}}  {{resourceDevelopmentAlerts}}</label><br>
     </div>
 
     <div class="download-container">
-      <button class="download-btn" (click)="downloadReport()">Download Report</button>
+      <button class="download-btn" (click)="downloadReport()">{{'DOWNLOAD-PROMPT' | translate}}</button>
     </div>
   </div>
 </div>

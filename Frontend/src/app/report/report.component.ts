@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { BackendConnectionService } from '../backend-connection.service';
 import { Chart } from 'chart.js';
 import { StylingService } from '../styling.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-report',
@@ -26,12 +27,17 @@ export class ReportComponent implements OnInit {
   executionAlerts: number = 0;
   resourceDevelopmentAlerts: number = 0;
   clickedButton = false;
+  selectedLanguage: string = "";
   inactivityTimer: any;
   INACTIVITY_TIMEOUT = 30000;
   chart: any;
   numOfAlerts = [];
 
-  constructor(public route: Router, private renderer: Renderer2, private backendService: BackendConnectionService, private styleService: StylingService) { }
+  constructor(public router: Router, 
+    private renderer: Renderer2, 
+    private backendService: BackendConnectionService, 
+    private styleService: StylingService,
+    private translate: TranslateService) { }
 
   ngOnInit(): void {
     this.startEvents();
@@ -167,7 +173,9 @@ export class ReportComponent implements OnInit {
   isDarkThemeToggled(){
     return this.styleService.isDarkModeEnabled();
   }
-
-  
-
+  changeLanguage(language: string) {
+    this.translate.use(language);
+    this.styleService.setLanguage = language;
+  }
 }
+ 
