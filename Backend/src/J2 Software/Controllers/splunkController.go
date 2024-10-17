@@ -49,7 +49,7 @@ func FetchAndInsertFromSplunk() {
 		log.Println("Data successfully fetched from Splunk and inserted into MySQL.")
 
 		// Sleep for a defined interval before fetching the next batch of data
-		time.Sleep(5 * time.Minute) // Fetch every 5 minutes (adjust this interval as needed)
+		time.Sleep(15 * time.Minute) // Fetch every 15 minutes (adjust this interval as needed)
 	}
 }
 
