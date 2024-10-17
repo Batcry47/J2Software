@@ -25,8 +25,8 @@ export interface EventDetails {
   styleUrls: ['./dashboard.component.css'],
   animations: [
     trigger('noAnimation', [
-      transition(':enter', []), // No animation on enter
-      transition(':leave', [])  // No animation on leave
+      transition(':enter', []),
+      transition(':leave', [])
     ])
   ]
 })
@@ -50,6 +50,9 @@ export class DashboardComponent implements OnInit {
   highSeverityAlerts: number;
   criticalSeverityAlerts: number;
   showArchive: boolean = false;
+  isWalkthroughActive = false;
+  currentStepIndex = 0;
+  walkthroughSteps: { title: string; content: string }[] = [];
   severityLevelArr = {
     info: "Informational",
     low: 'Low',
@@ -57,6 +60,7 @@ export class DashboardComponent implements OnInit {
     high: 'High',
     critical: 'Critical'
   }
+
   constructor(
     public router: Router,
     private route: ActivatedRoute,
@@ -71,11 +75,24 @@ export class DashboardComponent implements OnInit {
     this.fetchData();
     this.startEvents();
     this.startInactivityTimer();
+    this.initializeWalkthroughSteps();
     this.translate.onLangChange.subscribe(() => {
       this.chart.destroy();
       this.fetchData();
       this.createDonutChart();
     })
+  }
+
+  initializeWalkthroughSteps(): void {
+    this.walkthroughSteps = [
+      { title: 'WALKTHROUGH.WELCOME-DASHBOARD.TITLE', content: 'WALKTHROUGH.WELCOME-DASHBOARD.CONTENT' },
+      { title: 'WALKTHROUGH.FILTERS.TITLE', content: 'WALKTHROUGH.FILTERS.CONTENT' },
+      { title: 'WALKTHROUGH.SORTING.TITLE', content: 'WALKTHROUGH.SORTING.CONTENT' },
+      { title: 'WALKTHROUGH.SEARCH.TITLE', content: 'WALKTHROUGH.SEARCH.CONTENT' },
+      { title: 'WALKTHROUGH.ARCHIVING.TITLE', content: 'WALKTHROUGH.ARCHIVING.CONTENT' },
+      { title: 'WALKTHROUGH.NAVIGATION.TITLE', content: 'WALKTHROUGH.NAVIGATION.CONTENT' },
+      { title: 'WALKTHROUGH.PREFERENCES.TITLE', content: 'WALKTHROUGH.PREFERENCES.CONTENT' }
+    ];
   }
 
   createDonutChart() {
@@ -395,9 +412,33 @@ export class DashboardComponent implements OnInit {
     return this.styleService.isBiggerTextEnabled();
   }
 
+  get currentStep() {
+    return this.walkthroughSteps[this.currentStepIndex];
+  }
+
+  startWalkthrough() {
+    this.isWalkthroughActive = true;
+    this.currentStepIndex = 0;
+  }
+
+  nextStep() {
+    if (this.currentStepIndex < this.walkthroughSteps.length - 1) {
+      this.currentStepIndex++;
+    }
+  }
+
+  previousStep() {
+    if (this.currentStepIndex > 0) {
+      this.currentStepIndex--;
+    }
+  }
+
+  endWalkthrough() {
+    this.isWalkthroughActive = false;
+  }
+
   changeLanguage(language: string) {
     this.translate.use(language);
     this.styleService.setLanguage = language;
   }
-
 }

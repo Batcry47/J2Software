@@ -1,3 +1,24 @@
+<div class="help-button" (click)="startWalkthrough()" [ngClass]="{'dark-mode': isDarkThemeToggled()}">
+  ?
+</div>
+
+<div *ngIf="isWalkthroughActive" class="walkthrough-overlay">
+  <div class="walkthrough-content"
+    [ngClass]="{'dark-mode': isDarkThemeToggled(), 'bigger-text': isBiggerTextToggled()}">
+    <div class="walkthrough-text">
+      <h3>{{ currentStep.title | translate }}</h3>
+      <p>{{ currentStep.content | translate }}</p>
+    </div>
+    <div class="walkthrough-buttons">
+      <button *ngIf="currentStepIndex > 0" (click)="previousStep()">{{ 'WALKTHROUGH.PREVIOUS' | translate }}</button>
+      <button *ngIf="currentStepIndex < walkthroughSteps.length - 1" (click)="nextStep()">{{ 'WALKTHROUGH.NEXT' |
+        translate }}</button>
+      <button *ngIf="currentStepIndex === walkthroughSteps.length - 1" (click)="endWalkthrough()">{{
+        'WALKTHROUGH.FINISH' | translate }}</button>
+    </div>
+  </div>
+</div>
+
 <div class="container" [ngClass]="{'bigger-text': isBiggerTextToggled()}">
   <dialog class="logout-prompt" id="logout" [ngClass]="{'dark-theme' : isDarkThemeToggled()}">
     <div class="popup-header">

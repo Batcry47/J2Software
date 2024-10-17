@@ -32,6 +32,9 @@ export class ReportComponent implements OnInit {
   INACTIVITY_TIMEOUT = 30000;
   chart: any;
   numOfAlerts = [];
+  isWalkthroughActive = false;
+  currentStepIndex = 0;
+  walkthroughSteps: { title: string; content: string }[] = [];
 
   constructor(public router: Router,
     private renderer: Renderer2,
@@ -42,10 +45,21 @@ export class ReportComponent implements OnInit {
   ngOnInit(): void {
     this.startEvents();
     this.startInactivityTimer();
+    this.initializeWalkthroughSteps();
     this.displayAlertCounts();
     this.numOfAlerts = [this.impactAlerts, this.initialAccessAlerts, this.defenceEvasionAlerts, this.exfiltrationAlerts,
     this.collectionAlerts, this.privilegeEscalationAlerts, this.persistenceAlerts, this.reconnaissanceAlerts,
     this.executionAlerts, this.resourceDevelopmentAlerts];
+  }
+
+  initializeWalkthroughSteps(): void {
+    this.walkthroughSteps = [
+      { title: 'WALKTHROUGH.WELCOME-REPORT.TITLE', content: 'WALKTHROUGH.WELCOME-REPORT.CONTENT' },
+      { title: 'WALKTHROUGH.DATE_SELECTION.TITLE', content: 'WALKTHROUGH.DATE_SELECTION.CONTENT' },
+      { title: 'WALKTHROUGH.DOWNLOAD_REPORT.TITLE', content: 'WALKTHROUGH.DOWNLOAD_REPORT.CONTENT' },
+      { title: 'WALKTHROUGH.NAVIGATION.TITLE', content: 'WALKTHROUGH.NAVIGATION.CONTENT' },
+      { title: 'WALKTHROUGH.PREFERENCES.TITLE', content: 'WALKTHROUGH.PREFERENCES.CONTENT' }
+    ];
   }
 
   startEvents() {
@@ -180,6 +194,31 @@ export class ReportComponent implements OnInit {
 
   isBiggerTextToggled() {
     return this.styleService.isBiggerTextEnabled();
+  }
+
+  get currentStep() {
+    return this.walkthroughSteps[this.currentStepIndex];
+  }
+
+  startWalkthrough() {
+    this.isWalkthroughActive = true;
+    this.currentStepIndex = 0;
+  }
+
+  nextStep() {
+    if (this.currentStepIndex < this.walkthroughSteps.length - 1) {
+      this.currentStepIndex++;
+    }
+  }
+
+  previousStep() {
+    if (this.currentStepIndex > 0) {
+      this.currentStepIndex--;
+    }
+  }
+
+  endWalkthrough() {
+    this.isWalkthroughActive = false;
   }
 
   changeLanguage(language: string) {

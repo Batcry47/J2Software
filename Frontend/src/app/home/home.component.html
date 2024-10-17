@@ -1,3 +1,24 @@
+<div class="help-button" (click)="startWalkthrough()" [ngClass]="{'dark-mode': isDarkThemeToggled()}">
+  ?
+</div>
+
+<div *ngIf="isWalkthroughActive" class="walkthrough-overlay">
+  <div class="walkthrough-content"
+    [ngClass]="{'dark-mode': isDarkThemeToggled(), 'bigger-text': isBiggerTextToggled()}">
+    <div class="walkthrough-text">
+      <h3>{{ currentStep.title | translate }}</h3>
+      <p>{{ currentStep.content | translate }}</p>
+    </div>
+    <div class="walkthrough-buttons">
+      <button *ngIf="currentStepIndex > 0" (click)="previousStep()">{{ 'WALKTHROUGH.PREVIOUS' | translate }}</button>
+      <button *ngIf="currentStepIndex < walkthroughSteps.length - 1" (click)="nextStep()">{{ 'WALKTHROUGH.NEXT' |
+        translate }}</button>
+      <button *ngIf="currentStepIndex === walkthroughSteps.length - 1" (click)="endWalkthrough()">{{
+        'WALKTHROUGH.FINISH' | translate }}</button>
+    </div>
+  </div>
+</div>
+
 <div class="container" [ngClass]="{'bigger-text': isBiggerTextToggled()}">
   <dialog class="logout-prompt" id="logout" [ngClass]="{'dark-theme' : isDarkThemeToggled()}">
     <div class="popup-header">
@@ -60,53 +81,63 @@
         </div>
         <div class="date-input">
           <label for="end_date" [ngClass]="{'dark-text' : isDarkThemeToggled()}">{{'END-TITLE' | translate}}</label>
-          <input type="date" class="date-selector" id="end_date" name="end_date" min="2024-01-01" (change)="updateAlertCount()" #endDateInput />
+          <input type="date" class="date-selector" id="end_date" name="end_date" min="2024-01-01"
+            (change)="updateAlertCount()" #endDateInput />
         </div>
       </div>
     </div>
-    
+
 
     <div class="metrics">
-      <div class="metric"[ngClass]="{'dark-theme' : isDarkThemeToggled()}">
+      <div class="metric" [ngClass]="{'dark-theme' : isDarkThemeToggled()}">
         <h2 [ngClass]="{'dark-text' : isDarkThemeToggled()}">{{'ALERT-TITLES.malicious-alerts' | translate}}</h2>
-        <h1>{{impactAlerts + initialAccessAlerts + defenceEvasionAlerts + exfiltrationAlerts 
-          + collectionAlerts + privilegeEscalationAlerts + persistenceAlerts + reconnaissanceAlerts + 
+        <h1>{{impactAlerts + initialAccessAlerts + defenceEvasionAlerts + exfiltrationAlerts
+          + collectionAlerts + privilegeEscalationAlerts + persistenceAlerts + reconnaissanceAlerts +
           executionAlerts + resourceDevelopmentAlerts}}</h1>
       </div>
-      <div class="metric" (click)="navigateToDashboard('impact')" [ngClass]="{'dark-theme' : isDarkThemeToggled(), 'dark-text' : isDarkThemeToggled()}">
+      <div class="metric" (click)="navigateToDashboard('impact')"
+        [ngClass]="{'dark-theme' : isDarkThemeToggled(), 'dark-text' : isDarkThemeToggled()}">
         <h2 [ngClass]="{'dark-text': isDarkThemeToggled()}">{{'ALERT-TITLES.impact-alerts' | translate}}</h2>
         <p [ngClass]="{'dark-text' : isDarkThemeToggled()}">{{'ALERT-DESCRIPTIONS.Impact-DESC' | translate}}</p>
         <h1>{{ impactAlerts }}</h1>
       </div>
-      <div class="metric" (click)="navigateToDashboard('defense-evasion')" [ngClass]="{'dark-theme' : isDarkThemeToggled(), 'dark-text' : isDarkThemeToggled()}">
+      <div class="metric" (click)="navigateToDashboard('defense-evasion')"
+        [ngClass]="{'dark-theme' : isDarkThemeToggled(), 'dark-text' : isDarkThemeToggled()}">
         <h2 [ngClass]="{'dark-text': isDarkThemeToggled()}"> {{'ALERT-TITLES.defence-evasion-alerts' | translate}}</h2>
-        <p [ngClass]="{'dark-text' : isDarkThemeToggled()}">{{'ALERT-DESCRIPTIONS.Defence-Evasion-DESC' | translate}}</p>
+        <p [ngClass]="{'dark-text' : isDarkThemeToggled()}">{{'ALERT-DESCRIPTIONS.Defence-Evasion-DESC' | translate}}
+        </p>
         <h1>{{ defenceEvasionAlerts }}</h1>
       </div>
       <div class="metric" [ngClass]="{'dark-theme' : isDarkThemeToggled()}">
         <h2 [ngClass]="{'dark-text': isDarkThemeToggled()}">{{'ALERT-TITLES.total-alerts' | translate}}</h2>
-        <h1>{{impactAlerts + initialAccessAlerts + defenceEvasionAlerts + exfiltrationAlerts 
-          + collectionAlerts + privilegeEscalationAlerts + persistenceAlerts + reconnaissanceAlerts + 
+        <h1>{{impactAlerts + initialAccessAlerts + defenceEvasionAlerts + exfiltrationAlerts
+          + collectionAlerts + privilegeEscalationAlerts + persistenceAlerts + reconnaissanceAlerts +
           executionAlerts + resourceDevelopmentAlerts}}</h1>
       </div>
-      <div class="metric" (click)="navigateToDashboard('persistence')" [ngClass]="{'dark-theme' : isDarkThemeToggled()}">
+      <div class="metric" (click)="navigateToDashboard('persistence')"
+        [ngClass]="{'dark-theme' : isDarkThemeToggled()}">
         <h2 [ngClass]="{'dark-text': isDarkThemeToggled()}"> {{'ALERT-TITLES.persistence-alerts' | translate}}</h2>
         <p [ngClass]="{'dark-text' : isDarkThemeToggled()}">{{'ALERT-DESCRIPTIONS.Persistence-DESC' | translate}}</p>
         <h1>{{ persistenceAlerts }}</h1>
       </div>
-      <div class="metric" (click)="navigateToDashboard('exfiltration')" [ngClass]="{'dark-theme' : isDarkThemeToggled()}">
+      <div class="metric" (click)="navigateToDashboard('exfiltration')"
+        [ngClass]="{'dark-theme' : isDarkThemeToggled()}">
         <h2 [ngClass]="{'dark-text': isDarkThemeToggled()}">{{'ALERT-TITLES.exfiltration-alerts' | translate}}</h2>
         <p [ngClass]="{'dark-text' : isDarkThemeToggled()}">{{'ALERT-DESCRIPTIONS.Exfiltration-DESC' | translate}}</p>
         <h1>{{ exfiltrationAlerts }}</h1>
       </div>
-      <div class="metric" (click)="navigateToDashboard('initial-access')" [ngClass]="{'dark-theme' : isDarkThemeToggled()}">
+      <div class="metric" (click)="navigateToDashboard('initial-access')"
+        [ngClass]="{'dark-theme' : isDarkThemeToggled()}">
         <h2 [ngClass]="{'dark-text': isDarkThemeToggled()}">{{'ALERT-TITLES.initial-access-alerts' | translate}}</h2>
         <p [ngClass]="{'dark-text' : isDarkThemeToggled()}">{{'ALERT-DESCRIPTIONS.Initial-Access-DESC' | translate}}</p>
         <h1>{{ initialAccessAlerts }}</h1>
       </div>
-      <div class="metric" (click)="navigateToDashboard('privilege-escalation')" [ngClass]="{'dark-theme' : isDarkThemeToggled()}">
-        <h2 [ngClass]="{'dark-text': isDarkThemeToggled()}">{{'ALERT-TITLES.privilege-escalation-alerts' | translate}}</h2>
-        <p [ngClass]="{'dark-text' : isDarkThemeToggled()}">{{'ALERT-DESCRIPTIONS.Privilege-Escalation-DESC' | translate}}</p>
+      <div class="metric" (click)="navigateToDashboard('privilege-escalation')"
+        [ngClass]="{'dark-theme' : isDarkThemeToggled()}">
+        <h2 [ngClass]="{'dark-text': isDarkThemeToggled()}">{{'ALERT-TITLES.privilege-escalation-alerts' | translate}}
+        </h2>
+        <p [ngClass]="{'dark-text' : isDarkThemeToggled()}">{{'ALERT-DESCRIPTIONS.Privilege-Escalation-DESC' |
+          translate}}</p>
         <h1>{{ privilegeEscalationAlerts }}</h1>
       </div>
       <div class="metric" (click)="navigateToDashboard('collection')" [ngClass]="{'dark-theme' : isDarkThemeToggled()}">
@@ -114,19 +145,23 @@
         <p [ngClass]="{'dark-text' : isDarkThemeToggled()}">{{'ALERT-DESCRIPTIONS.Collection-DESC' | translate}}</p>
         <h1>{{ collectionAlerts }}</h1>
       </div>
-      <div class="metric" (click)="navigateToDashboard('reconnaissance')" [ngClass]="{'dark-theme' : isDarkThemeToggled()}">
+      <div class="metric" (click)="navigateToDashboard('reconnaissance')"
+        [ngClass]="{'dark-theme' : isDarkThemeToggled()}">
         <h2 [ngClass]="{'dark-text': isDarkThemeToggled()}">{{'ALERT-TITLES.reconnaissance-alerts' | translate}}</h2>
         <p [ngClass]="{'dark-text' : isDarkThemeToggled()}">{{'ALERT-DESCRIPTIONS.Reconnaissance-DESC' | translate}}</p>
         <h1>{{ reconnaissanceAlerts }}</h1>
       </div>
-      <div class="metric" (click)="navigateToDashboard('execution')"[ngClass]="{'dark-theme' : isDarkThemeToggled()}">
+      <div class="metric" (click)="navigateToDashboard('execution')" [ngClass]="{'dark-theme' : isDarkThemeToggled()}">
         <h2 [ngClass]="{'dark-text': isDarkThemeToggled()}">{{'ALERT-TITLES.execution-alerts' | translate}}</h2>
         <p [ngClass]="{'dark-text' : isDarkThemeToggled()}">{{'ALERT-DESCRIPTIONS.Execution-DESC' | translate}}</p>
         <h1>{{ executionAlerts }}</h1>
       </div>
-      <div class="metric" (click)="navigateToDashboard('resource-development')" [ngClass]="{'dark-theme' : isDarkThemeToggled()}">
-        <h2 [ngClass]="{'dark-text': isDarkThemeToggled()}">{{'ALERT-TITLES.resource-development-alerts' | translate}}</h2>
-        <p [ngClass]="{'dark-text' : isDarkThemeToggled()}">{{'ALERT-DESCRIPTIONS.Resource-Development-DESC' | translate}}</p>
+      <div class="metric" (click)="navigateToDashboard('resource-development')"
+        [ngClass]="{'dark-theme' : isDarkThemeToggled()}">
+        <h2 [ngClass]="{'dark-text': isDarkThemeToggled()}">{{'ALERT-TITLES.resource-development-alerts' | translate}}
+        </h2>
+        <p [ngClass]="{'dark-text' : isDarkThemeToggled()}">{{'ALERT-DESCRIPTIONS.Resource-Development-DESC' |
+          translate}}</p>
         <h1>{{ resourceDevelopmentAlerts }}</h1>
       </div>
     </div>

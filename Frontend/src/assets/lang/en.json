@@ -43,8 +43,61 @@
         "Execution-DESC": "Execution consists of techniques that result in adversary-controlled code running on a local or remote",
         "Resource-Development-DESC": "Resource Development consists of techniques that involve adversaries creating, purchasing, or compromising/stealing resources that can be used to support targeting."
     },
+    "WALKTHROUGH": {
+        "WELCOME-HOME": {
+            "TITLE": "Welcome",
+            "CONTENT": "Welcome to the homepage!"
+        },
+        "WELCOME-DASHBOARD": {
+            "TITLE": "Welcome",
+            "CONTENT": "Welcome to the dashboard!"
+        },
+        "WELCOME-REPORT": {
+            "TITLE": "Welcome",
+            "CONTENT": "Welcome to the report page!"
+        },
+        "DATE_SELECTION": {
+            "TITLE": "Date Selection",
+            "CONTENT": "Use the date pickers to filter the alerts for a specific time range."
+        },
+        "ALERTS": {
+            "TITLE": "Alerts Overview",
+            "CONTENT": "The metrics show all the alerts. Click on them for to navigate to the dashboard and filter by them."
+        },
+        "FILTERS": {
+            "TITLE": "Filters",
+            "CONTENT": "Use the filter options to narrow down alerts by severity or category."
+        },
+        "SORTING": {
+            "TITLE": "Sorting Alerts",
+            "CONTENT": "You can sort alerts by various criteria such as category, method, username, IP address, or timestamp. Use the dropdown menu to select your preferred sorting option."
+        },
+        "SEARCH": {
+            "TITLE": "Search",
+            "CONTENT": "Use the search bar to find specific alerts based on category, method, username, or timestamp."
+        },
+        "ARCHIVING": {
+            "TITLE": "Archiving Alerts",
+            "CONTENT": "You can archive selected alerts to move alerts that have been dealt with. Use the checkboxes to select alerts and click 'Archive' to move them to the archive."
+        },
+        "DOWNLOAD_REPORT": {
+            "TITLE": "Downloading Reports",
+            "CONTENT": "You can download reports of the alerts by clicking the 'Download' button. This will save a text file with the current alert data."
+        },
+        "NAVIGATION": {
+            "TITLE": "Navigation",
+            "CONTENT": "Use the sidebar to navigate between different the different pages."
+        },
+        "PREFERENCES": {
+            "TITLE": "Preferences",
+            "CONTENT": "You can change the theme, text size, and language using the options in the sidebar."
+        },
+        "PREVIOUS": "Previous",
+        "NEXT": "Next",
+        "FINISH": "Finish"
+    },
     "TITLE": "Dashboard",
-    "GRAPH-TITLE": "Severity Level",
+    "GRAPH-TITLE": "Serverity Level",
     "COLUMNS": {
         "Category": "Category",
         "Method": "Method",

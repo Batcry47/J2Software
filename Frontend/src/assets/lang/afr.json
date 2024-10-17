@@ -29,6 +29,59 @@
         "Execution-DESC": "Uitvoering bestaan uit tegnieke wat daartoe lei dat teenstanderbeheerde kode op 'n plaaslike of afstandsstelsel loop.",
         "Resource-Development-DESC": "Hulpbronontwikkeling bestaan uit tegnieke wat teenstanders behels wat hulpbronne skep, koop of kompromitteer/stal wat gebruik kan word om te help met teikens."
     },
+    "WALKTHROUGH": {
+        "WELCOME-HOME": {
+            "TITLE": "Welkom",
+            "CONTENT": "Welkom by die tuisblad!"
+        },
+        "WELCOME-DASHBOARD": {
+            "TITLE": "Welkom",
+            "CONTENT": "Welkom by die paneelbord!"
+        },
+        "WELCOME-REPORT": {
+            "TITLE": "Welkom",
+            "CONTENT": "Welkom by die verslagblad!"
+        },
+        "DATE_SELECTION": {
+            "TITLE": "Datumskeiding",
+            "CONTENT": "Gebruik die datumpickers om die waarskuwings vir 'n spesifieke tydsbereik te filter."
+        },
+        "ALERTS": {
+            "TITLE": "Waarskuwings Oorsig",
+            "CONTENT": "Die metrieks wys al die waarskuwings. Klik daarop om na die paneelbord te navigeer en dit te filter."
+        },
+        "FILTERS": {
+            "TITLE": "Filters",
+            "CONTENT": "Gebruik die filteropsies om waarskuwings volgens erns of kategorie te beperk."
+        },
+        "SORTING": {
+            "TITLE": "Sorteer Waarskuwings",
+            "CONTENT": "Jy kan waarskuwings volgens verskillende kriteria soos kategorie, metode, gebruikersnaam, IP-adres of tydstempel sorteer. Gebruik die keuselys om jou voorkeur sorteermetode te kies."
+        },
+        "SEARCH": {
+            "TITLE": "Soek",
+            "CONTENT": "Gebruik die soekbalk om spesifieke waarskuwings te vind op grond van kategorie, metode, gebruikersnaam of tydstempel."
+        },
+        "ARCHIVING": {
+            "TITLE": "Argivering van Waarskuwings",
+            "CONTENT": "Jy kan geselekteerde waarskuwings argiveer om waarskuwings wat hanteer is, te verwyder. Gebruik die keushokkies om waarskuwings te kies en klik 'Argiveer' om dit na die argief te verplaas."
+        },
+        "DOWNLOAD_REPORT": {
+            "TITLE": "Verslag Aflaai",
+            "CONTENT": "Jy kan verslae van die waarskuwings aflaai deur die 'Aflaai' knoppie te klik. Dit sal 'n tekslêer met die huidige waarskuwingdata stoor."
+        },
+        "NAVIGATION": {
+            "TITLE": "Navigasie",
+            "CONTENT": "Gebruik die sybalk om tussen die verskillende bladsye te navigeer."
+        },
+        "PREFERENCES": {
+            "TITLE": "Voorkeure",
+            "CONTENT": "Jy kan die tema, teksgrootte en taal verander met die opsies in die sybalk."
+        },
+        "PREVIOUS": "Vorige",
+        "NEXT": "Volgende",
+        "FINISH": "Voltooi"
+    },
     "TITLE": "Dashboard",
     "GRAPH-TITLE": "Erns vlak",
     "COLUMNS": {

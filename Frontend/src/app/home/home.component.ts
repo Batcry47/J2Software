@@ -28,6 +28,10 @@ export class HomeComponent implements OnInit {
   selectedLanguage: string;
   INACTIVITY_TIMEOUT = 30000;
   user_id = 0;
+  isWalkthroughActive = false;
+  currentStepIndex = 0;
+  walkthroughSteps: { title: string; content: string }[] = [];
+
   constructor(public router: Router,
     private route: ActivatedRoute,
     private backendService: BackendConnectionService,
@@ -39,6 +43,17 @@ export class HomeComponent implements OnInit {
   ngOnInit(): void {
     this.startInactivityTimer();
     this.displayAlertCounts();
+    this.initializeWalkthroughSteps();
+  }
+
+  initializeWalkthroughSteps(): void {
+    this.walkthroughSteps = [
+      { title: 'WALKTHROUGH.WELCOME-HOME.TITLE', content: 'WALKTHROUGH.WELCOME-HOME.CONTENT' },
+      { title: 'WALKTHROUGH.DATE_SELECTION.TITLE', content: 'WALKTHROUGH.DATE_SELECTION.CONTENT' },
+      { title: 'WALKTHROUGH.ALERTS.TITLE', content: 'WALKTHROUGH.ALERTS.CONTENT' },
+      { title: 'WALKTHROUGH.NAVIGATION.TITLE', content: 'WALKTHROUGH.NAVIGATION.CONTENT' },
+      { title: 'WALKTHROUGH.PREFERENCES.TITLE', content: 'WALKTHROUGH.PREFERENCES.CONTENT' }
+    ];
   }
 
   startEvents() {
@@ -148,6 +163,31 @@ export class HomeComponent implements OnInit {
 
   isBiggerTextToggled() {
     return this.styleService.isBiggerTextEnabled();
+  }
+
+  get currentStep() {
+    return this.walkthroughSteps[this.currentStepIndex];
+  }
+
+  startWalkthrough() {
+    this.isWalkthroughActive = true;
+    this.currentStepIndex = 0;
+  }
+
+  nextStep() {
+    if (this.currentStepIndex < this.walkthroughSteps.length - 1) {
+      this.currentStepIndex++;
+    }
+  }
+
+  previousStep() {
+    if (this.currentStepIndex > 0) {
+      this.currentStepIndex--;
+    }
+  }
+
+  endWalkthrough() {
+    this.isWalkthroughActive = false;
   }
 
   changeLanguage(language: string) {
