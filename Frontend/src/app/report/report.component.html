@@ -150,7 +150,7 @@
             </td>
             <td [ngClass]="{'dark-text' : isDarkThemeToggled()}">{{reconnaissanceAlerts}}</td>
           </tr>
-          <tr class="total-row">
+          <tr class="total-row" [ngClass]="{'dark-total' : isDarkThemeToggled()}">
             <td>{{'ALERT-TITLES.total-alerts' | translate}}</td>
             <td>{{impactAlerts + initialAccessAlerts + defenceEvasionAlerts + exfiltrationAlerts
               + collectionAlerts + privilegeEscalationAlerts + persistenceAlerts + reconnaissanceAlerts +

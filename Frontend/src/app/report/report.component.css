@@ -498,7 +498,9 @@
 .dark-text {
   color: white !important;
 }
-
+.dark-total td{
+  background-color: #c91931 !important;
+}
 .help-button {
   position: fixed;
   top: 20px;
