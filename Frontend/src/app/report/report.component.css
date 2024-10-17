@@ -455,11 +455,45 @@
   font-size: 1em;
 }
 
+.dark-image { 
+  background-image: url('/assets/images/background_image_dark.jpg'); 
+}
+
+.light-image {
+  background-image: url('/assets/images/background_image.png');
+}
+
 .dark-theme{
   background-color: black;
+}
+
+.dark-text{
+  color: white !important;
+}
+
+.dark-text a{
   color: white;
 }
 
-.dark-theme-text{
-  color: white;
+.dark-text a.active{
+  color: #c91931;
+}
+
+.dark-text tr{
+  background-color: black !important;
+}
+.dark-theme {
+  background-color: black !important;
+}
+
+.dark-theme td {
+  color: white !important;
+}
+
+.dark-theme tr {
+  background-color: black !important;
+}
+
+.dark-text {
+  color: white !important;
 }

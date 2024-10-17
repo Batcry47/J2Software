@@ -2,41 +2,44 @@
   <dialog class="logout-prompt" id="logout" [ngClass]="{'dark-theme' : isDarkThemeToggled()}">
     <div class="popup-header">
       <div class="red-bar"></div>
-      <h2>{{'LOGOUT-MESSAGE' | translate}}</h2>
+      <h2 [ngClass]="{'dark-text' : isDarkThemeToggled()}">{{'LOGOUT-MESSAGE' | translate}}</h2>
     </div>
     <div class="popup-buttons">
-      <button class="popup-button confirm" (click)="this.router.navigate(['/login'])">{{'YES' | translate}}</button>
+      <button class="popup-button confirm" (click)="this.router.navigate(['/login'])">
+        {{'YES' | translate}}
+      </button>
       <button class="popup-button cancel" (click)="closePrompt()">{{'NO' | translate}}</button>
     </div>
   </dialog>
 
-  <dialog class="logout-prompt" id="logoutPrompt"
-  [ngClass]="{'dark-theme' : isDarkThemeToggled()}">
+  <dialog class="logout-prompt" id="logoutPrompt" [ngClass]="{'dark-theme' : isDarkThemeToggled()}">
     <div class="popup-header">
       <div class="red-bar"></div>
-      <h2>{{'INACTIVE-TITLE' | translate}}</h2>
+      <h2 [ngClass]="{'dark-text' : isDarkThemeToggled()}">{{'INACTIVE-TITLE' | translate}}</h2>
     </div>
-    <p>{{'INACTIVE-MESSAGE' | translate}}</p>
+    <p [ngClass]="{'dark-text' : isDarkThemeToggled()}">{{'INACTIVE-MESSAGE' | translate}}</p>
     <div class="popup-buttons">
-      <button class="popup-button confirm" (click)="resetInactivityTimer(); closeLogoutPrompt()">{{'ACTIVE-CONFIRM' |
-        translate}}</button>
-      <button class="popup-button cancel" (click)="this.router.navigate(['/login'])">{{'INACTIVE-LOGOUT' |
-        translate}}</button>
+      <button class="popup-button confirm" (click)="resetInactivityTimer(); closeLogoutPrompt()">
+        {{'ACTIVE-CONFIRM' | translate}}
+      </button>
+      <button class="popup-button cancel" (click)="this.router.navigate(['/login'])">
+        {{'INACTIVE-LOGOUT' | translate}}
+      </button>
     </div>
   </dialog>
 
   <div class="sidebar" [ngClass]="{'dark-theme' : isDarkThemeToggled()}">
     <h1>J2 Software</h1>
-    <ul [ngClass]="{'bigger-text': isBiggerTextToggled()}">
+    <ul [ngClass]="{'dark-text' : isDarkThemeToggled()}">
       <li><a routerLink="/home">{{'SIDEBAR.Home' | translate}}</a></li>
       <li><a routerLink="/dashboard">{{'SIDEBAR.Dashboard' | translate}}</a></li>
-      <li><a routerLink="/report" class="active">{{'SIDEBAR.Report' | translate}}</a></li>
+      <li><a routerLink="/report"  class="active">{{'SIDEBAR.Report' | translate}}</a></li>
       <li><a (click)="openPrompt()">{{'SIDEBAR.Logout' | translate}}</a></li>
       <li><a (click)="toggleDarkTheme()">{{'SIDEBAR.Theme' | translate}}</a></li>
       <li><a (click)="toggleBiggerText()">{{'SIDEBAR.TextSize' | translate}}</a></li>
       <li>
         <div class="sort-options">
-          <span class="sort-label">Select Language:</span>
+          <span class="sort-label" [ngClass]="{'dark-text' : isDarkThemeToggled()}">Select Language:</span>
           <select class="sort-select" [(ngModel)]="selectedLanguage" (change)="changeLanguage(selectedLanguage)">
             <option value="en">English</option>
             <option value="afr">Afrikaans</option>
@@ -46,82 +49,77 @@
     </ul>
   </div>
 
-  <div class="report-container"
-    [ngStyle]="{'background-image': isDarkThemeToggled() ? 'url(assets/images/background_image_dark.jpg)' : 'url(assets/images/background_image.png)'}">
-    <div class="date-selection"
-    [ngClass]="{'dark-theme' : isDarkThemeToggled()}">
-      <h2 [ngClass]="{'dark-theme-text': isDarkThemeToggled()}">{{"DATE-TITLE" | translate}}</h2>
+  <div class="report-container" [ngClass]="{'dark-image': isDarkThemeToggled(), 'light-image': !isDarkThemeToggled()}">
+    <div class="date-selection" [ngClass]="{'dark-theme': isDarkThemeToggled()}">
+      <h2 [ngClass]="{'dark-text' : isDarkThemeToggled()}">{{'DATE-TITLE' | translate}}</h2>
       <div class="date-inputs">
         <div class="date-input">
-          <label for="start_date">{{"START-TITLE" |
-            translate}}</label>
+          <label for="start_date" [ngClass]="{'dark-text' : isDarkThemeToggled()}">{{'START-TITLE' | translate}}</label>
           <input type="date" class="date-selector" id="start_date" name="start_date" min="2024-01-01"
-            (change)="minEndDate(startDateInput, endDateInput)" #startDateInput>
+            (change)="minEndDate(startDateInput, endDateInput)" #startDateInput />
         </div>
         <div class="date-input">
-          <label for="end_date" [ngClass]="{'dark-theme' : isDarkThemeToggled()}">{{"END-TITLE" |
-            translate}}</label>
-          <input type="date" class="date-selector" id="end_date" name="end_date" min="2024-01-01"
-            (change)="updateAlertCount()" #endDateInput>
+          <label for="end_date" [ngClass]="{'dark-text' : isDarkThemeToggled()}">{{'END-TITLE' | translate}}</label>
+          <input type="date" class="date-selector" id="end_date" name="end_date" min="2024-01-01" (change)="updateAlertCount()" #endDateInput />
         </div>
       </div>
     </div>
 
-    <header class="report-header" [ngClass]="{'dark-theme-text': isDarkThemeToggled()}">
-      <h1 >{{'ALERT-HEADING' | translate}}</h1>
-      <h2 *ngIf="startDateInput.value != '' && endDateInput.value != ''">
+    <header class="report-header">
+      <h1 [ngClass]="{'dark-text': isDarkThemeToggled()}">{{'ALERT-HEADING' | translate}}</h1>
+      <h2 [ngClass]="{'dark-text': isDarkThemeToggled()}" *ngIf="startDateInput.value != '' && endDateInput.value != ''">
         {{ startDateInput.value }} - {{ endDateInput.value }}
       </h2>
     </header>
 
     <div class="report-table">
-      <table >
+      <table [ngClass]="{'dark-theme' : isDarkThemeToggled()}">
         <tbody>
           <tr>
-            <td [ngClass]="{'dark-theme' : isDarkThemeToggled()}">{{'ALERT-TITLES.malicious-alerts' | translate}}</td>
-            <td [ngClass]="{'dark-theme' : isDarkThemeToggled()}">{{impactAlerts + initialAccessAlerts + defenceEvasionAlerts + exfiltrationAlerts
+            <td [ngClass]="{'dark-text' : isDarkThemeToggled()}">{{'ALERT-TITLES.malicious-alerts' | translate}}</td>
+            <td [ngClass]="{'dark-text' : isDarkThemeToggled()}">{{impactAlerts + initialAccessAlerts + defenceEvasionAlerts + exfiltrationAlerts
               + collectionAlerts + privilegeEscalationAlerts + persistenceAlerts + reconnaissanceAlerts +
               executionAlerts + resourceDevelopmentAlerts}}</td>
           </tr>
           <tr>
-            <td [ngClass]="{'dark-theme' : isDarkThemeToggled()}">{{'ALERT-TITLES.impact-alerts' | translate}}</td>
-            <td [ngClass]="{'dark-theme' : isDarkThemeToggled()}">{{impactAlerts}}</td>
+            <td [ngClass]="{'dark-text' : isDarkThemeToggled()}">{{'ALERT-TITLES.impact-alerts' | translate}}</td>
+            <td [ngClass]="{'dark-text' : isDarkThemeToggled()}">{{impactAlerts}}</td>
           </tr>
           <tr>
-            <td [ngClass]="{'dark-theme' : isDarkThemeToggled()}">{{'ALERT-TITLES.initial-access-alerts' | translate}}</td>
-            <td [ngClass]="{'dark-theme' : isDarkThemeToggled()}">{{initialAccessAlerts}}</td>
+            <td [ngClass]="{'dark-text' : isDarkThemeToggled()}">{{'ALERT-TITLES.initial-access-alerts' | translate}}</td>
+            <td [ngClass]="{'dark-text' : isDarkThemeToggled()}">{{initialAccessAlerts}}</td>
           </tr>
           <tr>
-            <td [ngClass]="{'dark-theme' : isDarkThemeToggled()}">{{'ALERT-TITLES.defence-evasion-alerts' | translate}}</td>
-            <td [ngClass]="{'dark-theme' : isDarkThemeToggled()}">{{defenceEvasionAlerts}}</td>
+            <td [ngClass]="{'dark-text' : isDarkThemeToggled()}">{{'ALERT-TITLES.defence-evasion-alerts' | translate}}</td>
+            <td [ngClass]="{'dark-text' : isDarkThemeToggled()}">{{defenceEvasionAlerts}}</td>
           </tr>
           <tr>
-            <td [ngClass]="{'dark-theme' : isDarkThemeToggled()}">{{'ALERT-TITLES.exfiltration-alerts' | translate}}</td>
-            <td [ngClass]="{'dark-theme' : isDarkThemeToggled()}">{{exfiltrationAlerts}}</td>
+            <td [ngClass]="{'dark-text' : isDarkThemeToggled()}">{{'ALERT-TITLES.exfiltration-alerts' | translate}}</td>
+            <td [ngClass]="{'dark-text' : isDarkThemeToggled()}">{{exfiltrationAlerts}}</td>
           </tr>
           <tr>
-            <td [ngClass]="{'dark-theme' : isDarkThemeToggled()}">{{'ALERT-TITLES.collection-alerts' | translate}}</td>
-            <td [ngClass]="{'dark-theme' : isDarkThemeToggled()}">{{collectionAlerts}}</td>
+            <td [ngClass]="{'dark-text' : isDarkThemeToggled()}">{{'ALERT-TITLES.collection-alerts' | translate}}</td>
+            <td [ngClass]="{'dark-text' : isDarkThemeToggled()}">{{collectionAlerts}}</td>
           </tr>
           <tr>
-            <td [ngClass]="{'dark-theme' : isDarkThemeToggled()}">{{'ALERT-TITLES.privilege-escalation-alerts' | translate}}</td>
-            <td [ngClass]="{'dark-theme' : isDarkThemeToggled()}">{{privilegeEscalationAlerts}}</td>
+            <td [ngClass]="{'dark-text' : isDarkThemeToggled()}">{{'ALERT-TITLES.privilege-escalation-alerts' | translate}}</td>
+            <td [ngClass]="{'dark-text' : isDarkThemeToggled()}">{{privilegeEscalationAlerts}}</td>
           </tr>
           <tr>
-            <td [ngClass]="{'dark-theme' : isDarkThemeToggled()}">{{'ALERT-TITLES.persistence-alerts' | translate}}</td>
-            <td [ngClass]="{'dark-theme' : isDarkThemeToggled()}">{{persistenceAlerts}}</td>
+            <td [ngClass]="{'dark-text' : isDarkThemeToggled()}">{{'ALERT-TITLES.persistence-alerts' | translate}}</td>
+            <td [ngClass]="{'dark-text' : isDarkThemeToggled()}">{{persistenceAlerts}}</td>
           </tr>
           <tr>
-            <td [ngClass]="{'dark-theme' : isDarkThemeToggled()}">{{'ALERT-TITLES.execution-alerts' | translate}}</td>
-            <td [ngClass]="{'dark-theme' : isDarkThemeToggled()}">{{executionAlerts}}</td>
+            <td [ngClass]="{'dark-text' : isDarkThemeToggled()}">{{'ALERT-TITLES.execution-alerts' | translate}}</td>
+            <td [ngClass]="{'dark-text' : isDarkThemeToggled()}">{{executionAlerts}}</td>
           </tr>
           <tr>
-            <td [ngClass]="{'dark-theme' : isDarkThemeToggled()}">{{'ALERT-TITLES.resource-development-alerts' | translate}}</td>
-            <td [ngClass]="{'dark-theme' : isDarkThemeToggled()}">{{resourceDevelopmentAlerts}}</td>
+            <td [ngClass]="{'dark-text' : isDarkThemeToggled()}">{{'ALERT-TITLES.resource-development-alerts' | translate}}</td>
+            <td [ngClass]="{'dark-text' : isDarkThemeToggled()}">{{resourceDevelopmentAlerts}}</td>
           </tr>
           <tr>
-            <td [ngClass]="{'dark-theme' : isDarkThemeToggled()}">{{'ALERT-TITLES.reconnaissance-alerts' | translate}}</td>
-            <td [ngClass]="{'dark-theme' : isDarkThemeToggled()}">{{reconnaissanceAlerts}}</td>
+            <td [ngClass]="{'dark-text' : isDarkThemeToggled()}">{{'ALERT-TITLES.reconnaissance-alerts' | translate}}</td>
+            <td [ngClass]="{'dark-text' : isDarkThemeToggled()}">{{reconnaissanceAlerts}}</td>
           </tr>
           <tr class="total-row">
             <td>{{'ALERT-TITLES.total-alerts' | translate}}</td>

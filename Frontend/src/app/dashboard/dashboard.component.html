@@ -2,7 +2,7 @@
   <dialog class="logout-prompt" id="logout" [ngClass]="{'dark-theme' : isDarkThemeToggled()}">
     <div class="popup-header">
       <div class="red-bar"></div>
-      <h2>{{'LOGOUT-MESSAGE' | translate}}</h2>
+      <h2 [ngClass]="{'dark-text' : isDarkThemeToggled()}">{{'LOGOUT-MESSAGE' | translate}}</h2>
     </div>
     <div class="popup-buttons">
       <button class="popup-button confirm" (click)="this.router.navigate(['/login'])">
@@ -12,13 +12,12 @@
     </div>
   </dialog>
 
-  <dialog class="logout-prompt" id="logoutPrompt"
-  [ngClass]="{'dark-theme' : isDarkThemeToggled()}">
+  <dialog class="logout-prompt" id="logoutPrompt" [ngClass]="{'dark-theme' : isDarkThemeToggled()}">
     <div class="popup-header">
       <div class="red-bar"></div>
-      <h2>{{'INACTIVE-TITLE' | translate}}</h2>
+      <h2 [ngClass]="{'dark-text' : isDarkThemeToggled()}">{{'INACTIVE-TITLE' | translate}}</h2>
     </div>
-    <p>{{'INACTIVE-MESSAGE' | translate}}</p>
+    <p [ngClass]="{'dark-text' : isDarkThemeToggled()}">{{'INACTIVE-MESSAGE' | translate}}</p>
     <div class="popup-buttons">
       <button class="popup-button confirm" (click)="resetInactivityTimer(); closeLogoutPrompt()">
         {{'ACTIVE-CONFIRM' | translate}}
@@ -31,7 +30,7 @@
 
   <div class="sidebar" [ngClass]="{'dark-theme' : isDarkThemeToggled()}">
     <h1>J2 Software</h1>
-    <ul>
+    <ul [ngClass]="{'dark-text' : isDarkThemeToggled()}">
       <li><a routerLink="/home">{{'SIDEBAR.Home' | translate}}</a></li>
       <li><a routerLink="/dashboard" class="active">{{'SIDEBAR.Dashboard' | translate}}</a></li>
       <li><a routerLink="/report">{{'SIDEBAR.Report' | translate}}</a></li>
@@ -40,7 +39,7 @@
       <li><a (click)="toggleBiggerText()">{{'SIDEBAR.TextSize' | translate}}</a></li>
       <li>
         <div class="sort-options">
-          <span class="sort-label">Select Language:</span>
+          <span class="sort-label" [ngClass]="{'dark-text' : isDarkThemeToggled()}">Select Language:</span>
           <select class="sort-select" [(ngModel)]="selectedLanguage" (change)="changeLanguage(selectedLanguage)">
             <option value="en">English</option>
             <option value="afr">Afrikaans</option>
@@ -51,19 +50,19 @@
   </div>
 
   <div class="dashboard-container"
-    [ngStyle]="{'background-image': isDarkThemeToggled() ? 'url(assets/images/background_image_dark.jpg)' : 'url(assets/images/background_image.png)'}">
-    <h1 [ngStyle]="{'color': isDarkThemeToggled() ? 'white': ''}">{{'SIDEBAR.Dashboard' |
+    [ngClass]="{'dark-image': isDarkThemeToggled(), 'light-image': !isDarkThemeToggled()}">
+    <h1 [ngClass]="{'dark-text': isDarkThemeToggled()}">{{'SIDEBAR.Dashboard' |
       translate}}</h1>
     <div class="chart-card" [ngClass]="{'dark-theme' : isDarkThemeToggled()}">
-      <h2 class="chart-title">{{ "GRAPH-TITLE" | translate}}
+      <h2 class="chart-title" [ngClass]="{'dark-text': isDarkThemeToggled()}">{{ "GRAPH-TITLE" | translate}}
       </h2>
       <div class="chart-content" [ngClass]="{'dark-theme' : isDarkThemeToggled()}">
-        <canvas id="severityChart"></canvas>
+        <canvas id="severityChart" [ngClass]="{'dark-text': isDarkThemeToggled()}"></canvas>
       </div>
     </div>
 
     <div class="dashboard-content">
-      <div class="result-header" >
+      <div class="result-header">
         <div class="result-count">{{ filteredResults.length }} {{'RESULT-TITLE' | translate}}</div>
         <button class="toggle-view-btn" (click)="toggleView()">
           {{ showArchive ? ('CURRENT_MESSAGE' | translate) : ('ARCHIVED_MESSAGE' | translate) }}
@@ -121,44 +120,46 @@
           </tbody>
         </table>
       </div>
+      <div class="filter-panel" [class.collapsed]="isFilterCollapsed" [ngClass]="{'dark-theme': isDarkThemeToggled()}">
+        <button class="filter-toggle" (click)="toggleFilter()">
+          <i class="fas" [ngClass]="isFilterCollapsed ? 'fa-chevron-left' : 'fa-chevron-right'"></i>
+          {{ isFilterCollapsed ? '<<' : '>>' }} </button>
+            <div class="filter-content" [class.hidden]="isFilterCollapsed"
+              [ngClass]="{'dark-text': isDarkThemeToggled()}">
+              <h3 [ngClass]="{'dark-text': isDarkThemeToggled()}">{{ 'FILTER-TITLE' | translate}}</h3>
+              <div class="filter-section">
+                <h4 [ngClass]="{'dark-text': isDarkThemeToggled()}">{{ 'SEVERITY-TITLE' | translate}} <a href="#"
+                    class="clear-filter" (click)="clearSeverityFilters(); $event.preventDefault()">{{ 'CLEAR' |
+                    translate}}</a></h4>
+                <div class="filter-options">
+                  <label class="checkbox-label"
+                    *ngFor="let severity of ['Informational', 'Low', 'Medium', 'High', 'Critical']">
+                    <input type="checkbox" class="filter-checkbox" [attr.data-severity]="severity.toLowerCase()"
+                      (change)="onFilterChange()">
+                    <span class="checkbox-custom"></span>
+                    <span class="checkbox-label-text">{{ 'SEVERITY-LEVEL.' + severity | translate}}</span>
+                  </label>
+                </div>
+              </div>
+              <div class="filter-section">
+                <h4 [ngStyle]="{'color': isDarkThemeToggled() ? 'white': ''}">{{ 'CATEGORY-TITLE' | translate}}<a
+                    href="#" class="clear-filter" (click)="clearCategoryFilters(); $event.preventDefault()">{{ 'CLEAR' |
+                    translate}}</a></h4>
+                <div class="filter-options">
+                  <label class="checkbox-label"
+                    *ngFor="let category of ['Collection', 'Defence Evasion', 'Privilege Escalation', 'Exfiltration', 'Impact', 'Initial Access', 'Persistence', 'Reconnaissance', 'Execution', 'Resource Development']">
+                    <input type="checkbox" class="filter-checkbox"
+                      [attr.data-category]="category.toLowerCase().replace(' ', '-').replace(' ', '-')"
+                      (change)="onFilterChange()" [checked]="selectedCategory === category">
+                    <span class="checkbox-custom"></span>
+                    <span class="checkbox-label-text">{{ 'FILTER-CATEGORIES.' + category | translate }}</span>
+                  </label>
+                </div>
+              </div>
+            </div>
+      </div>
     </div>
   </div>
 
-  <div class="filter-panel" [class.collapsed]="isFilterCollapsed"
-    [ngStyle]="{'background-color' : isDarkThemeToggled() ? 'black' : 'white'}">
-    <button class="filter-toggle" (click)="toggleFilter()">
-      <i class="fas" [ngClass]="isFilterCollapsed ? 'fa-chevron-left' : 'fa-chevron-right'"></i>
-      {{ isFilterCollapsed ? '<<' : '>>' }} </button>
-        <div class="filter-content" [class.hidden]="isFilterCollapsed"
-          [ngStyle]="{'color' : isDarkThemeToggled() ? 'white' : 'black'}">
-          <h3>{{ 'FILTER-TITLE' | translate}}</h3>
-          <div class="filter-section">
-            <h4>{{ 'SEVERITY-TITLE' | translate}} <a href="#" class="clear-filter"
-                (click)="clearSeverityFilters(); $event.preventDefault()">{{ 'CLEAR' | translate}}</a></h4>
-            <div class="filter-options">
-              <label class="checkbox-label"
-                *ngFor="let severity of ['Informational', 'Low', 'Medium', 'High', 'Critical']">
-                <input type="checkbox" class="filter-checkbox" [attr.data-severity]="severity.toLowerCase()"
-                  (change)="onFilterChange()">
-                <span class="checkbox-custom"></span>
-                <span class="checkbox-label-text">{{ 'SEVERITY-LEVEL.' + severity | translate}}</span>
-              </label>
-            </div>
-          </div>
-          <div class="filter-section">
-            <h4>{{ 'CATEGORY-TITLE' | translate}}<a href="#" class="clear-filter"
-                (click)="clearCategoryFilters(); $event.preventDefault()">{{ 'CLEAR' | translate}}</a></h4>
-            <div class="filter-options">
-              <label class="checkbox-label"
-                *ngFor="let category of ['Collection', 'Defence Evasion', 'Privilege Escalation', 'Exfiltration', 'Impact', 'Initial Access', 'Persistence', 'Reconnaissance', 'Execution', 'Resource Development']">
-                <input type="checkbox" class="filter-checkbox"
-                  [attr.data-category]="category.toLowerCase().replace(' ', '-').replace(' ', '-')"
-                  (change)="onFilterChange()" [checked]="selectedCategory === category">
-                <span class="checkbox-custom"></span>
-                <span class="checkbox-label-text">{{ 'FILTER-CATEGORIES.' + category | translate }}</span>
-              </label>
-            </div>
-          </div>
-        </div>
-  </div>
+
 </div>

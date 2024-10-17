@@ -12,7 +12,7 @@ export class AppComponent {
   constructor(private route: Router, private translate: TranslateService) { }
 
   ngOnInit(): void {
-    this.route.navigate(['/dashboard']);
+    this.route.navigate(['/home']);
     this.translate.setDefaultLang('en');
   }
 }

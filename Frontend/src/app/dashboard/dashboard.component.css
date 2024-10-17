@@ -571,7 +571,8 @@ tbody tr:hover {
     margin-bottom: 20px;
 }
 
-.archive-btn, .unarchive-btn {
+.archive-btn,
+.unarchive-btn {
     padding: 10px 15px;
     background-color: #2c3e50;
     color: #ffffff;
@@ -582,57 +583,81 @@ tbody tr:hover {
     transition: background-color 0.3s;
 }
 
-.archive-btn:hover, .unarchive-btn:hover {
+.archive-btn:hover,
+.unarchive-btn:hover {
     background-color: #34495e;
 }
 
 .bigger-text {
     transition: none !important;
     font-size: 1.2em;
-  }
-  
-  .bigger-text .sidebar a {
+}
+
+.bigger-text .sidebar a {
     transition: none !important;
     font-size: 1.3em;
-  }
-  
-  .bigger-text .date-selection h2 {
+}
+
+.bigger-text .date-selection h2 {
     transition: none !important;
     font-size: 2.4em;
-  }
-  
-  .bigger-text .date-input label {
+}
+
+.bigger-text .date-input label {
     transition: none !important;
     font-size: 1.3em;
-  }
-  
-  .bigger-text .date-selector {
+}
+
+.bigger-text .date-selector {
     transition: none !important;
     font-size: 1.2em;
-  }
-  
-  .bigger-text .metric h2 {
+}
+
+.bigger-text .metric h2 {
     transition: none !important;
     font-size: 1.3em;
-  }
-  
-  .bigger-text .metric h1 {
+}
+
+.bigger-text .metric h1 {
     transition: none !important;
     font-size: 2.6em;
-  }
-  
-  .bigger-text .metric p {
+}
+
+.bigger-text .metric p {
     transition: none !important;
     font-size: 1em;
-  }
-  
-.dark-theme{
-    background-color: black;
-    color: white;
-  }
+}
 
-  
-.light-theme{
-    background-color: white;
-    color: black;
-  }
+.dark-text {
+    color: white !important;
+}
+
+.dark-image {
+    background-image: url('/assets/images/background_image_dark.jpg');
+}
+
+.light-image {
+    background-image: url('/assets/images/background_image.png');
+}
+.dark-text a{
+    color: white;
+}
+.dark-text a.active {
+    color: #c91931;
+}
+
+.dark-text tr {
+    background-color: black !important;
+}
+
+.dark-theme {
+    background-color: black !important;
+}
+
+.dark-theme td {
+    color: white !important;
+}
+
+.dark-theme tr {
+    background-color: black !important;
+}

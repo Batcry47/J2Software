@@ -67,7 +67,6 @@ export class DashboardComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.styleService.applyTheme();
     this.createDonutChart();
     this.fetchData();
     this.startEvents();
