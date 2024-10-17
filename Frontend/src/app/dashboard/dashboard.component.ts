@@ -5,6 +5,7 @@ import { Chart, registerables } from 'chart.js';
 import { forkJoin } from 'rxjs';
 import { StylingService } from '../styling.service';
 import { TranslateService } from '@ngx-translate/core';
+import { transition, trigger } from '@angular/animations';
 
 Chart.register(...registerables);
 
@@ -21,7 +22,13 @@ export interface EventDetails {
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
-  styleUrls: ['./dashboard.component.css']
+  styleUrls: ['./dashboard.component.css'],
+  animations: [
+    trigger('noAnimation', [
+      transition(':enter', []), // No animation on enter
+      transition(':leave', [])  // No animation on leave
+    ])
+  ]
 })
 export class DashboardComponent implements OnInit {
   inactivityTimer: any;
@@ -60,27 +67,26 @@ export class DashboardComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.styleService.applyTheme();
     this.createDonutChart();
     this.fetchData();
     this.startEvents();
     this.startInactivityTimer();
+    this.translate.onLangChange.subscribe(() => {
+      this.chart.destroy();
+      this.fetchData();
+      this.createDonutChart();
+    })
   }
 
   createDonutChart() {
-    const severityLevelArr = {
-      info: "Informational",
-      low: 'Low',
-      med: 'Medium',
-      high: 'High',
-      critical: 'Critical'
-    }
     const ctx = document.getElementById('severityChart') as HTMLCanvasElement;
-    this.changeGraphLanguage(this.severityLevelArr);
-    console.log(severityLevelArr)
+    this.changeGraphLanguage();
+    console.log(this.severityLevelArr)
     this.chart = new Chart(ctx, {
       type: 'doughnut',
       data: {
-        labels: [severityLevelArr.info, severityLevelArr.low, severityLevelArr.med, severityLevelArr.high, severityLevelArr.critical],
+        labels: [this.severityLevelArr.info, this.severityLevelArr.low, this.severityLevelArr.med, this.severityLevelArr.high, this.severityLevelArr.critical],
         datasets: [{
           data: [0, 0, 0, 0, 0],
           backgroundColor: [
@@ -108,7 +114,7 @@ export class DashboardComponent implements OnInit {
 
   }
 
-  changeGraphLanguage(severityArray: { info: string, low: string, med: string, high: string, critical: string }) {
+  changeGraphLanguage() {
     forkJoin({
       info: this.translate.get('SEVERITY-LEVEL.Informational'),
       low: this.translate.get('SEVERITY-LEVEL.Low'),
@@ -116,14 +122,14 @@ export class DashboardComponent implements OnInit {
       high: this.translate.get('SEVERITY-LEVEL.High'),
       critical: this.translate.get('SEVERITY-LEVEL.Critical')
     }).subscribe(severity => {
-      severityArray.info = severity.info
-      severityArray.low = severity.low
-      severityArray.med = severity.med
-      severityArray.high = severity.high
-      severityArray.critical = severity.critical
+      this.severityLevelArr.info = severity.info
+      this.severityLevelArr.low = severity.low
+      this.severityLevelArr.med = severity.med
+      this.severityLevelArr.high = severity.high
+      this.severityLevelArr.critical = severity.critical
     })
 
-    console.log(severityArray);
+    console.log(this.severityLevelArr);
 
   }
 

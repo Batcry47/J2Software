@@ -454,3 +454,12 @@
 .bigger-text .metric p {
   font-size: 1em;
 }
+
+.dark-theme{
+  background-color: black;
+  color: white;
+}
+
+.dark-theme-text{
+  color: white;
+}

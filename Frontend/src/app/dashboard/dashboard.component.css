@@ -226,6 +226,7 @@
 
 .results-table {
     overflow-x: auto;
+    color: black;
 }
 
 table {
@@ -585,33 +586,52 @@ tbody tr:hover {
 }
 
 .bigger-text {
+    transition: none !important;
     font-size: 1.2em;
   }
   
   .bigger-text .sidebar a {
+    transition: none !important;
     font-size: 1.3em;
   }
   
   .bigger-text .date-selection h2 {
+    transition: none !important;
     font-size: 2.4em;
   }
   
   .bigger-text .date-input label {
+    transition: none !important;
     font-size: 1.3em;
   }
   
   .bigger-text .date-selector {
+    transition: none !important;
     font-size: 1.2em;
   }
   
   .bigger-text .metric h2 {
+    transition: none !important;
     font-size: 1.3em;
   }
   
   .bigger-text .metric h1 {
+    transition: none !important;
     font-size: 2.6em;
   }
   
   .bigger-text .metric p {
+    transition: none !important;
     font-size: 1em;
+  }
+  
+.dark-theme{
+    background-color: black;
+    color: white;
+  }
+
+  
+.light-theme{
+    background-color: white;
+    color: black;
   }

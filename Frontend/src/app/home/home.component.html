@@ -1,8 +1,8 @@
 <div class="container" [ngClass]="{'bigger-text': isBiggerTextToggled()}">
-  <dialog class="logout-prompt" id="logout" [ngStyle]="{'background-color' : isDarkThemeToggled() ? 'black' : 'white'}">
+  <dialog class="logout-prompt" id="logout" [ngClass]="{'dark-theme' : isDarkThemeToggled(), 'light-theme': !isDarkThemeToggled()}">
     <div class="popup-header">
       <div class="red-bar"></div>
-      <h2 [ngStyle]="{'color' : isDarkThemeToggled() ? 'white' : 'black'}">{{'LOGOUT-MESSAGE' | translate}}</h2>
+      <h2>{{'LOGOUT-MESSAGE' | translate}}</h2>
     </div>
     <div class="popup-buttons">
       <button class="popup-button confirm" (click)="this.router.navigate(['/login'])">
@@ -12,12 +12,12 @@
     </div>
   </dialog>
 
-  <dialog class="logout-prompt" id="logoutPrompt" [ngStyle]="{'background-color' : isDarkThemeToggled() ? 'black' : 'white'}">
+  <dialog class="logout-prompt" id="logoutPrompt" [ngClass]="{'dark-theme' : isDarkThemeToggled(), 'light-theme': !isDarkThemeToggled()}">
     <div class="popup-header">
       <div class="red-bar"></div>
       <h2>{{'INACTIVE-TITLE' | translate}}</h2>
     </div>
-    <p>{{'INACTIVE-MESSAGE' | translate}}</p>
+    <p [ngStyle]="{'color' : isDarkThemeToggled() ? 'white' : ''}">{{'INACTIVE-MESSAGE' | translate}}</p>
     <div class="popup-buttons">
       <button class="popup-button confirm" (click)="resetInactivityTimer(); closeLogoutPrompt()">
         {{'ACTIVE-CONFIRM' | translate}}
@@ -28,7 +28,7 @@
     </div>
   </dialog>
 
-  <div class="sidebar" [ngStyle]="{'background-color' : isDarkThemeToggled() ? 'black' : 'white' }">
+  <div class="sidebar" [ngClass]="{'dark-theme' : isDarkThemeToggled(), 'light-theme': !isDarkThemeToggled()}">
     <h1>J2 Software</h1>
     <ul [ngStyle]="{'color' : isDarkThemeToggled() ? 'gray' : 'white' }">
       <li><a routerLink="/home" class="active">{{'SIDEBAR.Home' | translate}}</a></li>
@@ -50,16 +50,16 @@
   </div>
 
   <div class="home-container" [ngStyle]="{'background-color' : isDarkThemeToggled() ? 'black' : 'white', 'background-image': isDarkThemeToggled() ? 'url(assets/images/background_image_dark.jpg)' : 'url(assets/images/background_image.png)'}">
-    <div class="date-selection" [ngStyle]="{'background-color' : isDarkThemeToggled() ? 'black' : 'white'}">
+    <div class="date-selection" [ngClass]="{'dark-theme' : isDarkThemeToggled(), 'light-theme': !isDarkThemeToggled()}">
       <h2 [ngStyle]="{'color' : isDarkThemeToggled() ? 'white' : '#2c3e50'}">{{'DATE-TITLE' | translate}}</h2>
       <div class="date-inputs">
-        <div class="date-input">
+        <div class="date-input" >
           <label for="start_date" [ngStyle]="{'color' : isDarkThemeToggled() ? 'white' : 'gray'}">{{'START-TITLE' | translate}}</label>
           <input type="date" class="date-selector" id="start_date" name="start_date" min="2024-01-01"
             (change)="minEndDate(startDateInput, endDateInput)" #startDateInput />
         </div>
         <div class="date-input">
-          <label for="end_date" [ngStyle]="{'color' : isDarkThemeToggled() ? 'white' : 'gray'}">{{'END-TITLE' | translate}}</label>
+          <label for="end_date">{{'END-TITLE' | translate}}</label>
           <input type="date" class="date-selector" id="end_date" name="end_date" min="2024-01-01" (change)="updateAlertCount()" #endDateInput />
         </div>
       </div>

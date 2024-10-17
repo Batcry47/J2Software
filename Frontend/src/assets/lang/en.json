@@ -44,7 +44,7 @@
         "Resource-Development-DESC": "Resource Development consists of techniques that involve adversaries creating, purchasing, or compromising/stealing resources that can be used to support targeting."
     },
     "TITLE": "Dashboard",
-    "GRAPH-TITLE": "Serverity Level",
+    "GRAPH-TITLE": "Severity Level",
     "COLUMNS": {
         "Category": "Category",
         "Method": "Method",

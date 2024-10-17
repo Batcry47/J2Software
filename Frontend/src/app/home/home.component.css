@@ -361,3 +361,12 @@
 .bigger-text .metric p {
   font-size: 1em;
 }
+
+.dark-theme{
+  color: white;
+}
+
+.light-theme{
+  background-color: white;
+  color: black;
+}
