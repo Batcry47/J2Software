@@ -44,6 +44,13 @@ export class HomeComponent implements OnInit {
     this.startInactivityTimer();
     this.displayAlertCounts();
     this.initializeWalkthroughSteps();
+    const savedLanguage = localStorage.getItem('language');
+    if (savedLanguage) {
+      this.selectedLanguage = savedLanguage;
+      this.changeLanguage(this.selectedLanguage);
+    } else {
+      this.changeLanguage(this.selectedLanguage);
+    }
   }
 
   initializeWalkthroughSteps(): void {
@@ -193,5 +200,6 @@ export class HomeComponent implements OnInit {
   changeLanguage(language: string) {
     this.translate.use(language);
     this.styleService.setLanguage = language;
+    localStorage.setItem('language', language);
   }
 }

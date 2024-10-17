@@ -27,7 +27,7 @@ export class ReportComponent implements OnInit {
   executionAlerts: number = 0;
   resourceDevelopmentAlerts: number = 0;
   clickedButton = false;
-  selectedLanguage: string = "";
+  selectedLanguage: string = "en";
   inactivityTimer: any;
   INACTIVITY_TIMEOUT = 30000;
   chart: any;
@@ -50,6 +50,13 @@ export class ReportComponent implements OnInit {
     this.numOfAlerts = [this.impactAlerts, this.initialAccessAlerts, this.defenceEvasionAlerts, this.exfiltrationAlerts,
     this.collectionAlerts, this.privilegeEscalationAlerts, this.persistenceAlerts, this.reconnaissanceAlerts,
     this.executionAlerts, this.resourceDevelopmentAlerts];
+    const savedLanguage = localStorage.getItem('language');
+    if (savedLanguage) {
+      this.selectedLanguage = savedLanguage;
+      this.changeLanguage(this.selectedLanguage);
+    } else {
+      this.changeLanguage(this.selectedLanguage);
+    }
   }
 
   initializeWalkthroughSteps(): void {
@@ -224,5 +231,6 @@ export class ReportComponent implements OnInit {
   changeLanguage(language: string) {
     this.translate.use(language);
     this.styleService.setLanguage = language;
+    localStorage.setItem('language', language);
   }
 }
