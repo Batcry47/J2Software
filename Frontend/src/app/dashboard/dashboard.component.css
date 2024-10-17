@@ -3,6 +3,7 @@
     display: flex;
     width: 100%;
     flex: 1;
+    position: relative;
 }
 
 .sidebar {
@@ -18,7 +19,7 @@
     display: flex;
     flex-direction: column;
     transition: all 0.3s ease;
-    z-index: 1;
+    z-index: 100;
 }
 
 .sidebar h1 {
@@ -145,6 +146,7 @@
     flex-direction: column;
     align-items: center;
     position: relative;
+    z-index: 1;
 }
 
 .dashboard-title {
@@ -161,6 +163,8 @@
     border-radius: 8px;
     padding: 20px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    position: relative;
+    z-index: 2;
 }
 
 .chart-card {
@@ -362,6 +366,7 @@ tbody tr:hover {
     box-shadow: -2px 0 15px rgba(0, 0, 0, 0.1);
     transition: all 0.3s ease;
     transform: translateX(0);
+    z-index: 99;
 }
 
 .filter-panel.collapsed {
@@ -385,6 +390,7 @@ tbody tr:hover {
     cursor: pointer;
     transition: all 0.3s ease;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    z-index: 100;
 }
 
 .filter-toggle:hover {
@@ -641,7 +647,6 @@ tbody tr:hover {
     flex-direction: column;
     align-items: center;
     position: relative;
-    z-index: -1;
 }
 
 .light-image {
@@ -653,7 +658,6 @@ tbody tr:hover {
     flex-direction: column;
     align-items: center;
     position: relative;
-    z-index: -1;
 }
 
 .dark-text a {
@@ -696,7 +700,7 @@ tbody tr:hover {
     font-size: 24px;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
     transition: all 0.3s ease;
-    z-index: 2;
+    z-index: 101;
 }
 
 .help-button:hover {
