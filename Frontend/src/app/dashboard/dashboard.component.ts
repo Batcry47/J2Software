@@ -314,8 +314,8 @@ export class DashboardComponent implements OnInit {
     if (this.searchQuery) {
       const query = this.searchQuery.toLowerCase();
       this.filteredResults = this.filteredResults.filter(result =>
-        result.Category.toLowerCase().includes(query) ||
-        result.Method.toLowerCase().includes(query) ||
+        this.translate.instant('Category.' + result.Category).toLowerCase().includes(query) ||
+        this.translate.instant('Method.' + result.Method).toLowerCase().includes(query) ||
         result.Username.toLowerCase().includes(query) ||
         result.IPAddress.toLowerCase().includes(query) ||
         result.EventTimeStamp.toLowerCase().includes(query)
