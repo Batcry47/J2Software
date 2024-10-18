@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 import { BackendConnectionService } from '../backend-connection.service';
-import { Location } from '@angular/common';
-import { SessionManagerService } from '../session-manager.service';
+
 @Component({
   selector: 'app-factor-authentication',
   templateUrl: './factor-authentication.component.html',
