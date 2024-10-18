@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { NavigationEnd, Router } from '@angular/router';
 import { BackendConnectionService } from '../backend-connection.service';
 
 @Component({
@@ -17,6 +17,11 @@ export class FactorAuthenticationComponent implements OnInit {
   constructor(private router: Router, private backendService: BackendConnectionService) {}
 
   ngOnInit(): void {
+    this.router.events.subscribe(event => {
+      if (event instanceof NavigationEnd) {
+        sessionStorage.setItem('lastVisitedUrl', event.urlAfterRedirects);
+      }
+    })
     this.popup = document.getElementById("popup-box") as HTMLDialogElement;
     this.authCode = this.backendService.getAuthCode();
     this.startTimer();

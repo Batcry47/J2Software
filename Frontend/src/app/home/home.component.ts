@@ -1,5 +1,5 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
 import { BackendConnectionService } from '../backend-connection.service';
 import { StylingService } from '../styling.service';
 import { TranslateService } from '@ngx-translate/core';
@@ -41,6 +41,11 @@ export class HomeComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.router.events.subscribe(event => {
+      if (event instanceof NavigationEnd) {
+        sessionStorage.setItem('lastVisitedUrl', event.urlAfterRedirects);
+      }
+    })
     this.startInactivityTimer();
     this.displayAlertCounts();
     this.initializeWalkthroughSteps();

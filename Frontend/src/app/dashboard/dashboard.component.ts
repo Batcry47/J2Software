@@ -1,5 +1,5 @@
 import { Component, OnInit, Renderer2 } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
 import { BackendConnectionService } from '../backend-connection.service';
 import { Chart, registerables } from 'chart.js';
 import { forkJoin } from 'rxjs';
@@ -23,12 +23,6 @@ export interface EventDetails {
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.css'],
-  animations: [
-    trigger('noAnimation', [
-      transition(':enter', []),
-      transition(':leave', [])
-    ])
-  ]
 })
 export class DashboardComponent implements OnInit {
   inactivityTimer: any;
@@ -44,6 +38,7 @@ export class DashboardComponent implements OnInit {
   hoveredRows: Set<any> = new Set();
   chart: any;
   selectedLanguage: string;
+  themeSelected: boolean;
   informationalSeverityAlerts: number;
   lowSeverityAlerts: number;
   mediumSeverityAlerts: number;
@@ -71,6 +66,11 @@ export class DashboardComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.router.events.subscribe(event => {
+      if(event instanceof NavigationEnd){
+        sessionStorage.setItem('lastVisitedUrl', event.urlAfterRedirects);
+      }
+    })
     this.createDonutChart();
     this.fetchData();
     this.startEvents();

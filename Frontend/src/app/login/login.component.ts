@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { Router } from '@angular/router';
+import { Component, OnInit } from '@angular/core';
+import { NavigationEnd, Router } from '@angular/router';
 import { BackendConnectionService } from '../backend-connection.service';
 
 @Component({
@@ -7,7 +7,14 @@ import { BackendConnectionService } from '../backend-connection.service';
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
-export class LoginComponent {
+export class LoginComponent implements OnInit {
+  ngOnInit() {
+    this.router.events.subscribe(event => {
+      if (event instanceof NavigationEnd) {
+        sessionStorage.setItem('lastVisitedUrl', event.urlAfterRedirects);
+      }
+    })
+  }
   constructor(private router: Router, private backendService: BackendConnectionService) { }
 
   checkInput() {

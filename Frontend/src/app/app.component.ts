@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Router } from '@angular/router';
+import { NavigationEnd, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 
 @Component({
@@ -9,10 +9,14 @@ import { TranslateService } from '@ngx-translate/core';
 })
 export class AppComponent {
 
-  constructor(private route: Router, private translate: TranslateService) { }
+  constructor(private router: Router, private translate: TranslateService) { }
 
   ngOnInit(): void {
-    this.route.navigate(['/home']);
-    this.translate.setDefaultLang('en');
+    const lastVisitedUrl = sessionStorage.getItem('lastVisitedUrl');
+    if (lastVisitedUrl) {
+      this.router.navigateByUrl(lastVisitedUrl);
+    } else {
+      this.router.navigate(['/login']); 
+    }
   }
 }

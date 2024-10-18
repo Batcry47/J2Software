@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild, ElementRef, Renderer2 } from '@angular/core';
-import { Router } from '@angular/router';
+import { NavigationEnd, Router } from '@angular/router';
 import { BackendConnectionService } from '../backend-connection.service';
 import { Chart } from 'chart.js';
 import { StylingService } from '../styling.service';
@@ -43,6 +43,11 @@ export class ReportComponent implements OnInit {
     private translate: TranslateService) { }
 
   ngOnInit(): void {
+    this.router.events.subscribe(event => {
+      if (event instanceof NavigationEnd) {
+        sessionStorage.setItem('lastVisitedUrl', event.urlAfterRedirects);
+      }
+    })
     this.startEvents();
     this.startInactivityTimer();
     this.initializeWalkthroughSteps();
