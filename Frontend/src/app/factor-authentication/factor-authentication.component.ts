@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 import { BackendConnectionService } from '../backend-connection.service';
-
+import { Location } from '@angular/common';
+import { SessionManagerService } from '../session-manager.service';
 @Component({
   selector: 'app-factor-authentication',
   templateUrl: './factor-authentication.component.html',
@@ -13,6 +14,7 @@ export class FactorAuthenticationComponent implements OnInit {
   codeTimer = 30;
   timer: any;
   popup: HTMLDialogElement | null = null;
+  location: Location;
 
   constructor(private router: Router, private backendService: BackendConnectionService) {}
 

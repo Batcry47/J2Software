@@ -27,6 +27,7 @@ export class ReportComponent implements OnInit {
   executionAlerts: number = 0;
   resourceDevelopmentAlerts: number = 0;
   clickedButton = false;
+  isDarkTheme: boolean = false;
   selectedLanguage: string = "en";
   inactivityTimer: any;
   INACTIVITY_TIMEOUT = 30000;
@@ -43,6 +44,7 @@ export class ReportComponent implements OnInit {
     private translate: TranslateService) { }
 
   ngOnInit(): void {
+    this.isDarkTheme = this.styleService.isDarkModeEnabled();
     this.router.events.subscribe(event => {
       if (event instanceof NavigationEnd) {
         sessionStorage.setItem('lastVisitedUrl', event.urlAfterRedirects);
@@ -194,6 +196,7 @@ export class ReportComponent implements OnInit {
 
   toggleDarkTheme() {
     this.styleService.toggleDarkMode();
+    this.isDarkTheme = this.styleService.isDarkModeEnabled();
   }
 
   isDarkThemeToggled() {
