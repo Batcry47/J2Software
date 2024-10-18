@@ -23,6 +23,12 @@ export interface EventDetails {
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.css'],
+  animations: [
+    trigger('noAnimation', [
+      transition(':enter', []),
+      transition(':leave', [])
+    ])
+  ]
 })
 export class DashboardComponent implements OnInit {
   inactivityTimer: any;
@@ -38,7 +44,6 @@ export class DashboardComponent implements OnInit {
   hoveredRows: Set<any> = new Set();
   chart: any;
   selectedLanguage: string;
-  themeSelected: boolean;
   informationalSeverityAlerts: number;
   lowSeverityAlerts: number;
   mediumSeverityAlerts: number;
@@ -55,6 +60,7 @@ export class DashboardComponent implements OnInit {
     high: 'High',
     critical: 'Critical'
   }
+  sortConfig: { column: string; direction: 'asc' | 'desc' } = { column: '', direction: 'asc' };
 
   constructor(
     public router: Router,
@@ -66,11 +72,6 @@ export class DashboardComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.router.events.subscribe(event => {
-      if(event instanceof NavigationEnd){
-        sessionStorage.setItem('lastVisitedUrl', event.urlAfterRedirects);
-      }
-    })
     this.createDonutChart();
     this.fetchData();
     this.startEvents();
@@ -291,22 +292,39 @@ export class DashboardComponent implements OnInit {
     this.applyFiltersAndSort();
   }
 
+  sortColumn(column: string) {
+    if (this.sortConfig.column === column) {
+      // If clicking the same column, toggle the direction
+      this.sortConfig.direction = this.sortConfig.direction === 'asc' ? 'desc' : 'asc';
+    } else {
+      // If clicking a new column, set it as the sort column with ascending direction
+      this.sortConfig.column = column;
+      this.sortConfig.direction = 'asc';
+    }
+    this.applyFiltersAndSort();
+  }
+
   sortResults() {
     this.filteredResults.sort((a, b) => {
-      switch (this.selectedSortOption) {
+      let comparison = 0;
+      switch (this.sortConfig.column) {
         case 'category':
-          return a.Category.localeCompare(b.Category);
+          comparison = a.Category.localeCompare(b.Category);
+          break;
         case 'method':
-          return a.Method.localeCompare(b.Method);
+          comparison = a.Method.localeCompare(b.Method);
+          break;
         case 'username':
-          return a.Username.localeCompare(b.Username);
+          comparison = a.Username.localeCompare(b.Username);
+          break;
         case 'ipAddress':
-          return a.IPAddress.localeCompare(b.IPAddress);
+          comparison = a.IPAddress.localeCompare(b.IPAddress);
+          break;
         case 'timestamp':
-          return new Date(a.EventTimeStamp).getTime() - new Date(b.EventTimeStamp).getTime();
-        default:
-          return 0;
+          comparison = new Date(a.EventTimeStamp).getTime() - new Date(b.EventTimeStamp).getTime();
+          break;
       }
+      return this.sortConfig.direction === 'asc' ? comparison : -comparison;
     });
   }
 

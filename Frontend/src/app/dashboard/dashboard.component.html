@@ -92,16 +92,6 @@
           <input type="text" [placeholder]="'SEARCH-PLACEHOLDER' | translate" [(ngModel)]="searchQuery"
             (input)="onSearchInput()" class="search-input" />
         </div>
-        <div class="sort-options">
-          <span class="sort-label">{{'SORT-LABEL' | translate}}</span>
-          <select class="sort-select" [(ngModel)]="selectedSortOption" (change)="onSortChange()">
-            <option value="category">Category</option>
-            <option value="method">Method</option>
-            <option value="username">Username</option>
-            <option value="ipAddress">IP Address</option>
-            <option value="timestamp">Timestamp</option>
-          </select>
-        </div>
       </div>
 
       <div class="archive-actions" *ngIf="selectedRows.length > 0">
@@ -117,11 +107,41 @@
         <table>
           <thead>
             <tr>
-              <th>{{'COLUMNS.Category' | translate}}</th>
-              <th>{{'COLUMNS.Method' | translate}}</th>
-              <th>{{'COLUMNS.Username' | translate}}</th>
-              <th>{{'COLUMNS.IP Address' | translate}}</th>
-              <th>{{'COLUMNS.Timestamp' | translate}}</th>
+              <th (click)="sortColumn('category')">
+                {{ 'COLUMNS.Category' | translate }}
+                <span class="sort-arrow" [ngClass]="{
+                  'sort-arrow-asc': sortConfig.column === 'category' && sortConfig.direction === 'asc',
+                  'sort-arrow-desc': sortConfig.column === 'category' && sortConfig.direction === 'desc'
+                }"></span>
+              </th>
+              <th (click)="sortColumn('method')">
+                {{ 'COLUMNS.Method' | translate }}
+                <span class="sort-arrow" [ngClass]="{
+                  'sort-arrow-asc': sortConfig.column === 'method' && sortConfig.direction === 'asc',
+                  'sort-arrow-desc': sortConfig.column === 'method' && sortConfig.direction === 'desc'
+                }"></span>
+              </th>
+              <th (click)="sortColumn('username')">
+                {{ 'COLUMNS.Username' | translate }}
+                <span class="sort-arrow" [ngClass]="{
+                  'sort-arrow-asc': sortConfig.column === 'username' && sortConfig.direction === 'asc',
+                  'sort-arrow-desc': sortConfig.column === 'username' && sortConfig.direction === 'desc'
+                }"></span>
+              </th>
+              <th (click)="sortColumn('ipAddress')">
+                {{ 'COLUMNS.IP Address' | translate }}
+                <span class="sort-arrow" [ngClass]="{
+                  'sort-arrow-asc': sortConfig.column === 'ipAddress' && sortConfig.direction === 'asc',
+                  'sort-arrow-desc': sortConfig.column === 'ipAddress' && sortConfig.direction === 'desc'
+                }"></span>
+              </th>
+              <th (click)="sortColumn('timestamp')">
+                {{ 'COLUMNS.Timestamp' | translate }}
+                <span class="sort-arrow" [ngClass]="{
+                  'sort-arrow-asc': sortConfig.column === 'timestamp' && sortConfig.direction === 'asc',
+                  'sort-arrow-desc': sortConfig.column === 'timestamp' && sortConfig.direction === 'desc'
+                }"></span>
+              </th>
             </tr>
           </thead>
           <tbody class="table-content">

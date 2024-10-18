@@ -229,6 +229,32 @@
     outline: none;
 }
 
+.sort-arrow {
+    display: inline-block;
+    width: 0;
+    height: 0;
+    margin-left: 5px;
+    vertical-align: middle;
+    border-right: 4px solid transparent;
+    border-left: 4px solid transparent;
+  }
+  
+  .sort-arrow-asc {
+    border-bottom: 4px solid #000;
+  }
+  
+  .sort-arrow-desc {
+    border-top: 4px solid #000;
+  }
+  
+  th {
+    cursor: pointer;
+  }
+  
+  th:hover .sort-arrow:not(.sort-arrow-asc):not(.sort-arrow-desc) {
+    border-bottom: 4px solid #ccc;
+  }
+
 .results-table {
     overflow-x: auto;
     color: black;
