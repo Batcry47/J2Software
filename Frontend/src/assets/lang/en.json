@@ -70,7 +70,7 @@
         },
         "SORTING": {
             "TITLE": "Sorting Alerts",
-            "CONTENT": "You can sort alerts by various criteria such as category, method, username, IP address, or timestamp. Use the dropdown menu to select your preferred sorting option."
+            "CONTENT": "You can sort alerts by various criteria such as category, method, username, IP address, or timestamp. Use the sorting arrows to select your preferred sorting criteria."
         },
         "SEARCH": {
             "TITLE": "Search",

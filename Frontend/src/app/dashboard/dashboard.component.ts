@@ -418,6 +418,7 @@ export class DashboardComponent implements OnInit {
 
   toggleView() {
     this.showArchive = !this.showArchive;
+    this.selectedRows = [];
     this.fetchData();
   }
 
