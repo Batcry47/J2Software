@@ -5,6 +5,8 @@
 <div *ngIf="isWalkthroughActive" class="walkthrough-overlay">
   <div class="walkthrough-content"
     [ngClass]="{'dark-mode': isDarkThemeToggled(), 'bigger-text': isBiggerTextToggled()}">
+    <button class="close-button" [ngClass]="{'bigger-text': isBiggerTextToggled()}"
+      (click)="endWalkthrough()">×</button>
     <div class="walkthrough-text">
       <h3>{{ currentStep.title | translate }}</h3>
       <p>{{ currentStep.content | translate }}</p>

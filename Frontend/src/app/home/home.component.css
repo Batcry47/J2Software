@@ -436,6 +436,7 @@
   align-items: center;
   text-align: center;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  position: relative;
 }
 
 .walkthrough-content.dark-mode {
@@ -531,4 +532,25 @@
 
 .walkthrough-content.dark-mode .walkthrough-text::-webkit-scrollbar-thumb:hover {
   background: #95a5a6;
+}
+
+.close-button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: none;
+  border: none;
+  font-size: 1.5em;
+  color: #c91931;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.close-button .bigger-text
+{
+  font-size: 2.5em;
+}
+
+.close-button:hover {
+  color: #a71627;
 }
