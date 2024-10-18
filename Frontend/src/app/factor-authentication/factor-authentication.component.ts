@@ -15,7 +15,7 @@ export class FactorAuthenticationComponent implements OnInit {
   popup: HTMLDialogElement | null = null;
   location: Location;
 
-  constructor(private router: Router, private backendService: BackendConnectionService) {}
+  constructor(private router: Router, private backendService: BackendConnectionService) { }
 
   ngOnInit(): void {
     this.router.events.subscribe(event => {
@@ -36,10 +36,10 @@ export class FactorAuthenticationComponent implements OnInit {
     userMessage.classList.remove("visible");
 
     if (enteredCode === "") {
-        userMessage.textContent = "Please enter the Authentication code";
-        userMessage.classList.add("visible");
+      userMessage.textContent = "Please enter the Authentication code";
+      userMessage.classList.add("visible");
     } else {
-        this.validateData(enteredCode);
+      this.validateData(enteredCode);
     }
   }
 

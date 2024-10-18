@@ -1,47 +1,76 @@
-import { Component, OnInit, ViewChild, ElementRef, Renderer2 } from '@angular/core';
-import { NavigationEnd, Router } from '@angular/router';
+import { Component, OnInit, Renderer2 } from '@angular/core';
+import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
 import { BackendConnectionService } from '../backend-connection.service';
-import { Chart } from 'chart.js';
+import { Chart, registerables } from 'chart.js';
+import { forkJoin } from 'rxjs';
 import { StylingService } from '../styling.service';
 import { TranslateService } from '@ngx-translate/core';
+import { transition, trigger } from '@angular/animations';
+
+Chart.register(...registerables);
+
+export interface EventDetails {
+  eventID: number;
+  category: string;
+  method: string;
+  emailAddress: string;
+  ipAddress: string;
+  timestamp: Date;
+  severity: string;
+}
 
 @Component({
-  selector: 'app-report',
-  templateUrl: './report.component.html',
-  styleUrls: ['./report.component.css']
+  selector: 'app-dashboard',
+  templateUrl: './dashboard.component.html',
+  styleUrls: ['./dashboard.component.css'],
+  animations: [
+    trigger('noAnimation', [
+      transition(':enter', []),
+      transition(':leave', [])
+    ])
+  ]
 })
-export class ReportComponent implements OnInit {
-  @ViewChild('startDateInput') startDateInput: ElementRef<HTMLInputElement>;
-  @ViewChild('endDateInput') endDateInput: ElementRef<HTMLInputElement>;
-
-  totalAlerts: number = 0;
-  impactAlerts: number = 0;
-  maliciousAlerts: number = 0;
-  initialAccessAlerts: number = 0;
-  defenceEvasionAlerts: number = 0;
-  exfiltrationAlerts: number = 0;
-  collectionAlerts: number = 0;
-  privilegeEscalationAlerts: number = 0;
-  persistenceAlerts: number = 0;
-  reconnaissanceAlerts: number = 0;
-  executionAlerts: number = 0;
-  resourceDevelopmentAlerts: number = 0;
-  clickedButton = false;
-  isDarkTheme: boolean = false;
-  selectedLanguage: string = "en";
+export class DashboardComponent implements OnInit {
   inactivityTimer: any;
   INACTIVITY_TIMEOUT = 30000;
+  selectedSortOption: string;
+  selectedCategory: string;
+  isFilterCollapsed = true;
+  originalResults: any[] = [];
+  filteredResults: any[] = [];
+  archivedResults: any[] = [];
+  searchQuery: string = '';
+  selectedRows: any[] = [];
+  hoveredRows: Set<any> = new Set();
   chart: any;
-  numOfAlerts = [];
+  selectedLanguage: string;
+  informationalSeverityAlerts: number;
+  lowSeverityAlerts: number;
+  mediumSeverityAlerts: number;
+  highSeverityAlerts: number;
+  criticalSeverityAlerts: number;
+  showArchive: boolean = false;
   isWalkthroughActive = false;
   currentStepIndex = 0;
+  isDarkTheme: boolean = false;
   walkthroughSteps: { title: string; content: string }[] = [];
+  severityLevelArr = {
+    info: "Informational",
+    low: 'Low',
+    med: 'Medium',
+    high: 'High',
+    critical: 'Critical'
+  }
+  sortConfig: { column: string; direction: 'asc' | 'desc' } = { column: '', direction: 'asc' };
 
-  constructor(public router: Router,
+  constructor(
+    public router: Router,
+    private route: ActivatedRoute,
     private renderer: Renderer2,
     private backendService: BackendConnectionService,
     private styleService: StylingService,
-    private translate: TranslateService) { }
+    private translate: TranslateService
+  ) { }
 
   ngOnInit(): void {
     this.isDarkTheme = this.styleService.isDarkModeEnabled();
@@ -50,13 +79,16 @@ export class ReportComponent implements OnInit {
         sessionStorage.setItem('lastVisitedUrl', event.urlAfterRedirects);
       }
     })
+    this.createDonutChart();
+    this.fetchData();
     this.startEvents();
     this.startInactivityTimer();
     this.initializeWalkthroughSteps();
-    this.displayAlertCounts();
-    this.numOfAlerts = [this.impactAlerts, this.initialAccessAlerts, this.defenceEvasionAlerts, this.exfiltrationAlerts,
-    this.collectionAlerts, this.privilegeEscalationAlerts, this.persistenceAlerts, this.reconnaissanceAlerts,
-    this.executionAlerts, this.resourceDevelopmentAlerts];
+    this.translate.onLangChange.subscribe(() => {
+      this.chart.destroy();
+      this.fetchData();
+      this.createDonutChart();
+    })
     const savedLanguage = localStorage.getItem('language');
     if (savedLanguage) {
       this.selectedLanguage = savedLanguage;
@@ -68,28 +100,123 @@ export class ReportComponent implements OnInit {
 
   initializeWalkthroughSteps(): void {
     this.walkthroughSteps = [
-      { title: 'WALKTHROUGH.WELCOME-REPORT.TITLE', content: 'WALKTHROUGH.WELCOME-REPORT.CONTENT' },
-      { title: 'WALKTHROUGH.DATE_SELECTION.TITLE', content: 'WALKTHROUGH.DATE_SELECTION.CONTENT' },
-      { title: 'WALKTHROUGH.DOWNLOAD_REPORT.TITLE', content: 'WALKTHROUGH.DOWNLOAD_REPORT.CONTENT' },
+      { title: 'WALKTHROUGH.WELCOME-DASHBOARD.TITLE', content: 'WALKTHROUGH.WELCOME-DASHBOARD.CONTENT' },
+      { title: 'WALKTHROUGH.FILTERS.TITLE', content: 'WALKTHROUGH.FILTERS.CONTENT' },
+      { title: 'WALKTHROUGH.SORTING.TITLE', content: 'WALKTHROUGH.SORTING.CONTENT' },
+      { title: 'WALKTHROUGH.SEARCH.TITLE', content: 'WALKTHROUGH.SEARCH.CONTENT' },
+      { title: 'WALKTHROUGH.ARCHIVING.TITLE', content: 'WALKTHROUGH.ARCHIVING.CONTENT' },
       { title: 'WALKTHROUGH.NAVIGATION.TITLE', content: 'WALKTHROUGH.NAVIGATION.CONTENT' },
       { title: 'WALKTHROUGH.PREFERENCES.TITLE', content: 'WALKTHROUGH.PREFERENCES.CONTENT' }
     ];
   }
 
+  createDonutChart() {
+    const ctx = document.getElementById('severityChart') as HTMLCanvasElement;
+    this.changeGraphLanguage();
+    console.log(this.severityLevelArr)
+    this.chart = new Chart(ctx, {
+      type: 'doughnut',
+      data: {
+        labels: [this.severityLevelArr.info, this.severityLevelArr.low, this.severityLevelArr.med, this.severityLevelArr.high, this.severityLevelArr.critical],
+        datasets: [{
+          data: [0, 0, 0, 0, 0],
+          backgroundColor: [
+            'rgba(3, 169, 244, 0.8)',
+            'rgba(76, 175, 80, 0.8)',
+            'rgba(255, 152, 0, 0.8)',
+            'rgba(244, 67, 54, 0.8)',
+            'rgba(183, 28, 28, 0.8)'
+          ],
+          borderColor: [
+            'rgba(3, 169, 244, 1)',
+            'rgba(76, 175, 80, 1)',
+            'rgba(255, 152, 0, 1)',
+            'rgba(244, 67, 54, 1)',
+            'rgba(183, 28, 28, 1)'
+          ],
+          borderWidth: 1
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false
+      }
+    });
+
+  }
+
+  changeGraphLanguage() {
+    forkJoin({
+      info: this.translate.get('SEVERITY-LEVEL.Informational'),
+      low: this.translate.get('SEVERITY-LEVEL.Low'),
+      med: this.translate.get('SEVERITY-LEVEL.Medium'),
+      high: this.translate.get('SEVERITY-LEVEL.High'),
+      critical: this.translate.get('SEVERITY-LEVEL.Critical')
+    }).subscribe(severity => {
+      this.severityLevelArr.info = severity.info
+      this.severityLevelArr.low = severity.low
+      this.severityLevelArr.med = severity.med
+      this.severityLevelArr.high = severity.high
+      this.severityLevelArr.critical = severity.critical
+    })
+
+    console.log(this.severityLevelArr);
+
+  }
+
+  fetchData() {
+    forkJoin({
+      informational: this.backendService.getInformationalAlertCount(),
+      low: this.backendService.getLowAlertCount(),
+      medium: this.backendService.getMediumAlertCount(),
+      high: this.backendService.getHighAlertCount(),
+      critical: this.backendService.getCriticalAlertCount(),
+      eventLogs: this.showArchive ? this.backendService.getArchivedEventLogs() : this.backendService.getEventLogs()
+    }).subscribe(
+      (results) => {
+        this.informationalSeverityAlerts = results.informational.Informational;
+        this.lowSeverityAlerts = results.low.Low;
+        this.mediumSeverityAlerts = results.medium.Medium;
+        this.highSeverityAlerts = results.high.High;
+        this.criticalSeverityAlerts = results.critical.Critical;
+
+        this.updateChartData([
+          this.informationalSeverityAlerts,
+          this.lowSeverityAlerts,
+          this.mediumSeverityAlerts,
+          this.highSeverityAlerts,
+          this.criticalSeverityAlerts
+        ]);
+
+        if (this.showArchive) {
+          this.archivedResults = results.eventLogs.ArchivedEventLogs;
+          this.originalResults = this.archivedResults;
+        } else {
+          this.originalResults = results.eventLogs.Eventlogs;
+        }
+
+        this.applyFiltersAndSort();
+
+        this.route.queryParams.subscribe(params => {
+          const category = params['category'];
+          if (category) {
+            this.applyCategoryFilter(category);
+          }
+        });
+      }
+    );
+  }
+
+  updateChartData(newData: number[]) {
+    if (this.chart && this.chart.data && this.chart.data.datasets) {
+      this.chart.data.datasets[0].data = newData;
+      this.chart.update();
+    }
+  }
+
   startEvents() {
     window.addEventListener("mousemove", this.resetInactivityTimer.bind(this));
     window.addEventListener("keydown", this.resetInactivityTimer.bind(this));
-  }
-
-
-  minEndDate(startDate: HTMLInputElement, endDate: HTMLInputElement) {
-    if (startDate.value !== "") {
-      endDate.min = startDate.value;
-      this.updateAlertCount()
-      if (endDate.value < startDate.value) {
-        endDate.value = startDate.value;
-      }
-    }
   }
 
   openPrompt() {
@@ -100,10 +227,6 @@ export class ReportComponent implements OnInit {
   closePrompt() {
     const logoutPrompt = document.getElementById("logout") as HTMLDialogElement;
     logoutPrompt.close();
-  }
-
-  updateAlertCount() {
-    this.displayAlertCounts(this.startDateInput.nativeElement, this.endDateInput.nativeElement);
   }
 
   startInactivityTimer() {
@@ -125,78 +248,189 @@ export class ReportComponent implements OnInit {
     logoutPrompt.close();
   }
 
-  downloadReport() {
-    const reportElement = (document.querySelector('.downloaded-report-results') as HTMLElement);
-    const reportContent = this.cutHTMLElements((reportElement as HTMLElement).innerHTML)
-
-    const blob = new Blob([reportContent], { type: 'text/plain' });
-
-    const a = this.renderer.createElement('a');
-    a.href = window.URL.createObjectURL(blob);
-    a.download = 'Alert_Report.txt';
-
-    this.renderer.appendChild(document.body, a);
-    a.click();
-    this.renderer.removeChild(document.body, a);
-
-    window.URL.revokeObjectURL(a.href);
+  toggleFilter() {
+    this.isFilterCollapsed = !this.isFilterCollapsed;
   }
 
-  cutHTMLElements(htmlElement: string) {
-    let text = htmlElement.replace(/<\/?[^>]+>/gi, '\n');
-    return text.trim();
+  applyCategoryFilter(category: string) {
+    const categoryBox = document.querySelector(`.filter-checkbox[data-category="${category.toLowerCase().replace(' ', '-')}"]`) as HTMLInputElement;
+    if (categoryBox) {
+      this.renderer.setProperty(categoryBox, 'checked', true);
+      this.applyFiltersAndSort();
+    }
   }
-  displayAlertCounts(startDate?: HTMLInputElement, endDate?: HTMLInputElement) {
-    this.backendService.getImpactAlerts(startDate, endDate).subscribe(impactCount => {
-      this.impactAlerts = impactCount.Impact;
+
+  applyFiltersAndSort() {
+    this.filteredResults = this.originalResults.slice();
+    this.filterResults();
+    this.sortResults();
+    this.searchResults();
+    this.updateChartData(this.calculateSeverityCounts());
+  }
+
+  filterResults() {
+    const selectedSeverities = Array.from(document.querySelectorAll('.filter-checkbox[data-severity]:checked'))
+      .map((checkbox: HTMLInputElement) => checkbox.getAttribute('data-severity'));
+    const selectedCategories = Array.from(document.querySelectorAll('.filter-checkbox[data-category]:checked'))
+      .map((checkbox: HTMLInputElement) => checkbox.getAttribute('data-category'));
+
+    this.filteredResults = this.filteredResults.filter(result => {
+      const severityMatch = selectedSeverities.length === 0 || selectedSeverities.includes(result.Severity.toLowerCase());
+      const categoryMatch = selectedCategories.length === 0 || selectedCategories.includes(result.Category.toLowerCase().replace(' ', '-'));
+      return severityMatch && categoryMatch;
+    });
+  }
+
+  clearSeverityFilters() {
+    const severityCheckboxes = document.querySelectorAll('.filter-checkbox[data-severity]');
+    severityCheckboxes.forEach((checkbox: HTMLInputElement) => {
+      checkbox.checked = false;
     });
 
-    this.backendService.getCollectionAlerts(startDate, endDate).subscribe(collectionCount => {
-      this.collectionAlerts = collectionCount.Collection;
+    this.applyFiltersAndSort();
+  }
+
+  clearCategoryFilters() {
+    const categoryCheckboxes = document.querySelectorAll('.filter-checkbox[data-category]');
+    categoryCheckboxes.forEach((checkbox: HTMLInputElement) => {
+      checkbox.checked = false;
     });
 
-    this.backendService.getPersistenceAlerts(startDate, endDate).subscribe(persistenceCount => {
-      this.persistenceAlerts = persistenceCount.Persistence;
+    this.applyFiltersAndSort();
+  }
+
+  sortColumn(column: string) {
+    if (this.sortConfig.column === column) {
+      // If clicking the same column, toggle the direction
+      this.sortConfig.direction = this.sortConfig.direction === 'asc' ? 'desc' : 'asc';
+    } else {
+      // If clicking a new column, set it as the sort column with ascending direction
+      this.sortConfig.column = column;
+      this.sortConfig.direction = 'asc';
+    }
+    this.applyFiltersAndSort();
+  }
+
+  sortResults() {
+    this.filteredResults.sort((a, b) => {
+      let comparison = 0;
+      switch (this.sortConfig.column) {
+        case 'category':
+          comparison = a.Category.localeCompare(b.Category);
+          break;
+        case 'method':
+          comparison = a.Method.localeCompare(b.Method);
+          break;
+        case 'username':
+          comparison = a.Username.localeCompare(b.Username);
+          break;
+        case 'ipAddress':
+          comparison = a.IPAddress.localeCompare(b.IPAddress);
+          break;
+        case 'timestamp':
+          comparison = new Date(a.EventTimeStamp).getTime() - new Date(b.EventTimeStamp).getTime();
+          break;
+      }
+      return this.sortConfig.direction === 'asc' ? comparison : -comparison;
     });
+  }
 
-    this.backendService.getExfiltrationAlerts(startDate, endDate).subscribe(exfiltrationCount => {
-      this.exfiltrationAlerts = exfiltrationCount.Exfiltration;
-    });
+  searchResults() {
+    if (this.searchQuery) {
+      const query = this.searchQuery.toLowerCase();
+      this.filteredResults = this.filteredResults.filter(result =>
+        this.translate.instant('Category.' + result.Category).toLowerCase().includes(query) ||
+        this.translate.instant('Method.' + result.Method).toLowerCase().includes(query) ||
+        result.Username.toLowerCase().includes(query) ||
+        result.IPAddress.toLowerCase().includes(query) ||
+        result.EventTimeStamp.toLowerCase().includes(query)
+      );
+    }
+  }
 
-    this.backendService.getEscalationAlerts(startDate, endDate).subscribe(escalationCount => {
-      this.privilegeEscalationAlerts = escalationCount.Escalation;
-    });
+  onFilterChange() {
+    this.applyFiltersAndSort();
+  }
 
-    this.backendService.getInitialAccessAlerts(startDate, endDate).subscribe(initialAccessCount => {
-      this.initialAccessAlerts = initialAccessCount.InitialAccess;
-    });
+  onSortChange() {
+    this.applyFiltersAndSort();
+  }
 
-    this.backendService.getEvasionAlerts(startDate, endDate).subscribe(evasionCount => {
-      this.defenceEvasionAlerts = evasionCount.DefenseEvasion;
-    });
+  onSearchInput() {
+    this.applyFiltersAndSort();
+  }
 
-    this.backendService.getReconnissanceAlerts(startDate, endDate).subscribe(reconnaissanceCount => {
-      this.reconnaissanceAlerts = reconnaissanceCount.Reconnaissance;
-    });
+  toggleRowSelection(result: any) {
+    if (this.selectedRows.includes(result)) {
+      this.selectedRows = this.selectedRows.filter(row => row !== result);
+    } else {
+      this.selectedRows.push(result);
+    }
+  }
 
-    this.backendService.getExecutionAlerts(startDate, endDate).subscribe(executionCount => {
-      this.executionAlerts = executionCount.Execution;
-    });
+  showCheckbox(result: any) {
+    this.hoveredRows.add(result);
+  }
 
-    this.backendService.getResourceDevelopmentAlerts(startDate, endDate).subscribe(resourceDevCount => {
-      this.resourceDevelopmentAlerts = resourceDevCount.ResourceDevelopment;
-    });
+  hideCheckbox(result: any) {
+    this.hoveredRows.delete(result);
+  }
 
-    this.totalAlerts = (this.impactAlerts + this.collectionAlerts + this.defenceEvasionAlerts +
-      this.exfiltrationAlerts + this.initialAccessAlerts + this.persistenceAlerts + this.privilegeEscalationAlerts +
-      this.reconnaissanceAlerts + this.executionAlerts + this.resourceDevelopmentAlerts);
+  isRowHovered(result: any): boolean {
+    return this.hoveredRows.has(result);
+  }
 
-    this.maliciousAlerts = this.totalAlerts;
+  isRowSelected(result: any): boolean {
+    return this.selectedRows.includes(result);
+  }
+
+  calculateSeverityCounts(): number[] {
+    const severityLevels = ['Informational', 'Low', 'Medium', 'High', 'Critical'];
+    return severityLevels.map(severity =>
+      this.filteredResults.filter(result => result.Severity.toLowerCase() === severity.toLowerCase()).length
+    );
+  }
+
+  archiveSelectedRows() {
+    const archivePromises = this.selectedRows.map(row =>
+      this.backendService.archiveEventLog(row.EventID).toPromise()
+    );
+
+    Promise.all(archivePromises)
+      .then(() => {
+        console.log('Archiving completed');
+        this.fetchData();
+        this.selectedRows = [];
+      })
+      .catch(error => {
+        console.error('Error archiving rows:', error);
+      });
+  }
+
+  unarchiveSelectedRows() {
+    const unarchivePromises = this.selectedRows.map(row =>
+      this.backendService.unarchiveEventLog(row.EventID).toPromise()
+    );
+
+    Promise.all(unarchivePromises)
+      .then(() => {
+        console.log('Unarchiving completed');
+        this.fetchData();
+        this.selectedRows = [];
+      })
+      .catch(error => {
+        console.error('Error unarchiving rows:', error);
+      });
+  }
+
+  toggleView() {
+    this.showArchive = !this.showArchive;
+    this.selectedRows = [];
+    this.fetchData();
   }
 
   toggleDarkTheme() {
     this.styleService.toggleDarkMode();
-    this.isDarkTheme = this.styleService.isDarkModeEnabled();
   }
 
   isDarkThemeToggled() {

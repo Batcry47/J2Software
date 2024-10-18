@@ -81,7 +81,6 @@ export class ReportComponent implements OnInit {
     window.addEventListener("keydown", this.resetInactivityTimer.bind(this));
   }
 
-
   minEndDate(startDate: HTMLInputElement, endDate: HTMLInputElement) {
     if (startDate.value !== "") {
       endDate.min = startDate.value;

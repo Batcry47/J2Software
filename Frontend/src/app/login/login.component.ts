@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 import { BackendConnectionService } from '../backend-connection.service';
-import { SessionManagerService } from '../session-manager.service';
 
 @Component({
   selector: 'app-login',
@@ -16,7 +15,7 @@ export class LoginComponent implements OnInit {
       }
     })
   }
-  constructor(private router: Router, private backendService: BackendConnectionService, private sessionService: SessionManagerService) { }
+  constructor(private router: Router, private backendService: BackendConnectionService) { }
 
   checkInput() {
     const enteredUsername = (document.getElementById('username') as HTMLInputElement).value;
