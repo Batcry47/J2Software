@@ -15,7 +15,11 @@ func ConnectToDB() {
 
 	//dsn := os.Getenv("DB_Conn")
 
+<<<<<<< Updated upstream
 	dsn := "root:train456#@tcp(127.0.0.1:3306)/AthenaDB?charset=utf8mb4&parseTime=True&loc=Local"
+=======
+	dsn := "admin:GameOver#74@tcp(127.0.0.1:3306)/AthenaDB?charset=utf8mb4&parseTime=True&loc=Local"
+>>>>>>> Stashed changes
 	DB, err = gorm.Open(mysql.Open(dsn), &gorm.Config{})
 
 	if err != nil {
