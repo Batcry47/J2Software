@@ -97,7 +97,7 @@
         "FINISH": "Finish"
     },
     "TITLE": "Dashboard",
-    "GRAPH-TITLE": "Serverity Level",
+    "GRAPH-TITLE": "Alert Severity",
     "COLUMNS": {
         "Category": "Category",
         "Method": "Method",

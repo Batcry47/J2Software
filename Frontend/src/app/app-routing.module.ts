@@ -7,15 +7,16 @@ import { LoginComponent } from './login/login.component';
 import { FactorAuthenticationComponent } from './factor-authentication/factor-authentication.component';
 
 const routes: Routes = [
-  {path: 'home', component: HomeComponent},
-  {path: 'dashboard', component: DashboardComponent},
-  {path: 'report', component: ReportComponent},
-  {path: 'login', component: LoginComponent},
-  {path: 'factor', component: FactorAuthenticationComponent}
+  { path: 'home', component: HomeComponent },
+  { path: 'dashboard', component: DashboardComponent },
+  { path: 'report', component: ReportComponent },
+  { path: 'login', component: LoginComponent },
+  { path: 'factor', component: FactorAuthenticationComponent }
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule]
 })
+
 export class AppRoutingModule { }

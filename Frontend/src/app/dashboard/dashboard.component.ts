@@ -5,7 +5,6 @@ import { Chart, registerables } from 'chart.js';
 import { forkJoin } from 'rxjs';
 import { StylingService } from '../styling.service';
 import { TranslateService } from '@ngx-translate/core';
-import { transition, trigger } from '@angular/animations';
 
 Chart.register(...registerables);
 
@@ -22,14 +21,9 @@ export interface EventDetails {
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
-  styleUrls: ['./dashboard.component.css'],
-  animations: [
-    trigger('noAnimation', [
-      transition(':enter', []),
-      transition(':leave', [])
-    ])
-  ]
+  styleUrls: ['./dashboard.component.css']
 })
+
 export class DashboardComponent implements OnInit {
   inactivityTimer: any;
   INACTIVITY_TIMEOUT = 30000;
@@ -43,7 +37,7 @@ export class DashboardComponent implements OnInit {
   selectedRows: any[] = [];
   hoveredRows: Set<any> = new Set();
   chart: any;
-  selectedLanguage: string;
+  selectedLanguage: string = "en";
   informationalSeverityAlerts: number;
   lowSeverityAlerts: number;
   mediumSeverityAlerts: number;
@@ -62,6 +56,8 @@ export class DashboardComponent implements OnInit {
     critical: 'Critical'
   }
   sortConfig: { column: string; direction: 'asc' | 'desc' } = { column: '', direction: 'asc' };
+  themeInitialized = false;
+  DEFAULT_ANIMATION_DURATION = 750;
 
   constructor(
     public router: Router,
@@ -70,25 +66,56 @@ export class DashboardComponent implements OnInit {
     private backendService: BackendConnectionService,
     private styleService: StylingService,
     private translate: TranslateService
-  ) { }
+  ) {
+    this.isDarkTheme = this.styleService.isDarkModeEnabled();
+  }
 
   ngOnInit(): void {
-    this.isDarkTheme = this.styleService.isDarkModeEnabled();
+    if (!this.themeInitialized) {
+      this.themeInitialized = true;
+      this.isDarkTheme = this.styleService.isDarkModeEnabled();
+    }
+
     this.router.events.subscribe(event => {
       if (event instanceof NavigationEnd) {
         sessionStorage.setItem('lastVisitedUrl', event.urlAfterRedirects);
       }
-    })
-    this.createDonutChart();
+    });
+
+    this.initializeData();
+  }
+
+  ngAfterViewInit() {
+    this.initializeChart();
+  }
+
+  initializeChart() {
+    requestAnimationFrame(() => {
+      if (document.getElementById('severityChart')) {
+        this.createDonutChart();
+      }
+    });
+  }
+
+  initializeData() {
     this.fetchData();
     this.startEvents();
     this.startInactivityTimer();
     this.initializeWalkthroughSteps();
-    this.translate.onLangChange.subscribe(() => {
-      this.chart.destroy();
-      this.fetchData();
+
+    requestAnimationFrame(() => {
       this.createDonutChart();
-    })
+    });
+
+    this.translate.onLangChange.subscribe(() => {
+      if (this.chart) {
+        const currentData = this.chart.data.datasets[0].data;
+        this.chart.destroy();
+        this.createDonutChart();
+        this.updateChartData(currentData);
+      }
+    });
+
     const savedLanguage = localStorage.getItem('language');
     if (savedLanguage) {
       this.selectedLanguage = savedLanguage;
@@ -112,14 +139,22 @@ export class DashboardComponent implements OnInit {
 
   createDonutChart() {
     const ctx = document.getElementById('severityChart') as HTMLCanvasElement;
+    if (!ctx) return;
+
     this.changeGraphLanguage();
-    console.log(this.severityLevelArr)
+
+    const currentData = this.chart?.data?.datasets?.[0]?.data || [0, 0, 0, 0, 0];
+
+    if (this.chart) {
+      this.chart.destroy();
+    }
+
     this.chart = new Chart(ctx, {
       type: 'doughnut',
       data: {
         labels: [this.severityLevelArr.info, this.severityLevelArr.low, this.severityLevelArr.med, this.severityLevelArr.high, this.severityLevelArr.critical],
         datasets: [{
-          data: [0, 0, 0, 0, 0],
+          data: currentData,
           backgroundColor: [
             'rgba(3, 169, 244, 0.8)',
             'rgba(76, 175, 80, 0.8)',
@@ -139,10 +174,30 @@ export class DashboardComponent implements OnInit {
       },
       options: {
         responsive: true,
-        maintainAspectRatio: false
+        maintainAspectRatio: false,
+        animation: {
+          duration: this.DEFAULT_ANIMATION_DURATION
+        },
+        animations: {
+          colors: {
+            type: 'color',
+            duration: this.DEFAULT_ANIMATION_DURATION
+          },
+          numbers: {
+            type: 'number',
+            duration: this.DEFAULT_ANIMATION_DURATION,
+            easing: 'easeInOutQuart'
+          }
+        },
+        plugins: {
+          legend: {
+            labels: {
+              color: this.isDarkTheme ? '#ffffff' : '#2c3e50'
+            }
+          }
+        }
       }
     });
-
   }
 
   changeGraphLanguage() {
@@ -159,9 +214,6 @@ export class DashboardComponent implements OnInit {
       this.severityLevelArr.high = severity.high
       this.severityLevelArr.critical = severity.critical
     })
-
-    console.log(this.severityLevelArr);
-
   }
 
   fetchData() {
@@ -203,12 +255,19 @@ export class DashboardComponent implements OnInit {
             this.applyCategoryFilter(category);
           }
         });
+        this.initializeChart();
       }
     );
   }
 
+  ngOnDestroy() {
+    if (this.chart) {
+      this.chart.destroy();
+    }
+  }
+
   updateChartData(newData: number[]) {
-    if (this.chart && this.chart.data && this.chart.data.datasets) {
+    if (this.chart?.data?.datasets) {
       this.chart.data.datasets[0].data = newData;
       this.chart.update();
     }
@@ -265,6 +324,10 @@ export class DashboardComponent implements OnInit {
     this.filterResults();
     this.sortResults();
     this.searchResults();
+
+    if (this.chart) {
+      this.chart.options.animation = { duration: this.DEFAULT_ANIMATION_DURATION };
+    }
     this.updateChartData(this.calculateSeverityCounts());
   }
 
@@ -301,10 +364,8 @@ export class DashboardComponent implements OnInit {
 
   sortColumn(column: string) {
     if (this.sortConfig.column === column) {
-      // If clicking the same column, toggle the direction
       this.sortConfig.direction = this.sortConfig.direction === 'asc' ? 'desc' : 'asc';
     } else {
-      // If clicking a new column, set it as the sort column with ascending direction
       this.sortConfig.column = column;
       this.sortConfig.direction = 'asc';
     }
@@ -430,7 +491,23 @@ export class DashboardComponent implements OnInit {
   }
 
   toggleDarkTheme() {
+    const currentData = this.chart?.data?.datasets?.[0]?.data || [0, 0, 0, 0, 0];
+
     this.styleService.toggleDarkMode();
+    this.isDarkTheme = this.styleService.isDarkModeEnabled();
+
+    if (this.chart) {
+      this.chart.options.animation = { duration: 0 };
+    }
+
+    requestAnimationFrame(() => {
+      this.createDonutChart();
+      this.updateChartData(currentData);
+
+      if (this.chart) {
+        this.chart.options.animation = { duration: this.DEFAULT_ANIMATION_DURATION };
+      }
+    });
   }
 
   isDarkThemeToggled() {
@@ -471,6 +548,9 @@ export class DashboardComponent implements OnInit {
   }
 
   changeLanguage(language: string) {
+    if (!language) {
+      language = 'en';
+    }
     this.translate.use(language);
     this.styleService.setLanguage = language;
     localStorage.setItem('language', language);

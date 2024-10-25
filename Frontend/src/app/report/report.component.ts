@@ -10,10 +10,10 @@ import { TranslateService } from '@ngx-translate/core';
   templateUrl: './report.component.html',
   styleUrls: ['./report.component.css']
 })
+
 export class ReportComponent implements OnInit {
   @ViewChild('startDateInput') startDateInput: ElementRef<HTMLInputElement>;
   @ViewChild('endDateInput') endDateInput: ElementRef<HTMLInputElement>;
-
   totalAlerts: number = 0;
   impactAlerts: number = 0;
   maliciousAlerts: number = 0;
@@ -236,6 +236,10 @@ export class ReportComponent implements OnInit {
   }
 
   changeLanguage(language: string) {
+    if (!language) {
+      language = 'en';
+    }
+    this.selectedLanguage = language;
     this.translate.use(language);
     this.styleService.setLanguage = language;
     localStorage.setItem('language', language);

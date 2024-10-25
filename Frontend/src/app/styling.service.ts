@@ -1,4 +1,5 @@
 import { Injectable } from "@angular/core";
+import { TranslateService } from "@ngx-translate/core";
 
 @Injectable({
     providedIn: 'root'
@@ -6,9 +7,9 @@ import { Injectable } from "@angular/core";
 export class StylingService {
     darkModeToggled = false;
     biggerText = false;
-    setLanguage: string;
+    setLanguage: string = 'en';
 
-    constructor() {
+    constructor(private translate: TranslateService) {
         const storedTheme = localStorage.getItem('darkTheme');
         if (storedTheme) {
             this.darkModeToggled = JSON.parse(storedTheme);
@@ -18,6 +19,20 @@ export class StylingService {
         if (storedText) {
             this.biggerText = JSON.parse(storedText);
         }
+
+        const savedLanguage = localStorage.getItem('language');
+        if (savedLanguage) {
+            this.setLanguage = savedLanguage;
+        } else {
+            this.setLanguage = 'en';
+            localStorage.setItem('language', 'en');
+        }
+    }
+
+    changeLanguage(lang: string) {
+        this.setLanguage = lang;
+        this.translate.use(lang);
+        localStorage.setItem('selectedLanguage', lang);
     }
 
     toggleDarkMode() {

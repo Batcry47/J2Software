@@ -9,8 +9,8 @@ import { TranslateService } from '@ngx-translate/core';
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css']
 })
+
 export class HomeComponent implements OnInit {
-  // totalAlerts: number = 0;
   @ViewChild('startDateInput') startDateInput: ElementRef<HTMLInputElement>;
   @ViewChild('endDateInput') endDateInput: ElementRef<HTMLInputElement>;
   impactAlerts: number = 0;
@@ -25,7 +25,7 @@ export class HomeComponent implements OnInit {
   executionAlerts: number = 0;
   resourceDevelopmentAlerts: number = 0;
   inactivityTimer: any;
-  selectedLanguage: string;
+  selectedLanguage: string = 'en';
   INACTIVITY_TIMEOUT = 30000;
   user_id = 0;
   isWalkthroughActive = false;
@@ -38,6 +38,7 @@ export class HomeComponent implements OnInit {
     private styleService: StylingService,
     private translate: TranslateService) {
     this.startEvents();
+    this.initializeLanguage();
   }
 
   ngOnInit(): void {
@@ -45,17 +46,25 @@ export class HomeComponent implements OnInit {
       if (event instanceof NavigationEnd) {
         sessionStorage.setItem('lastVisitedUrl', event.urlAfterRedirects);
       }
-    })
+    });
     this.startInactivityTimer();
     this.displayAlertCounts();
     this.initializeWalkthroughSteps();
+  }
+
+  initializeLanguage(): void {
     const savedLanguage = localStorage.getItem('language');
+
     if (savedLanguage) {
       this.selectedLanguage = savedLanguage;
-      this.changeLanguage(this.selectedLanguage);
     } else {
-      this.changeLanguage(this.selectedLanguage);
+      this.selectedLanguage = 'en';
+      localStorage.setItem('language', 'en');
     }
+
+    this.translate.setDefaultLang('en');
+    this.translate.use(this.selectedLanguage);
+    this.styleService.setLanguage = this.selectedLanguage;
   }
 
   initializeWalkthroughSteps(): void {
@@ -203,6 +212,10 @@ export class HomeComponent implements OnInit {
   }
 
   changeLanguage(language: string) {
+    if (!language) {
+      language = 'en';
+    }
+    this.selectedLanguage = language;
     this.translate.use(language);
     this.styleService.setLanguage = language;
     localStorage.setItem('language', language);

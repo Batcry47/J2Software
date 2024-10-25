@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
@@ -13,7 +12,7 @@ import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 
-export function HTTPLoaderFactory (http: HttpClient){
+export function HTTPLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/lang/', '.json');
 }
 @NgModule({
@@ -30,7 +29,8 @@ export function HTTPLoaderFactory (http: HttpClient){
     AppRoutingModule,
     FormsModule,
     HttpClientModule, TranslateModule.forRoot({
-      loader:{
+      defaultLanguage: 'en',
+      loader: {
         provide: TranslateLoader,
         useFactory: HTTPLoaderFactory,
         deps: [HttpClient]
