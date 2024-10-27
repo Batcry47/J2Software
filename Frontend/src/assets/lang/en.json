@@ -248,7 +248,7 @@
         "resource-development-count": "Resource Development:"
     },
     "FILTER-CATEGORIES": {
-        "Malicious": "Malicious Alerts",
+        "Malicious": "Malicious",
         "Impact": "Impact",
         "Defence Evasion": "Defence Evasion",
         "Persistence": "Persistence",
@@ -259,7 +259,5 @@
         "Reconnaissance": "Reconnaissance",
         "Execution": "Execution",
         "Resource Development": "Resource Development"
-    },
-    "FILE-MESSAGE": "Alert Report for ",
-    "ALL-TIME-MESSAGE": "All Time Alert Report"
+    }
 }

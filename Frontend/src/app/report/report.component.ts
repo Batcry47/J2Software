@@ -1,9 +1,10 @@
 import { Component, OnInit, ViewChild, ElementRef, Renderer2 } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 import { BackendConnectionService } from '../backend-connection.service';
-import { Chart } from 'chart.js';
 import { StylingService } from '../styling.service';
 import { TranslateService } from '@ngx-translate/core';
+import jsPDF from 'jspdf';
+import html2canvas from 'html2canvas';
 
 @Component({
   selector: 'app-report',
@@ -14,6 +15,7 @@ import { TranslateService } from '@ngx-translate/core';
 export class ReportComponent implements OnInit {
   @ViewChild('startDateInput') startDateInput: ElementRef<HTMLInputElement>;
   @ViewChild('endDateInput') endDateInput: ElementRef<HTMLInputElement>;
+
   totalAlerts: number = 0;
   impactAlerts: number = 0;
   maliciousAlerts: number = 0;
@@ -124,27 +126,131 @@ export class ReportComponent implements OnInit {
     logoutPrompt.close();
   }
 
-  downloadReport() {
-    const reportElement = (document.querySelector('.downloaded-report-results') as HTMLElement);
-    const reportContent = this.cutHTMLElements((reportElement as HTMLElement).innerHTML)
+  async downloadReport() {
+    const reportContainer = document.createElement('div');
+    reportContainer.style.position = 'absolute';
+    reportContainer.style.left = '-9999px';
+    reportContainer.style.top = '-9999px';
+    reportContainer.style.width = '595px';
 
-    const blob = new Blob([reportContent], { type: 'text/plain' });
+    const startDate = this.startDateInput?.nativeElement?.value || '';
+    const endDate = this.endDateInput?.nativeElement?.value || '';
+    const hasDateRange = startDate && endDate;
 
-    const a = this.renderer.createElement('a');
-    a.href = window.URL.createObjectURL(blob);
-    a.download = 'Alert_Report.txt';
+    reportContainer.innerHTML = `
+      <div style="text-align: center; margin-bottom: 30px;">
+        <img src="/assets/images/j2_logo.png" style="width: 80px; height: 77px; margin-bottom: 5px; margin-top: 20px;">
+        <h3 style="margin: 0 0 20px 0; color: #c91931; font-size: 18px;">J2 SOFTWARE</h3>
+        <h2 style="margin-bottom: 10px; font-size: 16px;">${this.translate.instant('ALERT-HEADING')}</h2>
+        ${hasDateRange ? `<h3 style="margin-bottom: 20px; font-size: 14px;">${startDate} - ${endDate}</h3>` : ''}
+      </div>
+      <div style="display: flex; justify-content: center;">
+        <table style="width: 70%; border-collapse: collapse; margin: 0 auto; font-size: 12px;">
+          <tbody>
+            <tr>
+              <td style="border: 1px solid #ddd; padding: 6px;">${this.translate.instant('FILTER-CATEGORIES.Malicious')}</td>
+              <td style="border: 1px solid #ddd; padding: 6px;">${this.impactAlerts + this.initialAccessAlerts + this.defenceEvasionAlerts + this.exfiltrationAlerts + this.collectionAlerts + this.privilegeEscalationAlerts + this.persistenceAlerts + this.executionAlerts + this.resourceDevelopmentAlerts + this.reconnaissanceAlerts}</td>
+            </tr>
+            <tr>
+              <td style="border: 1px solid #ddd; padding: 6px;">${this.translate.instant('FILTER-CATEGORIES.Impact')}</td>
+              <td style="border: 1px solid #ddd; padding: 6px;">${this.impactAlerts}</td>
+            </tr>
+            <tr>
+              <td style="border: 1px solid #ddd; padding: 6px;">${this.translate.instant('FILTER-CATEGORIES.Initial Access')}</td>
+              <td style="border: 1px solid #ddd; padding: 6px;">${this.initialAccessAlerts}</td>
+            </tr>
+            <tr>
+              <td style="border: 1px solid #ddd; padding: 6px;">${this.translate.instant('FILTER-CATEGORIES.Defence Evasion')}</td>
+              <td style="border: 1px solid #ddd; padding: 6px;">${this.defenceEvasionAlerts}</td>
+            </tr>
+            <tr>
+              <td style="border: 1px solid #ddd; padding: 6px;">${this.translate.instant('FILTER-CATEGORIES.Exfiltration')}</td>
+              <td style="border: 1px solid #ddd; padding: 6px;">${this.exfiltrationAlerts}</td>
+            </tr>
+            <tr>
+              <td style="border: 1px solid #ddd; padding: 6px;">${this.translate.instant('FILTER-CATEGORIES.Collection')}</td>
+              <td style="border: 1px solid #ddd; padding: 6px;">${this.collectionAlerts}</td>
+            </tr>
+            <tr>
+              <td style="border: 1px solid #ddd; padding: 6px;">${this.translate.instant('FILTER-CATEGORIES.Privilege Escalation')}</td>
+              <td style="border: 1px solid #ddd; padding: 6px;">${this.privilegeEscalationAlerts}</td>
+            </tr>
+            <tr>
+              <td style="border: 1px solid #ddd; padding: 6px;">${this.translate.instant('FILTER-CATEGORIES.Persistence')}</td>
+              <td style="border: 1px solid #ddd; padding: 6px;">${this.persistenceAlerts}</td>
+            </tr>
+            <tr>
+              <td style="border: 1px solid #ddd; padding: 6px;">${this.translate.instant('FILTER-CATEGORIES.Execution')}</td>
+              <td style="border: 1px solid #ddd; padding: 6px;">${this.executionAlerts}</td>
+            </tr>
+            <tr>
+              <td style="border: 1px solid #ddd; padding: 6px;">${this.translate.instant('FILTER-CATEGORIES.Resource Development')}</td>
+              <td style="border: 1px solid #ddd; padding: 6px;">${this.resourceDevelopmentAlerts}</td>
+            </tr>
+            <tr>
+              <td style="border: 1px solid #ddd; padding: 6px;">${this.translate.instant('FILTER-CATEGORIES.Reconnaissance')}</td>
+              <td style="border: 1px solid #ddd; padding: 6px;">${this.reconnaissanceAlerts}</td>
+            </tr>
+            <tr style="background-color: #c91931; color: white;">
+              <td style="border: 1px solid #ddd; padding: 6px;">${this.translate.instant('ALERT-TITLES.total-alerts')}</td>
+              <td style="border: 1px solid #ddd; padding: 6px;">${this.impactAlerts + this.initialAccessAlerts + this.defenceEvasionAlerts + this.exfiltrationAlerts + this.collectionAlerts + this.privilegeEscalationAlerts + this.persistenceAlerts + this.executionAlerts + this.resourceDevelopmentAlerts + this.reconnaissanceAlerts}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    `;
 
-    this.renderer.appendChild(document.body, a);
-    a.click();
-    this.renderer.removeChild(document.body, a);
+    document.body.appendChild(reportContainer);
 
-    window.URL.revokeObjectURL(a.href);
+    try {
+      const canvas = await html2canvas(reportContainer, {
+        scale: 2,
+        useCORS: true,
+        logging: false,
+        width: 595,
+        windowWidth: 595
+      });
+
+      const pdf = new jsPDF('p', 'mm', 'a4');
+      const imgWidth = 210;
+      const pageHeight = 297;
+      const imgHeight = canvas.height * imgWidth / canvas.width;
+
+      const translatedTitle = this.translate.instant('ALERT-HEADING');
+
+      pdf.setProperties({
+        title: translatedTitle
+      });
+
+      pdf.addImage(canvas.toDataURL('image/png'), 'PNG', 0, 0, imgWidth, imgHeight);
+
+      const pdfOutput = pdf.output('blob');
+      const pdfUrl = URL.createObjectURL(pdfOutput);
+
+      const link = document.createElement('a');
+      link.href = pdfUrl;
+      link.target = '_blank';
+      link.download = `${translatedTitle}.pdf`;
+
+      const previewWindow = window.open(pdfUrl);
+      if (previewWindow) {
+        previewWindow.document.title = translatedTitle;
+      }
+
+      link.click();
+
+    } catch (error) {
+      console.error('Error generating PDF:', error);
+    } finally {
+      document.body.removeChild(reportContainer);
+    }
   }
 
   cutHTMLElements(htmlElement: string) {
     let text = htmlElement.replace(/<\/?[^>]+>/gi, '\n');
     return text.trim();
   }
+
   displayAlertCounts(startDate?: HTMLInputElement, endDate?: HTMLInputElement) {
     this.backendService.getImpactAlerts(startDate, endDate).subscribe(impactCount => {
       this.impactAlerts = impactCount.Impact;

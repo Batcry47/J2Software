@@ -247,6 +247,7 @@
         "resource-development-count": "Hulpbronontwikkeling:"
     },
     "FILTER-CATEGORIES": {
+        "Malicious": "Kwaadwillig",
         "Impact": "Impak",
         "Defence Evasion": "Verdedigingsontduiking",
         "Persistence": "Volharding",
@@ -257,7 +258,5 @@
         "Reconnaissance": "Verkenning",
         "Execution": "Uitvoering",
         "Resource Development": "Hulpbronontwikkeling"
-    },
-    "FILE-MESSAGE": "Waarskuwings Verslag vir ",
-    "ALL-TIME-MESSAGE": "Alle Tye Waarskuwings Verslag"
+    }
 }
