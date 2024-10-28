@@ -371,7 +371,7 @@
 }
 
 .dark-theme {
-  background-color: black;
+  background-color: #121212;
 }
 
 .dark-text {
@@ -548,8 +548,7 @@
   transition: color 0.3s ease;
 }
 
-.close-button .bigger-text
-{
+.close-button .bigger-text {
   font-size: 2.5em;
 }
 

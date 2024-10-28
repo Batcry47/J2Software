@@ -704,11 +704,11 @@ tbody tr:hover {
 }
 
 .dark-text tr {
-    background-color: black !important;
+    background-color: #121212 !important;
 }
 
 .dark-theme {
-    background-color: black !important;
+    background-color: #121212 !important;
 }
 
 .dark-theme td {
@@ -716,7 +716,7 @@ tbody tr:hover {
 }
 
 .dark-theme tr {
-    background-color: black !important;
+    background-color: #121212 !important;
 }
 
 .help-button {

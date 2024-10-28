@@ -28,6 +28,7 @@ export class HomeComponent implements OnInit {
   selectedLanguage: string = 'en';
   INACTIVITY_TIMEOUT = 30000;
   user_id = 0;
+  isPreferenceOpen: boolean = false;
   isWalkthroughActive = false;
   currentStepIndex = 0;
   walkthroughSteps: { title: string; content: string }[] = [];
@@ -219,5 +220,9 @@ export class HomeComponent implements OnInit {
     this.translate.use(language);
     this.styleService.setLanguage = language;
     localStorage.setItem('language', language);
+  }
+
+  togglePreferenceSettings(){
+    this.isPreferenceOpen = !this.isPreferenceOpen;
   }
 }

@@ -33,6 +33,7 @@ export class ReportComponent implements OnInit {
   selectedLanguage: string = "en";
   inactivityTimer: any;
   INACTIVITY_TIMEOUT = 30000;
+  isPreferenceOpen: boolean = false;
   chart: any;
   numOfAlerts = [];
   isWalkthroughActive = false;
@@ -349,5 +350,9 @@ export class ReportComponent implements OnInit {
     this.translate.use(language);
     this.styleService.setLanguage = language;
     localStorage.setItem('language', language);
+  }
+
+  togglePreferenceSettings(){
+    this.isPreferenceOpen = !this.isPreferenceOpen;
   }
 }

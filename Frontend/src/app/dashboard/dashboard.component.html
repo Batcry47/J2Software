@@ -58,15 +58,21 @@
       <li><a routerLink="/dashboard" class="active">{{'SIDEBAR.Dashboard' | translate}}</a></li>
       <li><a routerLink="/report">{{'SIDEBAR.Report' | translate}}</a></li>
       <li><a (click)="openPrompt()">{{'SIDEBAR.Logout' | translate}}</a></li>
-      <li><a (click)="toggleDarkTheme()">{{'SIDEBAR.Theme' | translate}}</a></li>
-      <li><a (click)="toggleBiggerText()">{{'SIDEBAR.TextSize' | translate}}</a></li>
+      <li><a (click)="togglePreferenceSettings()">{{'SIDEBAR.Preferences' | translate}}</a></li>
       <li>
-        <div class="sort-options">
-          <span class="sort-label" [ngClass]="{'dark-text' : isDarkThemeToggled()}">{{'SIDEBAR.Language' | translate}}</span>
-          <select class="sort-select" [(ngModel)]="selectedLanguage" (change)="changeLanguage(selectedLanguage)">
-            <option value="en">{{ 'ENGLISH' | translate}}</option>
-            <option value="afr">{{ 'AFRIKAANS' | translate}}</option>
-          </select>
+        <div class = "preference-settings" *ngIf="isPreferenceOpen">
+          <li><a (click)="toggleDarkTheme()">{{'SIDEBAR.Theme' | translate}}</a></li>
+          <li><a (click)="toggleBiggerText()">{{'SIDEBAR.TextSize' | translate}}</a></li>
+          <li>
+            <div class="sort-options">
+              <span class="sort-label" [ngClass]="{'dark-text' : isDarkThemeToggled()}">{{'SIDEBAR.Language' | translate}}</span>
+              <select class="sort-select" [(ngModel)]="selectedLanguage" (change)="changeLanguage(selectedLanguage)">
+                <option value="en">{{ 'ENGLISH' | translate}}</option>
+                <option value="afr">{{ 'AFRIKAANS' | translate}}</option>
+              </select>
+            </div>
+          </li>
+          <br>
         </div>
       </li>
     </ul>

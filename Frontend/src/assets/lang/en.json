@@ -13,7 +13,8 @@
         "Logout": "Logout",
         "Theme": "Change Theme",
         "TextSize": "Toggle Text Size",
-        "Language": "Select Language: "
+        "Language": "Select Language: ",
+        "Preferences": "Preferences"
     },
     "ENGLISH": "English",
     "AFRIKAANS": "Afrikaans",
@@ -49,15 +50,15 @@
     "WALKTHROUGH": {
         "WELCOME-HOME": {
             "TITLE": "Welcome",
-            "CONTENT": "Welcome to the homepage!"
+            "CONTENT": "Welcome to the homepage! This is the main page of the application and the total number of each type of alert received can be viewed and filtered using the date range selector."
         },
         "WELCOME-DASHBOARD": {
             "TITLE": "Welcome",
-            "CONTENT": "Welcome to the dashboard!"
+            "CONTENT": "Welcome to the dashboard! This is where alerts that have occured as well as any alerts that come in can be viewed, archived, unarchived, filtered, searched and sorted"
         },
         "WELCOME-REPORT": {
             "TITLE": "Welcome",
-            "CONTENT": "Welcome to the report page!"
+            "CONTENT": "Welcome to the report page!. Download a report for a specific date range using the date selector, or choose to download all available data."
         },
         "DATE_SELECTION": {
             "TITLE": "Date Selection",
@@ -69,11 +70,11 @@
         },
         "FILTERS": {
             "TITLE": "Filters",
-            "CONTENT": "Use the filter options to narrow down alerts by severity or category."
+            "CONTENT": "Use the filter options to narrow down alerts by severity or category by clicking on the '<<' button to access the filters and ticking the respective box."
         },
         "SORTING": {
             "TITLE": "Sorting Alerts",
-            "CONTENT": "You can sort alerts by various criteria such as category, method, username, IP address, or timestamp. Use the sorting arrows to select your preferred sorting criteria."
+            "CONTENT": "You can sort alerts by various criteria such as category, method, username, IP address, or timestamp. Use the sorting arrows next to the column to select your preferred sorting criteria."
         },
         "SEARCH": {
             "TITLE": "Search",
@@ -81,11 +82,11 @@
         },
         "ARCHIVING": {
             "TITLE": "Archiving Alerts",
-            "CONTENT": "You can archive selected alerts to move alerts that have been dealt with. Use the checkboxes to select alerts and click 'Archive' to move them to the archive."
+            "CONTENT": "To archive selected alerts to move alerts that have been dealt with. Use the checkboxes to select alerts and click 'Archive' to move them to the archive, click on 'Show Archived Alerts' to view them. To return to the current alerts from the archive, click on 'Show Current Alerts'"
         },
         "DOWNLOAD_REPORT": {
             "TITLE": "Downloading Reports",
-            "CONTENT": "You can download reports of the alerts by clicking the 'Download' button. This will save a text file with the current alert data."
+            "CONTENT": "You can download reports of the alerts by clicking the 'Download Report' button. This will save a text file with the current alert data."
         },
         "NAVIGATION": {
             "TITLE": "Navigation",
@@ -93,7 +94,7 @@
         },
         "PREFERENCES": {
             "TITLE": "Preferences",
-            "CONTENT": "You can change the theme, text size, and language using the options in the sidebar."
+            "CONTENT": "You can change the theme, text size, and language using the options in the sidebar by selecting the 'Preferences' option in the sidebar"
         },
         "PREVIOUS": "Previous",
         "NEXT": "Next",

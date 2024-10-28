@@ -47,6 +47,7 @@ export class DashboardComponent implements OnInit {
   isWalkthroughActive = false;
   currentStepIndex = 0;
   isDarkTheme: boolean = false;
+  isPreferenceOpen: boolean = false;
   walkthroughSteps: { title: string; content: string }[] = [];
   severityLevelArr = {
     info: "Informational",
@@ -554,5 +555,9 @@ export class DashboardComponent implements OnInit {
     this.translate.use(language);
     this.styleService.setLanguage = language;
     localStorage.setItem('language', language);
+  }
+
+  togglePreferenceSettings(){
+    this.isPreferenceOpen = !this.isPreferenceOpen;
   }
 }

@@ -13,7 +13,8 @@
         "Logout": "Teken uit",
         "Theme": "Verander Tema",
         "TextSize": "Wissel teksgrootte",
-        "Language": "Kies Taal: "
+        "Language": "Kies Taal: ",
+        "Preferences": "Voorkeure"
     },
     "ENGLISH": "Engels",
     "AFRIKAANS": "Afrikaans",
@@ -35,15 +36,15 @@
     "WALKTHROUGH": {
         "WELCOME-HOME": {
             "TITLE": "Welkom",
-            "CONTENT": "Welkom by die tuisblad!"
+            "CONTENT": "Welkom by die tuisblad! Dit is die hoofbladsy van die toepassing en die totale aantal van elke tipe waarskuwing wat ontvang is, kan bekyk en gefiltreer word deur die datumreekskieser te gebruik."
         },
         "WELCOME-DASHBOARD": {
             "TITLE": "Welkom",
-            "CONTENT": "Welkom by die paneelbord!"
+            "CONTENT": "Welkom by die paneelbord! Dit is waar waarskuwings wat plaasgevind het, sowel as enige waarskuwings wat inkom, bekyk, geargiveer, gedeargiveer, gefiltreer, deursoek en gesorteer kan word"
         },
         "WELCOME-REPORT": {
             "TITLE": "Welkom",
-            "CONTENT": "Welkom by die verslagblad!"
+            "CONTENT": "Welkom by die verslagblad!Laai 'n verslag vir 'n spesifieke datumreeks af deur die datumkieser te gebruik, of kies om alle beskikbare data af te laai."
         },
         "DATE_SELECTION": {
             "TITLE": "Datumskeiding",
@@ -55,11 +56,11 @@
         },
         "FILTERS": {
             "TITLE": "Filters",
-            "CONTENT": "Gebruik die filteropsies om waarskuwings volgens erns of kategorie te beperk."
+            "CONTENT": "Gebruik die filteropsies om waarskuwings volgens erns of kategorie te beperk deur op die '<<' knoppie te klik om toegang tot die filters te kry en die onderskeie blokkie te merk."
         },
         "SORTING": {
             "TITLE": "Sorteer Waarskuwings",
-            "CONTENT": "Jy kan waarskuwings sorteer volgens verskeie kriteria soos kategorie, metode, gebruikersnaam, IP-adres of tydstempel. Gebruik die sorteerpyltjies om jou voorkeursorteerkriteria te kies."
+            "CONTENT": "Jy kan waarskuwings sorteer volgens verskeie kriteria soos kategorie, metode, gebruikersnaam, IP-adres of tydstempel. Gebruik die sorteerpyltjies langs die kolom om jou voorkeur sorteerkriteria te kies. Gebruik die sorteerpyltjies om jou voorkeursorteerkriteria te kies."
         },
         "SEARCH": {
             "TITLE": "Soek",
@@ -67,11 +68,11 @@
         },
         "ARCHIVING": {
             "TITLE": "Argivering van Waarskuwings",
-            "CONTENT": "Jy kan geselekteerde waarskuwings argiveer om waarskuwings wat hanteer is, te verwyder. Gebruik die keushokkies om waarskuwings te kies en klik 'Argiveer' om dit na die argief te verplaas."
+            "CONTENT": "Jy kan geselekteerde waarskuwings argiveer om waarskuwings wat hanteer is, te verwyder. Gebruik die keushokkies om waarskuwings te kies en klik 'Argiveer' om dit na die argief te verplaas. Om die geargiveerde waarskuwings te sien, klik op die 'Wys Argiveer Waarskuwings'-opsie om dit te bekyk, om die ongeargiveerde waarskuwings te sien, klik op 'Wys Huidige Waarskuwings' om dit te sien LET WEL: die huidige waarskuwings word by verstek vertoon"
         },
         "DOWNLOAD_REPORT": {
             "TITLE": "Verslag Aflaai",
-            "CONTENT": "Jy kan verslae van die waarskuwings aflaai deur die 'Aflaai' knoppie te klik. Dit sal 'n tekslêer met die huidige waarskuwingdata stoor."
+            "CONTENT": "Jy kan verslae van die waarskuwings aflaai deur die 'Laai Verslag Af' knoppie te klik. Dit sal 'n tekslêer met die huidige waarskuwingdata stoor."
         },
         "NAVIGATION": {
             "TITLE": "Navigasie",
@@ -79,7 +80,7 @@
         },
         "PREFERENCES": {
             "TITLE": "Voorkeure",
-            "CONTENT": "Jy kan die tema, teksgrootte en taal verander met die opsies in die sybalk."
+            "CONTENT": "Jy kan die tema, teksgrootte en taal verander deur die opsies in die sybalk te gebruik deur die 'Voorkeure' opsie in die sybalk te kies"
         },
         "PREVIOUS": "Vorige",
         "NEXT": "Volgende",
