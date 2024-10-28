@@ -12,8 +12,11 @@
         "Report": "Report",
         "Logout": "Logout",
         "Theme": "Change Theme",
-        "TextSize": "Toggle Text Size"
+        "TextSize": "Toggle Text Size",
+        "Language": "Select Language: "
     },
+    "ENGLISH": "English",
+    "AFRIKAANS": "Afrikaans",
     "DATE-TITLE": "Select Date",
     "START-TITLE": "Start Date:",
     "END-TITLE": "End Date:",

@@ -388,6 +388,7 @@
 
 
 .help-button {
+  font-family: 'Arial', sans-serif;
   position: fixed;
   top: 20px;
   right: 20px;
@@ -424,6 +425,7 @@
 }
 
 .walkthrough-content {
+  font-family: 'Arial', sans-serif;
   background-color: white;
   color: black;
   padding: 25px;

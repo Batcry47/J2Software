@@ -62,10 +62,10 @@
       <li><a (click)="toggleBiggerText()">{{'SIDEBAR.TextSize' | translate}}</a></li>
       <li>
         <div class="sort-options">
-          <span class="sort-label" [ngClass]="{'dark-text' : isDarkThemeToggled()}">Select Language:</span>
+          <span class="sort-label" [ngClass]="{'dark-text' : isDarkThemeToggled()}">{{'SIDEBAR.Language' | translate}}</span>
           <select class="sort-select" [(ngModel)]="selectedLanguage" (change)="changeLanguage(selectedLanguage)">
-            <option value="en">English</option>
-            <option value="afr">Afrikaans</option>
+            <option value="en">{{ 'ENGLISH' | translate}}</option>
+            <option value="afr">{{ 'AFRIKAANS' | translate}}</option>
           </select>
         </div>
       </li>

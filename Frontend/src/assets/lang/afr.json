@@ -12,8 +12,11 @@
         "Report": "Verslag",
         "Logout": "Teken uit",
         "Theme": "Verander Tema",
-        "TextSize": "Wissel teksgrootte"
+        "TextSize": "Wissel teksgrootte",
+        "Language": "Kies Taal: "
     },
+    "ENGLISH": "Engels",
+    "AFRIKAANS": "Afrikaans",
     "DATE-TITLE": "Kies Datum",
     "START-TITLE": "Begin Datum:",
     "END-TITLE": "Eind Datum:",

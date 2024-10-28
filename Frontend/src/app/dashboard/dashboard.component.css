@@ -720,6 +720,7 @@ tbody tr:hover {
 }
 
 .help-button {
+    font-family: 'Arial', sans-serif;
     position: fixed;
     top: 20px;
     right: 20px;
@@ -757,6 +758,7 @@ tbody tr:hover {
 }
 
 .walkthrough-content {
+    font-family: 'Arial', sans-serif;
     background-color: white;
     color: black;
     padding: 25px;
