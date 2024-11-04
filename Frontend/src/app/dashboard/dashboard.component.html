@@ -115,10 +115,10 @@
   <div class="dashboard-content">
     <div class="tabs-container">
       <div class="tabs">
-        <button class="tab-button" [class.active]="!showArchive" (click)="toggleView()">
+        <button class="tab-button" [class.active]="!showArchive" (click)="toggleView()" [disabled]="!showArchive">
           {{ 'CURRENT_MESSAGE' | translate }}
         </button>
-        <button class="tab-button" [class.active]="showArchive" (click)="toggleView()">
+        <button class="tab-button" [class.active]="showArchive" (click)="toggleView()" [disabled]="showArchive">
           {{ 'ARCHIVED_MESSAGE' | translate }}
         </button>
       </div>
