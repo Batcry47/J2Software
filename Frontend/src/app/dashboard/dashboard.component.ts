@@ -454,10 +454,12 @@ export class DashboardComponent implements OnInit {
   }
 
   archiveSelectedRows() {
-    const archivePromises = this.selectedRows.map(row =>
-      this.backendService.archiveEventLog(row.EventID).toPromise()
-    );
+    const archivePrompt = document.getElementById("archiveConfirmation") as HTMLDialogElement;
+    archivePrompt.showModal();
+  }
 
+  confirmArchive() {
+    const archivePromises = this.selectedRows.map(row => this.backendService.archiveEventLog(row.EventID).toPromise());
     Promise.all(archivePromises)
       .then(() => {
         console.log('Archiving completed');
@@ -467,13 +469,21 @@ export class DashboardComponent implements OnInit {
       .catch(error => {
         console.error('Error archiving rows:', error);
       });
+    this.closeArchiveConfirmation();
+  }
+
+  closeArchiveConfirmation() {
+    const archivePrompt = document.getElementById("archiveConfirmation") as HTMLDialogElement;
+    archivePrompt.close();
   }
 
   unarchiveSelectedRows() {
-    const unarchivePromises = this.selectedRows.map(row =>
-      this.backendService.unarchiveEventLog(row.EventID).toPromise()
-    );
+    const unarchivePrompt = document.getElementById("unarchiveConfirmation") as HTMLDialogElement;
+    unarchivePrompt.showModal();
+  }
 
+  confirmUnarchive() {
+    const unarchivePromises = this.selectedRows.map(row => this.backendService.unarchiveEventLog(row.EventID).toPromise());
     Promise.all(unarchivePromises)
       .then(() => {
         console.log('Unarchiving completed');
@@ -483,6 +493,12 @@ export class DashboardComponent implements OnInit {
       .catch(error => {
         console.error('Error unarchiving rows:', error);
       });
+    this.closeUnarchiveConfirmation();
+  }
+
+  closeUnarchiveConfirmation() {
+    const unarchivePrompt = document.getElementById("unarchiveConfirmation") as HTMLDialogElement;
+    unarchivePrompt.close();
   }
 
   toggleView() {
@@ -557,7 +573,7 @@ export class DashboardComponent implements OnInit {
     localStorage.setItem('language', language);
   }
 
-  togglePreferenceSettings(){
+  togglePreferenceSettings() {
     this.isPreferenceOpen = !this.isPreferenceOpen;
   }
 }

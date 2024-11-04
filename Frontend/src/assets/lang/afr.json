@@ -262,5 +262,9 @@
         "Reconnaissance": "Verkenning",
         "Execution": "Uitvoering",
         "Resource Development": "Hulpbronontwikkeling"
-    }
+    },
+    "ARCHIVE-CONFIRMATION-TITLE": "Bevestig Argivering",
+    "ARCHIVE-CONFIRMATION-MESSAGE": "Is jy seker jy wil die geselekteerde items argiveer?",
+    "UNARCHIVE-CONFIRMATION-TITLE": "Bevestig Ontargivering",
+    "UNARCHIVE-CONFIRMATION-MESSAGE": "Is jy seker jy wil die geselekteerde items ontargiveer?"
 }

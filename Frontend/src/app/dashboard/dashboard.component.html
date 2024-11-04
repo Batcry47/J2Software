@@ -51,6 +51,30 @@
     </div>
   </dialog>
 
+  <dialog class="confirmation-prompt" id="archiveConfirmation" [ngClass]="{'dark-theme' : isDarkThemeToggled()}">
+    <div class="popup-header">
+      <div class="red-bar"></div>
+      <h2 [ngClass]="{'dark-text' : isDarkThemeToggled()}">{{'ARCHIVE-CONFIRMATION-TITLE' | translate}}</h2>
+    </div>
+    <p [ngClass]="{'dark-text' : isDarkThemeToggled()}">{{'ARCHIVE-CONFIRMATION-MESSAGE' | translate}}</p>
+    <div class="popup-buttons">
+      <button class="popup-button confirm" (click)="confirmArchive()">{{'YES' | translate}}</button>
+      <button class="popup-button cancel" (click)="closeArchiveConfirmation()">{{'NO' | translate}}</button>
+    </div>
+  </dialog>
+
+  <dialog class="confirmation-prompt" id="unarchiveConfirmation" [ngClass]="{'dark-theme' : isDarkThemeToggled()}">
+    <div class="popup-header">
+      <div class="red-bar"></div>
+      <h2 [ngClass]="{'dark-text' : isDarkThemeToggled()}">{{'UNARCHIVE-CONFIRMATION-TITLE' | translate}}</h2>
+    </div>
+    <p [ngClass]="{'dark-text' : isDarkThemeToggled()}">{{'UNARCHIVE-CONFIRMATION-MESSAGE' | translate}}</p>
+    <div class="popup-buttons">
+      <button class="popup-button confirm" (click)="confirmUnarchive()">{{'YES' | translate}}</button>
+      <button class="popup-button cancel" (click)="closeUnarchiveConfirmation()">{{'NO' | translate}}</button>
+    </div>
+  </dialog>
+
   <div class="sidebar" [ngClass]="{'dark-theme' : isDarkThemeToggled()}">
     <h1>J2 Software</h1>
     <ul [ngClass]="{'dark-text' : isDarkThemeToggled()}">

@@ -671,7 +671,22 @@ tbody tr:hover {
 
 .archive-btn:hover,
 .unarchive-btn:hover {
-    background-color: #34495e;
+    background-color: #4a4a4a;
+}
+
+.confirmation-prompt {
+    border: none;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.confirmation-prompt.dark-theme {
+    background-color: #121212;
+}
+
+.confirmation-prompt.dark-theme .dark-text {
+    color: white;
 }
 
 .bigger-text {

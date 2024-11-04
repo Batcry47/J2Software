@@ -263,5 +263,9 @@
         "Reconnaissance": "Reconnaissance",
         "Execution": "Execution",
         "Resource Development": "Resource Development"
-    }
+    },
+    "ARCHIVE-CONFIRMATION-TITLE": "Confirm Archive",
+    "ARCHIVE-CONFIRMATION-MESSAGE": "Are you sure you want to archive the selected items?",
+    "UNARCHIVE-CONFIRMATION-TITLE": "Confirm Unarchive",
+    "UNARCHIVE-CONFIRMATION-MESSAGE": "Are you sure you want to unarchive the selected items?"
 }
