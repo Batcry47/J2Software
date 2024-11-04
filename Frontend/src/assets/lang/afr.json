@@ -104,8 +104,8 @@
     "CATEGORY-TITLE": "Kategorie",
     "CLEAR": "Verwyder Alles",
     "RESULT-TITLE": "Resultate",
-    "CURRENT_MESSAGE": "Wys Huidige Waarskuwings",
-    "ARCHIVED_MESSAGE": "Wys Argiveer Waarskuwings",
+    "CURRENT_MESSAGE": "Huidige Waarskuwings",
+    "ARCHIVED_MESSAGE": "Argiveer Waarskuwings",
     "Category": {
         "Collection": "Versameling",
         "Defense Evasion": "Verdedigings Ontduiking",

@@ -117,8 +117,8 @@
     "CLEAR": "Clear All",
     "SORT-LABEL": "SORT BY:",
     "RESULT-TITLE": "Results",
-    "CURRENT_MESSAGE": "Show Current Alerts",
-    "ARCHIVED_MESSAGE": "Show Archived Alerts",
+    "CURRENT_MESSAGE": "Current Alerts",
+    "ARCHIVED_MESSAGE": "Archived Alerts",
     "Category": {
         "Collection": "Collection",
         "Defense Evasion": "Defense Evasion",

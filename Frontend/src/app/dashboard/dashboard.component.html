@@ -60,153 +60,159 @@
       <li><a (click)="openPrompt()">{{'SIDEBAR.Logout' | translate}}</a></li>
       <li><a (click)="togglePreferenceSettings()">{{'SIDEBAR.Preferences' | translate}}</a></li>
       <li>
-        <div class = "preference-settings" *ngIf="isPreferenceOpen">
-          <li><a (click)="toggleDarkTheme()">{{'SIDEBAR.Theme' | translate}}</a></li>
-          <li><a (click)="toggleBiggerText()">{{'SIDEBAR.TextSize' | translate}}</a></li>
-          <li>
-            <div class="sort-options">
-              <span class="sort-label" [ngClass]="{'dark-text' : isDarkThemeToggled()}">{{'SIDEBAR.Language' | translate}}</span>
-              <select class="sort-select" [(ngModel)]="selectedLanguage" (change)="changeLanguage(selectedLanguage)">
-                <option value="en">{{ 'ENGLISH' | translate}}</option>
-                <option value="afr">{{ 'AFRIKAANS' | translate}}</option>
-              </select>
-            </div>
-          </li>
-          <br>
+        <div class="preference-settings" *ngIf="isPreferenceOpen">
+      <li><a (click)="toggleDarkTheme()">{{'SIDEBAR.Theme' | translate}}</a></li>
+      <li><a (click)="toggleBiggerText()">{{'SIDEBAR.TextSize' | translate}}</a></li>
+      <li>
+        <div class="sort-options">
+          <span class="sort-label" [ngClass]="{'dark-text' : isDarkThemeToggled()}">{{'SIDEBAR.Language' |
+            translate}}</span>
+          <select class="sort-select" [(ngModel)]="selectedLanguage" (change)="changeLanguage(selectedLanguage)">
+            <option value="en">{{ 'ENGLISH' | translate}}</option>
+            <option value="afr">{{ 'AFRIKAANS' | translate}}</option>
+          </select>
         </div>
       </li>
-    </ul>
+      <br>
+  </div>
+  </li>
+  </ul>
+</div>
+
+<div class="dashboard-container" [ngClass]="{'dark-image': isDarkThemeToggled(), 'light-image': !isDarkThemeToggled()}">
+  <h1 [ngClass]="{'dark-text': isDarkThemeToggled()}">{{'SIDEBAR.Dashboard' | translate}}</h1>
+  <div class="chart-card" [ngClass]="{'dark-theme' : isDarkThemeToggled()}">
+    <h2 class="chart-title" [ngClass]="{'dark-text': isDarkThemeToggled()}">{{ "GRAPH-TITLE" | translate}}</h2>
+    <div class="chart-content" [ngClass]="{'dark-theme' : isDarkThemeToggled()}">
+      <canvas id="severityChart" [ngClass]="{'dark-text': isDarkThemeToggled()}"></canvas>
+    </div>
   </div>
 
-  <div class="dashboard-container"
-    [ngClass]="{'dark-image': isDarkThemeToggled(), 'light-image': !isDarkThemeToggled()}">
-    <h1 [ngClass]="{'dark-text': isDarkThemeToggled()}">{{'SIDEBAR.Dashboard' |
-      translate}}</h1>
-    <div class="chart-card" [ngClass]="{'dark-theme' : isDarkThemeToggled()}">
-      <h2 class="chart-title" [ngClass]="{'dark-text': isDarkThemeToggled()}">{{ "GRAPH-TITLE" | translate}}
-      </h2>
-      <div class="chart-content" [ngClass]="{'dark-theme' : isDarkThemeToggled()}">
-        <canvas id="severityChart" [ngClass]="{'dark-text': isDarkThemeToggled()}"></canvas>
+  <div class="dashboard-content">
+    <div class="tabs-container">
+      <div class="tabs">
+        <button class="tab-button" [class.active]="!showArchive" (click)="toggleView()">
+          {{ 'CURRENT_MESSAGE' | translate }}
+        </button>
+        <button class="tab-button" [class.active]="showArchive" (click)="toggleView()">
+          {{ 'ARCHIVED_MESSAGE' | translate }}
+        </button>
       </div>
     </div>
 
-    <div class="dashboard-content">
-      <div class="result-header">
-        <div class="result-count">{{ filteredResults.length }} {{'RESULT-TITLE' | translate}}</div>
-        <button class="toggle-view-btn" (click)="toggleView()">
-          {{ showArchive ? ('CURRENT_MESSAGE' | translate) : ('ARCHIVED_MESSAGE' | translate) }}
-        </button>
-        <div class="search-bar">
-          <input type="text" [placeholder]="'SEARCH-PLACEHOLDER' | translate" [(ngModel)]="searchQuery"
-            (input)="onSearchInput()" class="search-input" />
-        </div>
+    <div class="result-header">
+      <div class="result-count">{{ filteredResults.length }} {{'RESULT-TITLE' | translate}}</div>
+      <div class="search-bar">
+        <input type="text" [placeholder]="'SEARCH-PLACEHOLDER' | translate" [(ngModel)]="searchQuery"
+          (input)="onSearchInput()" class="search-input" />
       </div>
+    </div>
 
-      <div class="archive-actions" *ngIf="selectedRows.length > 0">
-        <button *ngIf="!showArchive" class="archive-btn" (click)="archiveSelectedRows()">
-          Archive Selected ({{ selectedRows.length }})
-        </button>
-        <button *ngIf="showArchive" class="unarchive-btn" (click)="unarchiveSelectedRows()">
-          Unarchive Selected ({{ selectedRows.length }})
-        </button>
-      </div>
+    <div class="archive-actions" *ngIf="selectedRows.length > 0">
+      <button *ngIf="!showArchive" class="archive-btn" (click)="archiveSelectedRows()">
+        Archive Selected ({{ selectedRows.length }})
+      </button>
+      <button *ngIf="showArchive" class="unarchive-btn" (click)="unarchiveSelectedRows()">
+        Unarchive Selected ({{ selectedRows.length }})
+      </button>
+    </div>
 
-      <div class="results-table">
-        <table>
-          <thead>
-            <tr>
-              <th (click)="sortColumn('category')">
-                {{ 'COLUMNS.Category' | translate }}
-                <span class="sort-arrow" [ngClass]="{
+    <div class="results-table">
+      <table>
+        <thead>
+          <tr>
+            <th (click)="sortColumn('category')">
+              {{ 'COLUMNS.Category' | translate }}
+              <span class="sort-arrow" [ngClass]="{
                   'sort-arrow-asc': sortConfig.column === 'category' && sortConfig.direction === 'asc',
                   'sort-arrow-desc': sortConfig.column === 'category' && sortConfig.direction === 'desc'
                 }"></span>
-              </th>
-              <th (click)="sortColumn('method')">
-                {{ 'COLUMNS.Method' | translate }}
-                <span class="sort-arrow" [ngClass]="{
+            </th>
+            <th (click)="sortColumn('method')">
+              {{ 'COLUMNS.Method' | translate }}
+              <span class="sort-arrow" [ngClass]="{
                   'sort-arrow-asc': sortConfig.column === 'method' && sortConfig.direction === 'asc',
                   'sort-arrow-desc': sortConfig.column === 'method' && sortConfig.direction === 'desc'
                 }"></span>
-              </th>
-              <th (click)="sortColumn('username')">
-                {{ 'COLUMNS.Username' | translate }}
-                <span class="sort-arrow" [ngClass]="{
+            </th>
+            <th (click)="sortColumn('username')">
+              {{ 'COLUMNS.Username' | translate }}
+              <span class="sort-arrow" [ngClass]="{
                   'sort-arrow-asc': sortConfig.column === 'username' && sortConfig.direction === 'asc',
                   'sort-arrow-desc': sortConfig.column === 'username' && sortConfig.direction === 'desc'
                 }"></span>
-              </th>
-              <th (click)="sortColumn('ipAddress')">
-                {{ 'COLUMNS.IP Address' | translate }}
-                <span class="sort-arrow" [ngClass]="{
+            </th>
+            <th (click)="sortColumn('ipAddress')">
+              {{ 'COLUMNS.IP Address' | translate }}
+              <span class="sort-arrow" [ngClass]="{
                   'sort-arrow-asc': sortConfig.column === 'ipAddress' && sortConfig.direction === 'asc',
                   'sort-arrow-desc': sortConfig.column === 'ipAddress' && sortConfig.direction === 'desc'
                 }"></span>
-              </th>
-              <th (click)="sortColumn('timestamp')">
-                {{ 'COLUMNS.Timestamp' | translate }}
-                <span class="sort-arrow" [ngClass]="{
+            </th>
+            <th (click)="sortColumn('timestamp')">
+              {{ 'COLUMNS.Timestamp' | translate }}
+              <span class="sort-arrow" [ngClass]="{
                   'sort-arrow-asc': sortConfig.column === 'timestamp' && sortConfig.direction === 'asc',
                   'sort-arrow-desc': sortConfig.column === 'timestamp' && sortConfig.direction === 'desc'
                 }"></span>
-              </th>
-            </tr>
-          </thead>
-          <tbody class="table-content">
-            <tr *ngFor="let result of filteredResults" [ngClass]="result.Severity.toLowerCase()"
-              (mouseenter)="showCheckbox(result)" (mouseleave)="hideCheckbox(result)">
-              <td>
-                <div class="checkbox-wrapper" [class.visible]="isRowSelected(result) || isRowHovered(result)">
-                  <input type="checkbox" [checked]="isRowSelected(result)" (change)="toggleRowSelection(result)" />
-                </div>
-                {{ 'Category.' + result.Category | translate }}
-              </td>
-              <td>{{ 'Method.' + result.Method | translate }}</td>
-              <td>{{ result.Username }}</td>
-              <td>{{ result.IPAddress }}</td>
-              <td>{{ result.EventTimeStamp.replace('T', ' ') }}</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-      <div class="filter-panel" [class.collapsed]="isFilterCollapsed" [ngClass]="{'dark-theme': isDarkThemeToggled()}">
-        <button class="filter-toggle" (click)="toggleFilter()">
-          <i class="fas" [ngClass]="isFilterCollapsed ? 'fa-chevron-left' : 'fa-chevron-right'"></i>
-          {{ isFilterCollapsed ? '<<' : '>>' }} </button>
-            <div class="filter-content" [class.hidden]="isFilterCollapsed"
-              [ngClass]="{'dark-text': isDarkThemeToggled()}">
-              <h3 [ngClass]="{'dark-text': isDarkThemeToggled()}">{{ 'FILTER-TITLE' | translate}}</h3>
-              <div class="filter-section">
-                <h4 [ngClass]="{'dark-text': isDarkThemeToggled()}">{{ 'SEVERITY-TITLE' | translate}} <a href="#"
-                    class="clear-filter" (click)="clearSeverityFilters(); $event.preventDefault()">{{ 'CLEAR' |
-                    translate}}</a></h4>
-                <div class="filter-options">
-                  <label class="checkbox-label"
-                    *ngFor="let severity of ['Informational', 'Low', 'Medium', 'High', 'Critical']">
-                    <input type="checkbox" class="filter-checkbox" [attr.data-severity]="severity.toLowerCase()"
-                      (change)="onFilterChange()">
-                    <span class="checkbox-custom"></span>
-                    <span class="checkbox-label-text">{{ 'SEVERITY-LEVEL.' + severity | translate}}</span>
-                  </label>
-                </div>
+            </th>
+          </tr>
+        </thead>
+        <tbody class="table-content">
+          <tr *ngFor="let result of filteredResults" [ngClass]="result.Severity.toLowerCase()"
+            (mouseenter)="showCheckbox(result)" (mouseleave)="hideCheckbox(result)">
+            <td>
+              <div class="checkbox-wrapper" [class.visible]="isRowSelected(result) || isRowHovered(result)">
+                <input type="checkbox" [checked]="isRowSelected(result)" (change)="toggleRowSelection(result)" />
               </div>
-              <div class="filter-section">
-                <h4 [ngStyle]="{'color': isDarkThemeToggled() ? 'white': ''}">{{ 'CATEGORY-TITLE' | translate}}<a
-                    href="#" class="clear-filter" (click)="clearCategoryFilters(); $event.preventDefault()">{{ 'CLEAR' |
-                    translate}}</a></h4>
-                <div class="filter-options">
-                  <label class="checkbox-label"
-                    *ngFor="let category of ['Collection', 'Defence Evasion', 'Privilege Escalation', 'Exfiltration', 'Impact', 'Initial Access', 'Persistence', 'Reconnaissance', 'Execution', 'Resource Development']">
-                    <input type="checkbox" class="filter-checkbox"
-                      [attr.data-category]="category.toLowerCase().replace(' ', '-').replace(' ', '-')"
-                      (change)="onFilterChange()" [checked]="selectedCategory === category">
-                    <span class="checkbox-custom"></span>
-                    <span class="checkbox-label-text">{{ 'FILTER-CATEGORIES.' + category | translate }}</span>
-                  </label>
-                </div>
+              {{ 'Category.' + result.Category | translate }}
+            </td>
+            <td>{{ 'Method.' + result.Method | translate }}</td>
+            <td>{{ result.Username }}</td>
+            <td>{{ result.IPAddress }}</td>
+            <td>{{ result.EventTimeStamp.replace('T', ' ') }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="filter-panel" [class.collapsed]="isFilterCollapsed" [ngClass]="{'dark-theme': isDarkThemeToggled()}">
+      <button class="filter-toggle" (click)="toggleFilter()">
+        <i class="fas" [ngClass]="isFilterCollapsed ? 'fa-chevron-left' : 'fa-chevron-right'"></i>
+        {{ isFilterCollapsed ? '<<' : '>>' }} </button>
+          <div class="filter-content" [class.hidden]="isFilterCollapsed"
+            [ngClass]="{'dark-text': isDarkThemeToggled()}">
+            <h3 [ngClass]="{'dark-text': isDarkThemeToggled()}">{{ 'FILTER-TITLE' | translate}}</h3>
+            <div class="filter-section">
+              <h4 [ngClass]="{'dark-text': isDarkThemeToggled()}">{{ 'SEVERITY-TITLE' | translate}} <a href="#"
+                  class="clear-filter" (click)="clearSeverityFilters(); $event.preventDefault()">{{ 'CLEAR' |
+                  translate}}</a></h4>
+              <div class="filter-options">
+                <label class="checkbox-label"
+                  *ngFor="let severity of ['Informational', 'Low', 'Medium', 'High', 'Critical']">
+                  <input type="checkbox" class="filter-checkbox" [attr.data-severity]="severity.toLowerCase()"
+                    (change)="onFilterChange()">
+                  <span class="checkbox-custom"></span>
+                  <span class="checkbox-label-text">{{ 'SEVERITY-LEVEL.' + severity | translate}}</span>
+                </label>
               </div>
             </div>
-      </div>
+            <div class="filter-section">
+              <h4 [ngStyle]="{'color': isDarkThemeToggled() ? 'white': ''}">{{ 'CATEGORY-TITLE' | translate}}<a href="#"
+                  class="clear-filter" (click)="clearCategoryFilters(); $event.preventDefault()">{{ 'CLEAR' |
+                  translate}}</a></h4>
+              <div class="filter-options">
+                <label class="checkbox-label"
+                  *ngFor="let category of ['Collection', 'Defence Evasion', 'Privilege Escalation', 'Exfiltration', 'Impact', 'Initial Access', 'Persistence', 'Reconnaissance', 'Execution', 'Resource Development']">
+                  <input type="checkbox" class="filter-checkbox"
+                    [attr.data-category]="category.toLowerCase().replace(' ', '-').replace(' ', '-')"
+                    (change)="onFilterChange()" [checked]="selectedCategory === category">
+                  <span class="checkbox-custom"></span>
+                  <span class="checkbox-label-text">{{ 'FILTER-CATEGORIES.' + category | translate }}</span>
+                </label>
+              </div>
+            </div>
+          </div>
     </div>
   </div>
+</div>
 </div>
