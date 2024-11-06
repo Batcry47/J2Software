@@ -66,7 +66,8 @@ export class DashboardComponent implements OnInit {
     private renderer: Renderer2,
     private backendService: BackendConnectionService,
     private styleService: StylingService,
-    private translate: TranslateService
+    private translate: TranslateService,
+    private activeRoute: ActivatedRoute
   ) {
     this.isDarkTheme = this.styleService.isDarkModeEnabled();
   }
@@ -502,8 +503,7 @@ export class DashboardComponent implements OnInit {
   }
 
   toggleView() {
-    this.clearCategoryFilters();
-    this.clearSeverityFilters();
+    this.clearQueryParams();
     this.showArchive = !this.showArchive;
     this.selectedRows = [];
     this.fetchData();
@@ -580,10 +580,12 @@ export class DashboardComponent implements OnInit {
   }
 
   clearQueryParams() {
-    this.router.navigate(['/dashboard'], {
-      queryParams: {}, 
-      queryParamsHandling: 'merge',
+    this.router.navigate([], {
+      relativeTo: this.activeRoute, 
+      queryParams: null,               
+      queryParamsHandling: ''          
     });
   }
+  
   
 }
