@@ -189,7 +189,7 @@ func GetImpactAlerts(c *gin.Context) {
 	
 }
 
-func GetDefenseEvasionAlerts(c *gin.Context) {
+func GetDefenceEvasionAlerts(c *gin.Context) {
 	//get eventlog records
 	var eventlogs []models.EventLogs
 	var startDate, endDate time.Time
@@ -213,16 +213,16 @@ func GetDefenseEvasionAlerts(c *gin.Context) {
 	//get eventlog records
 	if startDate.IsZero() && endDate.IsZero() {
 	//repsond with the number of Defense Evasion alerts
-		initializers.DB.Where("Category = ?", "Defense Evasion").Find(&eventlogs)
+		initializers.DB.Where("Category = ?", "Defence Evasion").Find(&eventlogs)
 		defenseEvasionCount := len(eventlogs)
 		c.JSON(200, gin.H{
 			"DefenseEvasion": defenseEvasionCount,
 		})
 	}else{
-		initializers.DB.Where("EventTimeStamp BETWEEN ? AND ? AND Category = ?", startDate, endDate, "Defense Evasion").Find(&eventlogs)
+		initializers.DB.Where("EventTimeStamp BETWEEN ? AND ? AND Category = ?", startDate, endDate, "Defence Evasion").Find(&eventlogs)
 		defenseEvasionCount := len(eventlogs)
 		c.JSON(200, gin.H{
-			"DefenseEvasion": defenseEvasionCount,
+			"DefenceEvasion": defenseEvasionCount,
 		})
 	}
 }

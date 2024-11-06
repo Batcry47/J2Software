@@ -121,7 +121,7 @@
     "ARCHIVED_MESSAGE": "Archived Alerts",
     "Category": {
         "Collection": "Collection",
-        "Defense Evasion": "Defense Evasion",
+        "Defence Evasion": "Defence Evasion",
         "Privilege Escalation": "Privilege Escalation",
         "Exfiltration": "Exfiltration",
         "Impact": "Impact",

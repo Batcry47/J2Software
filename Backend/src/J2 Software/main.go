@@ -48,7 +48,7 @@ func main() {
 	r.GET("/SeverityCount/:Severity", controllers.GetEventLogsSeverityNum)
 	r.GET("/Impact/:Category?start_date=2020-01-01&end_date=2020-12-01", controllers.GetImpactAlerts)
 	r.GET("/Collection/:Category?start_date=2020-01-01&end_date=2020-12-01", controllers.GetCollectionAlerts)
-	r.GET("/DefenseEvasion/:Category?start_date=2020-01-01&end_date=2020-12-01", controllers.GetDefenseEvasionAlerts)
+	r.GET("/DefenceEvasion/:Category?start_date=2020-01-01&end_date=2020-12-01", controllers.GetDefenceEvasionAlerts)
 	r.GET("/Persistence/:Category?start_date=2020-01-01&end_date=2020-12-01", controllers.GetPersistenceAlerts)
 	r.GET("/Exfiltration/:Category?start_date=2020-01-01&end_date=2020-12-01", controllers.GetExfiltrationAlerts)
 	r.GET("/InitialAccess/:Category?start_date=2020-01-01&end_date=2020-12-01", controllers.GetInitialAccessAlerts)

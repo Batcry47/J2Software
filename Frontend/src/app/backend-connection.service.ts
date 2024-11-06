@@ -86,10 +86,10 @@ export class BackendConnectionService {
   getEvasionAlerts(startDate?: HTMLInputElement, endDate?: HTMLInputElement): Observable<{ DefenseEvasion: number }> {
     if (startDate?.value && endDate?.value) {
       const params = new HttpParams().set('start_date', startDate.value + " 00:00:00").set('end_date', endDate.value + " 00:00:00");
-      return this.http.get<{ DefenseEvasion: number }>(`${this.api}/DefenseEvasion/DefenseEvasion`, { params });
+      return this.http.get<{ DefenseEvasion: number }>(`${this.api}/DefenceEvasion/DefenceEvasion`, { params });
     }
     else {
-      return this.http.get<{ DefenseEvasion: number }>(`${this.api}/DefenseEvasion/DefenseEvasion`);
+      return this.http.get<{ DefenseEvasion: number }>(`${this.api}/DefenceEvasion/DefenceEvasion`);
     }
   }
 

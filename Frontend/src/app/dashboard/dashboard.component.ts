@@ -502,6 +502,8 @@ export class DashboardComponent implements OnInit {
   }
 
   toggleView() {
+    this.clearCategoryFilters();
+    this.clearSeverityFilters();
     this.showArchive = !this.showArchive;
     this.selectedRows = [];
     this.fetchData();
@@ -576,4 +578,12 @@ export class DashboardComponent implements OnInit {
   togglePreferenceSettings() {
     this.isPreferenceOpen = !this.isPreferenceOpen;
   }
+
+  clearQueryParams() {
+    this.router.navigate(['/dashboard'], {
+      queryParams: {}, 
+      queryParamsHandling: 'merge',
+    });
+  }
+  
 }
