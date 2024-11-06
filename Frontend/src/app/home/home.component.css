@@ -5,86 +5,6 @@
   background-color: #f4f6f8;
 }
 
-.sidebar {
-  background-color: #ffffff;
-  color: #333333;
-  width: 250px;
-  height: 100vh;
-  padding: 30px;
-  box-shadow: 2px 0 15px rgba(0, 0, 0, 0.1);
-  position: fixed;
-  top: 0;
-  left: 0;
-  display: flex;
-  flex-direction: column;
-  transition: all 0.3s ease;
-}
-
-.sidebar h1 {
-  font-size: 28px;
-  margin-bottom: 20px;
-  font-weight: 600;
-  color: #c91931;
-  text-align: center;
-  position: relative;
-}
-
-.sidebar h1::after {
-  content: '';
-  position: absolute;
-  bottom: -10px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 50px;
-  height: 3px;
-  background-color: #c91931;
-}
-
-.sidebar ul {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  flex-grow: 1;
-}
-
-.sidebar ul li {
-  margin: 20px 0;
-}
-
-.sidebar a {
-  color: #666666;
-  text-decoration: none;
-  font-size: 18px;
-  display: block;
-  padding: 15px 20px;
-  border-radius: 8px;
-  transition: all 0.3s ease;
-  position: relative;
-  overflow: hidden;
-  cursor: pointer;
-}
-
-.sidebar a:hover,
-.sidebar a.active {
-  color: #c91931;
-}
-
-.sidebar a::before {
-  content: '';
-  position: absolute;
-  left: 0;
-  top: 0;
-  height: 100%;
-  width: 3px;
-  background-color: #c91931;
-  transform: scaleY(0);
-  transition: transform 0.3s ease;
-}
-
-.sidebar a:hover::before,
-.sidebar a.active::before {
-  transform: scaleY(1);
-}
 
 .home-container {
   margin-left: 250px;
@@ -334,9 +254,6 @@
   font-size: 1.2em;
 }
 
-.bigger-text .sidebar a {
-  font-size: 1.3em;
-}
 
 .bigger-text .date-selection h2 {
   font-size: 2.4em;
@@ -355,7 +272,7 @@
 }
 
 .bigger-text .metric h1 {
-  font-size: 2.6em;
+  font-size: 2.4em;
 }
 
 .bigger-text .metric p {
