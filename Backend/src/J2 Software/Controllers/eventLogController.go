@@ -222,7 +222,7 @@ func GetDefenceEvasionAlerts(c *gin.Context) {
 		initializers.DB.Where("EventTimeStamp BETWEEN ? AND ? AND Category = ?", startDate, endDate, "Defence Evasion").Find(&eventlogs)
 		defenseEvasionCount := len(eventlogs)
 		c.JSON(200, gin.H{
-			"DefenceEvasion": defenseEvasionCount,
+			"DefenseEvasion": defenseEvasionCount,
 		})
 	}
 }
